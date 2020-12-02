@@ -5,6 +5,8 @@ lst = file.read().split('\n')
 for index in range(len(lst)):
     lst[index] = int(lst[index])
 
+found = False
+
 for index in range(len(lst)):
     first_num = lst[index]
     next_diff = 2020 - first_num
@@ -12,6 +14,10 @@ for index in range(len(lst)):
     for index2 in range(index + 1, len(lst)):
         if next_diff - lst[index2] in lst:
             print(first_num * lst[index2] * (next_diff - lst[index2]))
+            found = True
             break
+
+    if found:
+        break
 
 file.close()
