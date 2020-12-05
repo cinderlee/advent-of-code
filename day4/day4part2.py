@@ -21,12 +21,9 @@ def check_valid(data):
     if data['ecl'] not in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']:
         return False
     hcl = data['hcl']
-    if len(hcl) != 7:
-        return False
-    if hcl[0] != '#':
+    if len(hcl) != 7 or hcl[0] != '#':
         return False
     for char in hcl[1:]:
-        # print(hcl[1:])
         if not char.isdigit() and char not in ['a', 'b', 'c', 'd', 'e', 'f']:
             return False
 
