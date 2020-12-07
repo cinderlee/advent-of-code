@@ -1,7 +1,6 @@
 file = open('day7input.txt')
 
 rules = {}
-bags = set()
 
 for line in file:
     line = line.strip('\n')
@@ -25,31 +24,25 @@ lst = []
 
 for key in rules:
     if key != 'shiny gold':
-        lst.append([[key], key])
+        lst.append([key, [key]])
 
-is_seen = set()
-
+bags = set()
 
 while len(lst):
-    elem = lst.pop(0)
-    path = elem[0]
-    curr_color = elem[1]
+    curr_color, path = lst.pop(0)
+
     if curr_color not in rules:
         continue
-    if curr_color in is_seen:
-        if curr_color in bags:
-            for color_elem in path:
-                is_seen.add(color_elem)
-                bags.add(color_elem)
-        continue
+
+    if curr_color in bags:
+        for index in range(len(path) - 1):
+            bags.add(path[index])
     elif curr_color == 'shiny gold':
-        for stuff in elem[0]:
-            if stuff != 'shiny gold':
-                bags.add(stuff)
-                is_seen.add(stuff)
+        for index in range(len(path) - 1):
+            bags.add(path[index])
     else:
         for key in rules[curr_color]:
-            lst.append([path + [key], key])
+            lst.append([key, path + [key]])
 
             
 print(len(bags))
