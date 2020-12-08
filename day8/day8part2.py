@@ -9,13 +9,13 @@ for line in file:
 
 file.close()
 
-def run(instr_lst):
+def run(instr_lst, from_file=False):
     pointer = 0
-    loc = set()
+    loc = []
     acc = 0
 
     while pointer not in loc and pointer < len(instr_lst) and pointer >= 0:
-        loc.add(pointer)
+        loc.append(pointer)
         ins, num = instr_lst[pointer]
 
         if ins == 'nop':
@@ -26,10 +26,14 @@ def run(instr_lst):
         else:
             pointer = (pointer + num)
         
+    if from_file:
+        return loc
     return acc, pointer
 
 
-for elem in range(len(instr)):
+res_locs = run(instr, True) 
+
+for elem in res_locs:
     if instr[elem][0] == 'acc':
         continue
     new_lst = copy.deepcopy(instr)
