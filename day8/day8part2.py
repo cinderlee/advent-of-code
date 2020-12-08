@@ -31,9 +31,9 @@ def run(instr_lst, from_file=False):
     return acc, pointer
 
 
-res_locs = run(instr, True) 
+loop_locs = run(instr, True) 
 
-for elem in res_locs:
+for elem in loop_locs:
     if instr[elem][0] == 'acc':
         continue
     new_lst = copy.deepcopy(instr)
