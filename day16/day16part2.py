@@ -6,7 +6,7 @@ valid_nums = set()
 lst = []
 
 your_ticket = False
-ticket = ''
+ticket = None
 
 nearby_tickets = False
 valid_nearby_parts = []
@@ -80,7 +80,9 @@ for line in file:
         for i in range(len(rules)):
             valid_nearby_parts.append([])
     elif your_ticket:
-        ticket = line
+        ticket = line.split(',')
+        for index in range(len(ticket)):
+            ticket[index] = int(ticket[index])
     elif nearby_tickets:
         is_valid, lst = check_ticket(line, valid_nums)
         if is_valid:
@@ -127,17 +129,7 @@ while True:
 
 index_depart_set = retrieve_index_set(keys_index, 'departure')
 
-ticket = ticket.split(',')
-for index in range(len(ticket)):
-    ticket[index] = int(ticket[index])
-
 total = 1
 for elem in index_depart_set:
     total *= ticket[elem]
 print(total)
-
-
-
-    
-
-
