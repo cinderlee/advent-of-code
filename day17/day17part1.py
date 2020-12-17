@@ -9,12 +9,12 @@ def get_neighbors(i, j, k):
 
     return lst
 
-def get_new_valid_set(neighbor_counts):
+def get_new_valid_set(neighbor_counts, valid_set):
     new_valid_set = set()
     for elem in neighbor_counts:
-        if elem in valid and (neighbor_counts[elem] == 2 or neighbor_counts[elem] == 3):
+        if elem in valid_set and (neighbor_counts[elem] == 2 or neighbor_counts[elem] == 3):
             new_valid_set.add(elem)
-        elif elem not in valid and neighbor_counts[elem] == 3:
+        elif elem not in valid_set and neighbor_counts[elem] == 3:
             new_valid_set.add(elem)
 
     return new_valid_set
@@ -54,7 +54,7 @@ while cycle_count < max_cycles:
             else:
                 neighbor_count[elem] = 1
 
-    valid = get_new_valid_set(neighbor_count)
+    valid = get_new_valid_set(neighbor_count, valid)
     cycle_count += 1
 
 print(len(valid))
