@@ -1,25 +1,3 @@
-file = open('day17input.txt')
-
-valid = set()
-
-lst = []
-for line in file:
-    line = line.strip('\n')
-    sub_lst = []
-    for elem in line:
-        sub_lst.append(elem)
-
-    lst.append(sub_lst)
-
-file.close()
-
-
-for r in range(len(lst)):
-    for c in range(len(lst[0])):
-        if lst[r][c] == '#':
-            # start value of z and w
-            valid.add((r, c, 0, 0))
-
 def get_neighbors(i, j, k, l):
     lst = []
     for x in range(i - 1, i + 2):
@@ -42,11 +20,32 @@ def get_new_valid_set(neighbor_counts):
 
     return new_valid_set
 
+file = open('day17input.txt')
+
+valid = set()
+
+lst = []
+for line in file:
+    line = line.strip('\n')
+    sub_lst = []
+    for elem in line:
+        sub_lst.append(elem)
+
+    lst.append(sub_lst)
+
+file.close()
+
+
+for r in range(len(lst)):
+    for c in range(len(lst[0])):
+        if lst[r][c] == '#':
+            # start value of z and w
+            valid.add((r, c, 0, 0))
 
 max_cycles = 6
 cycle_count = 0 
 
-while cycle_count < 6:
+while cycle_count < max_cycles:
     neighbor_count = {}
     
     for x, y, z, w in valid:
