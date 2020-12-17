@@ -24,23 +24,17 @@ file = open('day17input.txt')
 
 valid = set()
 
-lst = []
+row = 0
 for line in file:
     line = line.strip('\n')
-    sub_lst = []
+    col = 0
     for elem in line:
-        sub_lst.append(elem)
-
-    lst.append(sub_lst)
-
+        if elem == '#':
+            # start value of z and w is 0
+            valid.add((row, col, 0, 0))
+        col += 1
+    row += 1
 file.close()
-
-
-for r in range(len(lst)):
-    for c in range(len(lst[0])):
-        if lst[r][c] == '#':
-            # start value of z and w
-            valid.add((r, c, 0, 0))
 
 max_cycles = 6
 cycle_count = 0 
