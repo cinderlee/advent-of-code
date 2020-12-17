@@ -1,3 +1,24 @@
+def get_neighbors(i, j, k):
+    lst = []
+    for x in range(i - 1, i + 2):
+        for y in range(j - 1, j + 2):
+            for z in range(k - 1, k + 2):
+                if x == i and j == y and k == z:
+                    continue
+                lst.append((x, y, z))
+
+    return lst
+
+def get_new_valid_set(neighbor_counts):
+    new_valid_set = set()
+    for elem in neighbor_counts:
+        if elem in valid and (neighbor_counts[elem] == 2 or neighbor_counts[elem] == 3):
+            new_valid_set.add(elem)
+        elif elem not in valid and neighbor_counts[elem] == 3:
+            new_valid_set.add(elem)
+
+    return new_valid_set
+
 file = open('day17input.txt')
 
 valid = set()
@@ -19,27 +40,6 @@ for r in range(len(lst)):
         if lst[r][c] == '#':
             # start value of z
             valid.add((r, c, 0))
-
-def get_neighbors(i, j, k):
-    lst = []
-    for x in range(i - 1, i + 2):
-        for y in range(j - 1, j + 2):
-            for z in range(k - 1, k + 2):
-                if x == i and j == y and k == z:
-                    continue
-                lst.append((x, y, z))
-
-    return lst
-
-def get_new_valid_set(neighbor_counts):
-    new_valid_set = set()
-    for elem in neighbor_counts:
-        if elem in valid and (neighbor_counts[elem] == 2 or neighbor_counts[elem] == 3):
-            new_valid_set.add(elem)
-        elif elem not in valid and neighbor_counts[elem] == 3:
-            new_valid_set.add(elem)
-
-    return new_valid_set
 
 max_cycles = 6
 cycle_count = 0 
