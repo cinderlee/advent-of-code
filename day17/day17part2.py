@@ -60,5 +60,3 @@ while cycle_count < max_cycles:
     cycle_count += 1
 
 print(len(valid))
-
-
