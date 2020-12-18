@@ -1,10 +1,21 @@
 # file = open('day18testinput.txt', 'r')
 file = open('day18input.txt', 'r')
 
+def eval_stack(stack):
+    while len(stack) > 1:
+        first = stack.pop()
+        op = stack.pop()
+        second = stack.pop()
+
+        if op == '+':
+            stack.append(first + second)
+        else:
+            stack.append(first * second)
+
+    return stack[0]
+
 def eval_line(start_index, line):
-    total = None
-    mult = False
-    add = False
+    stack = []
 
     start = start_index
     end = start_index
@@ -12,10 +23,7 @@ def eval_line(start_index, line):
         if end >= len(line):
             if start < len(line):
                 token = line[start : end]
-                if mult:
-                    total *= int(token)
-                else:
-                    total += int(token)
+                stack.append(int(token))
             break
 
         if line[end] == '(':
@@ -23,47 +31,39 @@ def eval_line(start_index, line):
             start = next_index
             end = next_index
 
-            if total is None:
-                total = num
-            elif mult:
-                total *= num
+            if not len(stack) or stack[-1] == '*':
+                stack.append(num)
             else:
-                total += num
-
-            mult = False
-            add = False
+                stack.pop()
+                stack.append(stack.pop() + num)
 
         elif line[end] == ')':
             token = line[start : end]
             if token:
-                if mult:
-                    total *= int(token)
-                else:
-                    total += int(token)
-            return total, end + 1
+                stack.append(int(token))
+            start = end + 1
+            end += 1
+            break
 
         elif line[end] == ' ':
             token = line[start : end]
             if token:
-                if token == '*':
-                    mult = True
-                elif token == '+':
-                    add = True
-                elif total is None:
-                    total = int(token)
-                elif mult:
-                    total *= int(token)
-                    mult = False
+                if token in '*+':
+                    stack.append(token)
+                elif not len(stack):
+                    stack.append(int(token))
+                elif stack[-1] == '+':
+                    stack.pop()
+                    stack.append(int(token) + stack.pop())
                 else:
-                    total += int(token)
-                    add = False
+                    stack.append(int(token))
             start = end + 1
             end += 1
 
         else:
             end += 1
 
-    return total, start
+    return eval_stack(stack), start
 
 test = False
 
