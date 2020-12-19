@@ -20,24 +20,20 @@ def check_rule(rules, rule, string, index):
             else:
                 return False, index
         else:
+            result = False
             if isinstance(sub_rule[0], list):
-                result = False
                 for elem in sub_rule:
                     res, new_index = check_rule(rules, elem, string, index)
                     result = result | res
                     if result:
                         index = new_index
                         break
-                    
-                if not result:
-                    return result, index
-                
             else:
                 result, new_index = check_rule(rules, sub_rule, string, index)
                 if result:
                     index = new_index
-                else:
-                    return result, index
+            if not result:
+                return result, index
     return True, index
 
 # file = open('day19testinput.txt', 'r')
