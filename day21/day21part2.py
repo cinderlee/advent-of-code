@@ -1,34 +1,20 @@
-def find_foods_with_allergen(food_count_dict):
+def find_foods_with_allergen(allergen_info_dict):
     must_have_allergen = set()
 
-    for allergy in food_count_dict:
+    for allergy in allergen_info_dict:
         maxi = 0
-        for food, count_val in food_count_dict[allergy].items():
+        for food, count_val in allergen_info_dict[allergy].items():
             maxi = max(count_val, maxi)
 
-        for food, count_val in food_count_dict[allergy].items():
+        filter_lst = []
+        for food, count_val in allergen_info_dict[allergy].items():
             if count_val == maxi:
                 must_have_allergen.add(food)
+                filter_lst.append(food)
+    
+        allergen_info_dict[allergy] = filter_lst
 
     return must_have_allergen
-
-def find_allergy_choices(allergy_set, food_count_dict, ingred_with_allergen):
-    allergy_info = {}
-    for allergy in allergy_set:
-        maxi = 0
-        acc_lst = []
-        for ingredient in food_count_dict[allergy]:
-            if ingredient in ingred_with_allergen:
-                maxi = max(maxi, food_count_dict[allergy][ingredient])
-        
-        for ingredient in food_count_dict[allergy]:
-            if ingredient in ingred_with_allergen:
-                if food_count_dict[allergy][ingredient] == maxi:
-                    acc_lst.append(ingredient)
-
-        allergy_info[allergy] = acc_lst
-
-    return allergy_info
 
 def find_allergen_ingredient(allergy_info_dict):
     found_food = set()
@@ -47,7 +33,7 @@ def find_allergen_ingredient(allergy_info_dict):
 
 file = open('day21input.txt', 'r')
 
-food_count = {}
+allergen_info = {}
 allergy_set = set()
 
 for line in file:
@@ -57,26 +43,24 @@ for line in file:
 
     allergies = lst[1].strip(')').replace('contains ', '').split(', ')
     for allergy in allergies:
-        if allergy not in food_count:
-            food_count[allergy] = {}
+        if allergy not in allergen_info:
+            allergen_info[allergy] = {}
         for ingr in ingredients:
-            if ingr in food_count[allergy]:
-                food_count[allergy][ingr] += 1
+            if ingr in allergen_info[allergy]:
+                allergen_info[allergy][ingr] += 1
             else:
-                food_count[allergy][ingr] = 1
+                allergen_info[allergy][ingr] = 1
         allergy_set.add(allergy)
 
 file.close()
 
-must_have_allergen = find_foods_with_allergen(food_count)
+must_have_allergen = find_foods_with_allergen(allergen_info)
 
-allergy_info = find_allergy_choices(allergy_set, food_count, must_have_allergen)
+find_allergen_ingredient(allergen_info)
 
-find_allergen_ingredient(allergy_info)
-
-alpha_keys = sorted(list(allergy_info.keys()))
+alpha_keys = sorted(list(allergen_info.keys()))
 allergy_lst = []
 for key in alpha_keys:
-    allergy_lst.append(allergy_info[key][0])
+    allergy_lst.append(allergen_info[key][0])
 
 print(','.join(allergy_lst))
