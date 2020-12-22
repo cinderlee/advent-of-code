@@ -1,36 +1,30 @@
 from collections import deque
 
 def play_match(player_one, player_two):
-    hands_one = set()
-    hands_two = set()
-    
-    while len(player_one) != 0 and len(player_two) != 0:
-        if tuple(player_one) in hands_one and tuple(player_two) in hands_two:
-            return "p1"
+    hands = set()
 
-        hands_one.add(tuple(player_one))
-        hands_two.add(tuple(player_two))
+    while len(player_one) != 0 and len(player_two) != 0:
+        if (tuple(player_one), tuple(player_two)) in hands:
+            return "p1"
+        hands.add((tuple(player_one), tuple(player_two)))
+
+        winner = None
 
         play_one = player_one.popleft()
         play_two = player_two.popleft()
+        if play_one > play_two:
+            winner = 'p1'
+        else:
+            winner = 'p2'
 
         if len(player_one) >= play_one and len(player_two) >= play_two:
             new_play_one = deque(player_one[i] for i in range(play_one))
             new_play_two = deque(player_two[i] for i in range(play_two))
             winner = play_match(new_play_one, new_play_two)
 
-            if winner == "p1":
-                player_one.append(play_one)
-                player_one.append(play_two)
-            else:
-                player_two.append(play_two)
-                player_two.append(play_one)
-            continue
-
-        if play_one > play_two:
+        if winner == 'p1':
             player_one.append(play_one)
             player_one.append(play_two)
-
         else:
             player_two.append(play_two)
             player_two.append(play_one)
