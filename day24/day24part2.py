@@ -30,6 +30,8 @@ def add_neighbors(tiles_dict):
     neighbors = set()
 
     for tile in tiles_dict:
+        if not tiles_dict[tile]:
+            continue
         x, y = tile
 
         for dir_x, dir_y in directions:
