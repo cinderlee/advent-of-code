@@ -1,30 +1,45 @@
-file = open('day6input.txt')
+# FILE_NM = day6testinput.txt
+FILE_NM = 'day6input.txt'
 
-sum_total = 0
+def create_answers_log():
+    answers_log = {}
+    for i in range(26):
+        answers_log[chr(ord('a') + i)] = 0
+    return answers_log
 
-answer_key = {}
-for i in range(0, 26):
-    answer_key[chr(ord('a') + i)] = 0
+def count_unanimous_answers(answers_log, num_group_members):
+    # returns number of answers where everyone in group answered yes
+    # also resets the log for next group 
+    total = 0
+    for answer in answers_log:
+        if answers_log[answer] == num_group_members:
+            total += 1
+        answers_log[answer] = 0
+    return total
 
-group_count = 0
+def count_total_answers(file_nm):
+    file = open(file_nm, 'r')
+    answers_log = create_answers_log()
+    total_answers = 0
+    members_count = 0
 
-for line in file:
-    line = line.strip('\n')
-    
-    if not line:
-        for key in answer_key:
-            if answer_key[key] == group_count:
-                sum_total += 1
-            answer_key[key] = 0
-        group_count = 0
-    else:
-        for elem in line:
-            answer_key[elem] += 1
-        group_count += 1
+    for line in file:
+        line = line.strip('\n')
+        if not line:
+            total_answers += count_unanimous_answers(answers_log, members_count)
+            members_count = 0
+        else:
+            for ans in line:
+                answers_log[ans] += 1
+            members_count += 1
 
-if group_count != 0:
-    for key in answer_key:
-        if answer_key[key] == group_count:
-            sum_total += 1
+    file.close()
 
-print(sum_total)
+    # last group also needs to be accounted for!
+    total_answers += count_unanimous_answers(answers_log, members_count)
+    return total_answers
+
+def main():
+    print(count_total_answers(FILE_NM))
+
+main()

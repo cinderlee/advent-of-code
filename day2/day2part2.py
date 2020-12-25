@@ -1,29 +1,37 @@
-# Day 2
+# FILE_NM = 'day2testinput.txt'
+FILE_NM = 'day2input.txt'
 
-valid_pw = 0
+def parse_line(line):
+    position_info, letter, password = line.strip('\n').replace(':', '').split(' ')
+    pos_one, pos_two = position_info.split('-') 
+    # Offset positions to start at index 0
+    return int(pos_one) - 1, int(pos_two) - 1, letter, password
 
-file = open("day2testinput.txt", 'r')
-
-for line in file:
-    data = line.strip('\n').split(' ')
-    numbers = data[0].split('-')
-    index_one = int(numbers[0]) - 1 # to make the first character start at index 0 
-    index_two = int(numbers[1]) - 1
-    letter = data[1].strip(':')
-    pw = data[-1]
-
-    if index_two >= len(pw):
-        continue
-
-    if pw[index_one] == letter and pw[index_two] == letter:
-        continue
+def check_valid_password(password_rule_info):
+    pos_one, pos_two, letter, password = password_rule_info
     
-    elif pw[index_one] == letter:
-        valid_pw += 1
+    if pos_two >= len(password):
+        return False
 
-    elif pw[index_two] == letter:
-        valid_pw += 1
+    check_pos_one = password[pos_one] == letter
+    check_pos_two = password[pos_two] == letter
+    
+    # Only one of the two positions can be the letter
+    return check_pos_one ^ check_pos_two
 
-file.close()
+def get_valid_password_count(file_nm):
+    valid_pw_count = 0
+    file = open(file_nm, 'r')
 
-print(valid_pw)
+    for line in file:
+        password_rule_info = parse_line(line)
+        if check_valid_password(password_rule_info):
+           valid_pw_count += 1
+
+    file.close()
+    return valid_pw_count
+
+def main():
+    print(get_valid_password_count(FILE_NM))
+
+main()

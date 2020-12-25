@@ -1,23 +1,32 @@
-# Day 1
-file = open('day1input.txt', 'r')
+# FILE_NM = 'day1testinput.txt'
+FILE_NM = 'day1input.txt'
 
-lst = file.read().split('\n')
-for index in range(len(lst)):
-    lst[index] = int(lst[index])
+def read_file(file_nm):
+    # Return a list of ints read from a file
 
-found = False
+    file = open(file_nm, 'r')
+    lst = file.read().split('\n')
+    file.close()
 
-for index in range(len(lst)):
-    first_num = lst[index]
-    next_diff = 2020 - first_num
+    for index in range(len(lst)):
+        lst[index] = int(lst[index])
 
-    for index2 in range(index + 1, len(lst)):
-        if next_diff - lst[index2] in lst:
-            print(first_num * lst[index2] * (next_diff - lst[index2]))
-            found = True
-            break
+    return lst
 
-    if found:
-        break
+def get_three_nums(lst):
+    # Find three numbers that add up to 2020
 
-file.close()
+    for index in range(len(lst)):
+        first_num = lst[index]
+        sub_sum = 2020 - first_num
+
+        for index2 in range(index + 1, len(lst)):
+            if sub_sum - lst[index2] in lst:
+                return first_num, lst[index2], sub_sum - lst[index2]
+
+def main():
+    nums_lst = read_file(FILE_NM)
+    num_one, num_two, num_three = get_three_nums(nums_lst)
+    print(num_one * num_two * num_three)
+
+main()

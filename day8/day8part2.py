@@ -1,46 +1,60 @@
-import copy
+# FILE_NM = 'day8testinput.txt'
+FILE_NM = 'day8input.txt'
 
-file = open('day8input.txt')
+def read_file(file_nm):
+    instructions = []
+    file = open(file_nm, 'r')
 
-instr = []
-for line in file:
-    parts = line.strip('\n').split(' ')
-    instr.append([parts[0], int(parts[1])])
+    for line in file:
+        instr, val = line.strip('\n').split(' ')
+        instructions.append([instr, int(val)])
 
-file.close()
+    file.close()
+    return instructions
 
-def run(instr_lst, from_file=False):
-    pointer = 0
-    loc = []
+def run(instructions, first_run=False):
+    # Trace instructions up until the second loop 
+    # if no second loop, then we hit the end of the program
     acc = 0
+    pointer = 0
+    locs = set()
 
-    while pointer not in loc and pointer < len(instr_lst) and pointer >= 0:
-        loc.append(pointer)
-        ins, num = instr_lst[pointer]
+    while pointer not in locs and pointer >= 0 and pointer < len(instructions):
+        locs.add(pointer)
+        instr, num = instructions[pointer]
 
-        if ins == 'nop':
+        if instr == 'nop':
             pointer += 1
-        elif ins == 'acc':
+        elif instr == 'acc':
             acc += num
             pointer += 1
         else:
-            pointer = (pointer + num)
-        
-    if from_file:
-        return loc
+            pointer += num
+    
+    if first_run:
+        return locs
     return acc, pointer
 
+def fix_instructions(instructions, pointer_lst):
+    for elem in pointer_lst:
+        if instructions[elem][0] == 'acc':
+            continue
 
-loop_locs = run(instr, True) 
+        original_instr = instructions[elem][0]
+        if original_instr== 'jmp':
+            instructions[elem][0] = 'nop'
+        else:
+            instructions[elem][0] = 'jmp'
 
-for elem in loop_locs:
-    if instr[elem][0] == 'acc':
-        continue
-    new_lst = copy.deepcopy(instr)
-    if new_lst[elem][0] == 'jmp':
-        new_lst[elem][0] = 'nop'
-    else:
-        new_lst[elem][0] = 'jmp'
-    acc, pointer = run(new_lst)
-    if pointer == len(new_lst):
-        print(acc)
+        acc, pointer = run(instructions)
+        if pointer == len(instructions):
+            return(acc)
+        instructions[elem][0] = original_instr
+
+def main():
+    instr_lst = read_file(FILE_NM)
+    pointer_lst = run(instr_lst, True)
+    acc_val = fix_instructions(instr_lst, pointer_lst)
+    print(acc_val)
+
+main()

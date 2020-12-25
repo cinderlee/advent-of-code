@@ -1,27 +1,36 @@
-# Day 2
+# FILE_NM = 'day2testinput.txt'
+FILE_NM = 'day2input.txt'
 
-valid_pw = 0
+def parse_line(line):
+    occurence_info, letter, password = line.strip('\n').replace(':', '').split(' ')
+    min_num, max_num = occurence_info.split('-') 
+    return int(min_num), int(max_num), letter, password
 
-file = open("day2input.txt", 'r')
-
-for line in file:
-    data = line.strip('\n').split(' ')
-    numbers = data[0].split('-')
-    minimum = int(numbers[0])
-    maximum = int(numbers[1])
-    letter = data[1].strip(':')
-
+def check_valid_password(password_rule_info):
+    min_occurence, max_occurence, letter, password = password_rule_info
     count = 0
 
-    for let in data[-1]: 
-        if let == letter:
+    for character in password:
+        if character == letter:
             count += 1
-        if count > maximum:
+        if count > max_occurence:
             break
+    
+    return count >= min_occurence and count <= max_occurence
 
-    if count >= minimum and count <= maximum:
-        valid_pw += 1
+def get_valid_password_count(file_nm):
+    valid_pw_count = 0
+    file = open(file_nm, 'r')
 
-file.close()
+    for line in file:
+        password_rule_info = parse_line(line)
+        if check_valid_password(password_rule_info):
+           valid_pw_count += 1
 
-print(valid_pw)
+    file.close()
+    return valid_pw_count
+
+def main():
+    print(get_valid_password_count(FILE_NM))
+
+main()

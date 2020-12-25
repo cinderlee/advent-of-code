@@ -1,14 +1,19 @@
-# Day 1
-file = open('day1input.txt', 'r')
+# FILE_NM = 'day1testinput.txt'
+FILE_NM = 'day1input.txt'
 
-lst = file.read().split('\n')
-for index in range(len(lst)):
-    lst[index] = int(lst[index])
+def main():
+    # Print product of two numbers in the file that add up to 2020
+    numbers = set()
 
-for elem in lst:
-    if 2020 - elem in lst:
-        print(elem, 2020-elem)
-        print(elem * (2020 - elem))
-        break
+    file = open(FILE_NM, 'r')
 
-file.close()
+    for line in file:
+        number = int(line.strip('\n'))
+        if 2020 - number in numbers:
+            print(number * (2020 - number))
+            break
+        numbers.add(number)
+
+    file.close()
+
+main()
