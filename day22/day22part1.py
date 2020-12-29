@@ -1,51 +1,63 @@
 from collections import deque
 
-def play_match(cards_one, cards_two):
-    while len(cards_one) != 0 and len(cards_two) != 0:
-        play_one = cards_one.popleft()
-        play_two = cards_two.popleft()
+# FILE_NM = 'day22testinput.txt'
+FILE_NM = 'day22input.txt'
+PLAYER_ONE = "Player 1"
+PLAYER_TWO = "Player 2"
 
-        if play_one > play_two:
-            cards_one.append(play_one)
-            cards_one.append(play_two)
+def determine_winner(player_one_deck, player_two_deck):
+    if len(player_one_deck):
+        return PLAYER_ONE
+    return PLAYER_TWO
 
+def play_combat(player_one_deck, player_two_deck):
+    while len(player_one_deck) and len(player_two_deck):
+        player_one_card = player_one_deck.popleft()
+        player_two_card = player_two_deck.popleft()
+
+        if player_one_card > player_two_card:
+            player_one_deck.append(player_one_card)
+            player_one_deck.append(player_two_card)
         else:
-            cards_two.append(play_two)
-            cards_two.append(play_one)
+            player_two_deck.append(player_two_card)
+            player_two_deck.append(player_one_card)
 
-file = open('day22input.txt', 'r')
+    return determine_winner(player_one_deck, player_two_deck)
 
-player_one = deque()
-player_two = deque()
-one = True
-for line in file:
-    line = line.strip('\n')
-    if not line:
-        continue
-    if "Player 1" in line:
-        one = True
-    elif "Player 2" in line:
-        one = False
-    elif one:
-        player_one.append(int(line))
+def parse_cards_from_file(file_nm):
+    player_one_cards = deque()
+    player_two_cards = deque()
+    curr_player = None
+
+    file = open(file_nm, 'r')
+    for line in file:
+        line = line.strip('\n')
+        if not line:
+            continue
+        elif PLAYER_ONE in line:
+            curr_player = player_one_cards
+        elif PLAYER_TWO in line:
+            curr_player = player_two_cards
+        else:
+            curr_player.append(int(line))
+    file.close()
+
+    return player_one_cards, player_two_cards
+
+def calculate_score(winning_deck):
+    count = len(winning_deck)
+    total = 0
+    for card in winning_deck:
+        total += card * count
+        count -= 1
+    return total
+
+def main():
+    player_one_cards, player_two_cards = parse_cards_from_file(FILE_NM)
+    winner = play_combat(player_one_cards, player_two_cards)
+    if winner == PLAYER_ONE:
+        print(calculate_score(player_one_cards))
     else:
-        player_two.append(int(line))
+        print(calculate_score(player_two_cards))
 
-
-file.close()
-
-play_match(player_one, player_two)
-
-winner = None
-if len(player_one):
-    winner = player_one
-else:
-    winner = player_two
-
-count = len(winner)
-total = 0
-for elem in winner:
-    total += elem * count
-    count -= 1
-
-print(total)
+main()
