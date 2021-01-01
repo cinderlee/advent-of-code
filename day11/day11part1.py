@@ -1,53 +1,68 @@
-file = open('day11input.txt')
-# file = open('day11testinput.txt')
+# FILE_NM = 'day11testinput.txt'
+FILE_NM = 'day11input.txt'
 
-lst = []
-for line in file:
-    sub = []
-    line = line.strip('\n')
-    for elem in line:
-        if elem == 'L':
-            sub.append('#')
-        else:
-            sub.append(elem)
-    lst.append(sub)
+def is_valid(row, col, lst):
+    return row >= 0 and row < len(lst) and col >= 0 and col < len(lst[0])
 
-file.close()
-
-def check_adjacent(x, y, lst):
+def count_occupied_adjacent_seats(row, col, grid):
     count = 0
-    for row in range (x - 1, x + 2):
-        for col in range (y - 1, y + 2):
-            if row == x and col == y:
+    for r in range(row - 1, row + 2):
+        for c in range (col - 1, col + 2):
+            if r == row and c == col:
                 continue
-            if row < 0 or row >= len(lst) or col < 0 or col >= len(lst[0]):
+            if not is_valid(r, c, grid):
                 continue
-            if lst[row][col] == '#':
+            if grid[r][c] == '#':
                 count += 1
     return count
 
+def read_file(file_nm):
+    file = open(file_nm, 'r')
+    plane_grid = []
 
-changes = True
-while changes:
-    flips = []
-    for i in range(len(lst)):
-        for j in range(len(lst[0])):
-            if lst[i][j] == '#' and check_adjacent(i, j, lst) >= 4:
-                flips.append((i, j))
-            elif lst[i][j] == 'L' and check_adjacent(i, j, lst) == 0:
-                flips.append((i, j))
-    changes = len(flips) > 0
-    for r, c in flips:
-        if lst[r][c] == '#':
-            lst[r][c] = 'L'
-        else:
-            lst[r][c] = '#'
+    for line in file:
+        row = []
+        line = line.strip('\n')
+        for elem in line:
+            row.append(elem)
+        plane_grid.append(row)
 
-total = 0
+    file.close()
 
-for elem in lst:
-    for elem2 in elem:
-        if elem2 == '#':
-            total += 1
+    return plane_grid
 
-print(total)
+def model_seating(plane_grid):
+    changes = True
+    num_rows = len(plane_grid)
+    num_cols = len(plane_grid[0])
+
+    while changes:
+        flips = []
+
+        for r in range(num_rows):
+            for c in range(num_cols):
+                num_occupied = count_occupied_adjacent_seats(r, c, plane_grid)
+                if plane_grid[r][c] == '#' and num_occupied >= 4:
+                    flips.append((r, c, 'L'))
+                elif plane_grid[r][c] == 'L' and num_occupied == 0:
+                    flips.append((r, c, '#'))
+        
+        for r, c, val in flips:
+            plane_grid[r][c] = val
+
+        changes = len(flips) > 0
+
+def count_occupied_seats(plane_grid):
+    total = 0
+    for r in range(len(plane_grid)):
+        for c in range(len(plane_grid[0])):
+            if plane_grid[r][c] == '#':
+                total += 1
+    return total
+
+def main():
+    plane_grid = read_file(FILE_NM)
+    model_seating(plane_grid)
+    print(count_occupied_seats(plane_grid))
+
+main()
