@@ -1,30 +1,40 @@
-# file = open('day10testinput2.txt')
-file = open('day10input.txt')
+# FILE_NM = 'day10testinput.txt'
+FILE_NM = 'day10input.txt'
 
-lst = [0]
-for line in file:
-    line = line.strip('\n')
-    lst.append(int(line))
+def read_file(file_nm):
+    adapter_jolts = []
+    file = open(file_nm, 'r')
+    for line in file:
+        line = line.strip('\n')
+        adapter_jolts.append(int(line))
+    file.close()
 
-file.close()
+    adapter_jolts.sort()
 
-num_paths = {} 
+    return adapter_jolts
 
-# we only care about if the numbers are within 3 
-num_paths[0] = 1
+def count_distinct_paths(adapter_jolts_lst):
+    # Only store the number of paths for the adapters
+    # within range of 3 jolts of current adapter
+    num_path_one = 0 
+    num_path_two = 0 
+    num_path_three = 1
+    for num in range(1, max(adapter_jolts_lst) + 1):
+        num_paths_curr = 0
+        if num in adapter_jolts_lst:
+            num_paths_curr = num_path_one + num_path_two + num_path_three
+        
+        num_path_one = num_path_two
+        num_path_two = num_path_three
+        num_path_three = num_paths_curr
 
-def populate_path(index, lst, num_paths):
-    num = 0
-    ptr = index - 1
-    while ptr >= 0 and lst[index] - lst[ptr] <= 3:
-        num += num_paths[lst[ptr]]
-        ptr -= 1
-    num_paths[lst[index]] = num
+    return num_path_three
 
-lst.sort()
-for index in range(1, len(lst)):
-    populate_path(index, lst, num_paths)
+def main():
+    adapter_jolts = read_file(FILE_NM)
+    print(count_distinct_paths(adapter_jolts))
 
-print(num_paths[max(lst)])
+main()
+
 
 
