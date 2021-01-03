@@ -1,64 +1,64 @@
-def find_row(data):
+FILE_NM = 'day5input.txt'
+ROW_CHARS_NUM = 7
+NUM_ROWS = 128
+NUM_COLS = 8
+
+def get_row(binary_space_partition_line):
     start = 0
-    end = 127
-    for elem in data:
-        # print(start, end)
+    end = start + NUM_ROWS - 1
+    for index in range(ROW_CHARS_NUM):
+        char = binary_space_partition_line[index]
         num_rows = end - start + 1
         half = num_rows // 2
-        if elem == 'F':
+        if char == 'F':
             end -= half
         else:
             start += half
-
+    # start will equal end
     return start
 
-def find_col(data):
-    # print(dat/a)
+def get_col(binary_space_partition_line):
     start = 0
-    end = 7
-    for elem in data:
-        # print(start, end)
+    end = start + NUM_COLS - 1
+    for index in range(ROW_CHARS_NUM, len(binary_space_partition_line)):
+        char = binary_space_partition_line[index]
         num_cols = end - start + 1
         half = num_cols // 2
-        if elem == 'L':
+        if char == 'L':
             end -= half
         else:
             start += half
-
     return start
 
-def find_seat(data):
-    row = find_row(data[:7])
-    col = find_col(data[7:])
-
-    # print (row, col)
+def get_seat_id(binary_space_partition_line):
+    row = get_row(binary_space_partition_line)
+    col = get_col(binary_space_partition_line)
     return row * 8 + col
 
-file = open('day5input.txt', 'r')
-max = 0
+def get_seat_ids(file_nm):
+    file = open(file_nm)
+    seat_ids = []
 
-lst = []
+    for line in file:
+        line = line.strip('\n')
+        seat_ids.append(get_seat_id(line))
+    
+    file.close()
+    return seat_ids
 
-for line in file:
-    txt = line.strip('\n')
-    res = find_seat(txt)
-    if res > max:
-        max = res
-    lst.append(res)
+def get_missing_id(seat_ids_lst):
+    min_id = min(seat_ids_lst)
+    max_id = max(seat_ids_lst)
+    for id in range(min_id, max_id):
+        if id not in seat_ids_lst:
+            return id
 
-file.close()
+def main():
+    assert(get_seat_id('BFFFBBFRRR') == 567)
+    assert(get_seat_id('FFFBBBFRRR') == 119)
+    assert(get_seat_id('BBFFBBFRLL') == 820)
+    assert(get_seat_id('FBFBBFFRLR') == 357)
+    seat_ids = get_seat_ids(FILE_NM)
+    print(get_missing_id(seat_ids))
 
-# print (find_seat('BFFFBBFRRR'))
-# print (find_seat('FFFBBBFRRR'))
-# print (find_seat('BBFFBBFRLL'))
-# print (find_seat('FBFBBFFRLR'))
-
-min = min(lst)
-
-for i in range(min, max):
-    if i not in lst:
-        print(i)
-
-print(lst)
-print(526 in lst)
-print(528 in lst)
+main()
