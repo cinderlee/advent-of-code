@@ -1,34 +1,79 @@
-file = open('day7input.txt')
+FILE_TEST_NM_1 = 'day7testinput.txt'
+FILE_TEST_NM_2 = 'day7testinput2.txt'
+FILE_NM = 'day7input.txt'
 
-rules = {}
-bag_total = 0
+def parse_line(line):
+    color_key, rules = line.split(' contain ' )
+    color_key = color_key.replace(" bags", '')
+    rules = rules.strip('.').split(', ')
+    rules_dict = {}
+    for rule in rules:
+        rule = rule.replace('bags', '').replace('bag', '').strip(' ').split(' ')
+        bag_count = int(rule[0])
+        bag_color = ' '.join(rule[1:])
+        rules_dict[bag_color] = bag_count
+    return {color_key: rules_dict}
 
-for line in file:
-    line = line.strip('\n')
-    if "no other bags" in line:
-        continue
-    parse = line.split(' contain ')
-    color_key = parse[0].replace(" bags", '')
-    vals = parse[1].split(', ')
-    value = {}
-    for val in vals:
-        lst = val.strip('.').replace('bags', '').replace('bag', '').strip(' ').split(' ')
-        num = int(lst[0])
-        color = ' '.join(lst[1: ])
-        value[color] = num
+def read_file_rules(file_nm):
+    file = open(file_nm, 'r')
+    rules = {}
 
-    rules[color_key] = value
+    for line in file:
+        line = line.strip('\n')
+        if "no other bags" in line:
+            continue
+        rules.update(parse_line(line))
 
-file.close()
+    file.close()
+    return rules
 
-lst = [('shiny gold', 1)]
-while (len(lst)):
-    color, num_bags = lst.pop(0)
+def get_outer_bag_colors(inner_bag_color, rules):
+    queue = []
 
-    if color not in rules:
-        continue
-    for key in rules[color]:
-        bag_total += rules[color][key] * num_bags
-        lst.append([key, num_bags * rules[color][key]])
+    for key in rules:
+        if key != inner_bag_color:
+            queue.append([key, [key]])
 
-print(bag_total)
+    bags = set()
+
+    while len(queue):
+        curr_color, path = queue.pop(0)
+
+        if curr_color not in rules:
+            continue
+
+        if curr_color in bags or curr_color == inner_bag_color:
+            for index in range(len(path) - 1):
+                bags.add(path[index])
+        else:
+            for key in rules[curr_color]:
+                queue.append([key, path + [key]])
+
+    return bags
+
+def get_number_of_nested_bags(outer_bag_color, rules):
+    queue = [(outer_bag_color, 1)]
+    total_bags = 0
+
+    while len(queue):
+        color, num_bags = queue.pop(0)
+
+        if color not in rules:
+            continue
+        for key in rules[color]:
+            total_bags += rules[color][key] * num_bags
+            queue.append([key, num_bags * rules[color][key]])
+    
+    return total_bags
+
+
+def solve(file_nm):
+    rules = read_file_rules(file_nm)
+    return get_number_of_nested_bags('shiny gold', rules)
+
+def main():
+    assert(solve(FILE_TEST_NM_1) == 32)
+    assert(solve(FILE_TEST_NM_2) == 126)
+    print(solve(FILE_NM))
+
+main()

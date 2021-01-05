@@ -1,4 +1,4 @@
-# FILE_NM = day6testinput.txt
+FILE_TEST_NM = 'day6testinput.txt'
 FILE_NM = 'day6input.txt'
 
 def create_answers_log():
@@ -40,6 +40,7 @@ def count_total_answers(file_nm):
     return total_answers
 
 def main():
+    assert(count_total_answers(FILE_TEST_NM) == 6)
     print(count_total_answers(FILE_NM))
 
 main()

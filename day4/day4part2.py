@@ -1,3 +1,4 @@
+FILE_TEST_NM = 'day4testinput.txt'
 FILE_NM = 'day4input.txt'
 PASSPORT_NUM_FIELDS = 8
 BYR_MIN = 1920

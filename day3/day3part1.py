@@ -1,23 +1,38 @@
-file = open('day3input.txt', 'r')
+FILE_TEST_NM = 'day3testinput.txt'
+FILE_NM = 'day3input.txt'
 
-arr = []
-for line in file:
-    lst = []
-    for elem in line.strip('\n'):
-        lst.append(elem)
-    arr.append(lst)
+def read_map_file(file_nm):
+    grid_map = []
+    file = open(file_nm, 'r')
 
-file.close()
+    for line in file:
+        row = []
+        for elem in line.strip('\n'):
+            row.append(elem)
+        grid_map.append(row)
 
-trees = 0
-x = 0 
-y = 0 
+    file.close()
+    return grid_map
 
-while x < len(arr):
-    if arr[x][y] == '#':
-        trees += 1
-    x += 1
-    y = (y + 3) % len(arr[0])
+def travel(grid_map, slope_x, slope_y):
+    trees_encountered = 0
+    curr_x = 0      # current col
+    curr_y = 0      # current row
 
+    while curr_y < len(grid_map):
+        if grid_map[curr_y][curr_x] == '#':
+            trees_encountered += 1
+        curr_x = (curr_x + slope_x) % len(grid_map[0])
+        curr_y += slope_y
+    return trees_encountered
 
-print(trees)
+def solve(file_nm, slope_x, slope_y):
+    grid_map = read_map_file(file_nm)
+    num_trees_encountered = travel(grid_map, slope_x, slope_y)
+    return num_trees_encountered
+
+def main():
+    assert(solve(FILE_TEST_NM, 3, 1) == 7)
+    print(solve(FILE_NM, 3, 1))
+
+main()

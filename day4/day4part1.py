@@ -1,3 +1,4 @@
+FILE_TEST_NM = 'day4testinput.txt'
 FILE_NM = 'day4input.txt'
 PASSPORT_NUM_FIELDS = 8
 
@@ -18,7 +19,7 @@ def parse_line(line):
 
     return fields
 
-def filter_valid_passports(file_nm):
+def count_valid_passports(file_nm):
     valid = 0
     passport_fields = []
     file = open(file_nm, 'r')
@@ -39,7 +40,7 @@ def filter_valid_passports(file_nm):
     return valid
 
 def main():
-    valid_count = filter_valid_passports(FILE_NM)
-    print(valid_count)
+    assert(count_valid_passports(FILE_TEST_NM) == 2)
+    print(count_valid_passports(FILE_NM))
 
 main()

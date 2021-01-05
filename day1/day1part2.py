@@ -1,4 +1,4 @@
-# FILE_NM = 'day1testinput.txt'
+FILE_TEST_NM = 'day1testinput.txt'
 FILE_NM = 'day1input.txt'
 
 def read_file(file_nm):
@@ -24,9 +24,13 @@ def get_three_nums(lst):
             if sub_sum - lst[index2] in lst:
                 return first_num, lst[index2], sub_sum - lst[index2]
 
-def main():
-    nums_lst = read_file(FILE_NM)
+def solve(file_nm):
+    nums_lst = read_file(file_nm)
     num_one, num_two, num_three = get_three_nums(nums_lst)
-    print(num_one * num_two * num_three)
+    return num_one * num_two * num_three
+
+def main():
+    assert(solve(FILE_TEST_NM) == 241861950)
+    print(solve(FILE_NM))
 
 main()

@@ -1,4 +1,4 @@
-# FILE_NM = 'day2testinput.txt'
+FILE_TEST_NM = 'day2testinput.txt'
 FILE_NM = 'day2input.txt'
 
 def parse_line(line):
@@ -32,6 +32,7 @@ def get_valid_password_count(file_nm):
     return valid_pw_count
 
 def main():
+    assert(get_valid_password_count(FILE_TEST_NM) == 1)
     print(get_valid_password_count(FILE_NM))
 
 main()

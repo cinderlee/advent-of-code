@@ -1,33 +1,42 @@
-file = open('day3input.txt', 'r')
+FILE_TEST_NM = 'day3testinput.txt'
+FILE_NM = 'day3input.txt'
+SLOPES = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
 
-arr = []
-for line in file:
-    lst = []
-    for elem in line.strip('\n'):
-        lst.append(elem)
-    arr.append(lst)
+def read_map_file(file_nm):
+    grid_map = []
+    file = open(file_nm, 'r')
 
-file.close()
+    for line in file:
+        row = []
+        for elem in line.strip('\n'):
+            row.append(elem)
+        grid_map.append(row)
 
-def tree_slope(slope_x, slope_y):
-    trees = 0
-    x = 0 
-    y = 0 
+    file.close()
+    return grid_map
 
-    while x < len(arr):
-        if arr[x][y] == '#':
-            trees += 1
-        x += slope_x
-        y = (y + slope_y) % len(arr[0])
+def travel(grid_map, slope_x, slope_y):
+    trees_encountered = 0
+    curr_x = 0      # current col
+    curr_y = 0      # current row
 
-    return trees
+    while curr_y < len(grid_map):
+        if grid_map[curr_y][curr_x] == '#':
+            trees_encountered += 1
+        curr_x = (curr_x + slope_x) % len(grid_map[0])
+        curr_y += slope_y
+    return trees_encountered
 
-print(tree_slope(1,3))
+def solve(file_nm):
+    tree_product = 1
+    grid_map = read_map_file(file_nm)
+    for slope_x, slope_y in SLOPES:
+        num_trees_encountered = travel(grid_map, slope_x, slope_y)
+        tree_product *= num_trees_encountered
+    return tree_product
 
-a = tree_slope(1, 1)
-b = tree_slope(1, 3)
-c = tree_slope(1, 5)
-d = tree_slope(1, 7)
-e = tree_slope(2, 1)
+def main():
+    assert(solve(FILE_TEST_NM) == 336)
+    print(solve(FILE_NM))
 
-print(a * b * c * d * e)
+main()

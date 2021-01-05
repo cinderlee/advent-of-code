@@ -53,12 +53,15 @@ def get_missing_id(seat_ids_lst):
         if id not in seat_ids_lst:
             return id
 
+def solve(file_nm):
+    seat_ids = get_seat_ids(file_nm)
+    return get_missing_id(seat_ids)
+
 def main():
     assert(get_seat_id('BFFFBBFRRR') == 567)
     assert(get_seat_id('FFFBBBFRRR') == 119)
     assert(get_seat_id('BBFFBBFRLL') == 820)
     assert(get_seat_id('FBFBBFFRLR') == 357)
-    seat_ids = get_seat_ids(FILE_NM)
-    print(get_missing_id(seat_ids))
+    print(solve(FILE_NM))
 
 main()
