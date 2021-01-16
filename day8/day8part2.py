@@ -1,4 +1,4 @@
-# FILE_NM = 'day8testinput.txt'
+FILE_TEST_NM = 'day8testinput.txt'
 FILE_NM = 'day8input.txt'
 
 def read_file(file_nm):
@@ -51,10 +51,13 @@ def fix_instructions(instructions, pointer_lst):
             return(acc)
         instructions[elem][0] = original_instr
 
-def main():
-    instr_lst = read_file(FILE_NM)
+def solve(file_nm):
+    instr_lst = read_file(file_nm)
     pointer_lst = run(instr_lst, True)
-    acc_val = fix_instructions(instr_lst, pointer_lst)
-    print(acc_val)
+    return fix_instructions(instr_lst, pointer_lst)
+
+def main():
+    assert(solve(FILE_TEST_NM) == 8)
+    print(solve(FILE_NM))
 
 main()

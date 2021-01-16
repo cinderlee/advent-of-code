@@ -1,4 +1,4 @@
-# FILE_NM = 'day8testinput.txt'
+FILE_TEST_NM = 'day8testinput.txt'
 FILE_NM = 'day8input.txt'
 
 def run_first_loop(instructions):
@@ -32,9 +32,12 @@ def read_file(file_nm):
     file.close()
     return instructions
 
+def solve(file_nm):
+    instr_lst = read_file(file_nm)
+    return run_first_loop(instr_lst)
+
 def main():
-    instr_lst = read_file(FILE_NM)
-    acc_val = run_first_loop(instr_lst)
-    print(acc_val)
+    assert(solve(FILE_TEST_NM) == 5)
+    print(solve(FILE_NM))
 
 main()
