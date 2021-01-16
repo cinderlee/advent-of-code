@@ -1,6 +1,6 @@
 from collections import deque
 
-# FILE_NM = 'day22testinput.txt'
+FILE_TEST_NM = 'day22testinput.txt'
 FILE_NM = 'day22input.txt'
 PLAYER_ONE = "Player 1"
 PLAYER_TWO = "Player 2"
@@ -52,12 +52,15 @@ def calculate_score(winning_deck):
         count -= 1
     return total
 
-def main():
-    player_one_cards, player_two_cards = parse_cards_from_file(FILE_NM)
+def solve(file_nm):
+    player_one_cards, player_two_cards = parse_cards_from_file(file_nm)
     winner = play_combat(player_one_cards, player_two_cards)
     if winner == PLAYER_ONE:
-        print(calculate_score(player_one_cards))
-    else:
-        print(calculate_score(player_two_cards))
+        return calculate_score(player_one_cards)
+    return calculate_score(player_two_cards)
+
+def main():
+    assert(solve(FILE_TEST_NM) == 306)
+    print(solve(FILE_NM))
 
 main()
