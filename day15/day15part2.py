@@ -1,32 +1,34 @@
-# FILE_NM = 'day15testinput.txt'
-FILE_NM = 'day15input.txt'
+TEST_INPUT_1 = [0, 3, 6]
+TEST_INPUT_2 = [1, 3, 2]
+TEST_INPUT_3 = [2, 1, 3]
+TEST_INPUT_4 = [1, 2, 3]
+TEST_INPUT_5 = [2, 3, 1]
+TEST_INPUT_6 = [3, 2, 1]
+TEST_INPUT_7 = [3, 1, 2]
+
+INPUT = [14, 1, 17, 0, 3, 20]
 LAST_TURN = 30000000
 
 
-def read_file(file_nm):
+def set_up(input_lst):
     '''
     Returns:
         curr_num: number to be spoken for the next turn
         spoke_numbers: a dictionary of numbers mapped to the last turn they were said
     '''
-    file = open(FILE_NM, 'r')
     prev_num = None
     curr_num = None
     spoken_numbers = {}
     turn = 0
 
-    for line in file:
-        line = line.strip('\n').split(',')
-        for elem in line:
-            if curr_num is None:
-                curr_num = int(elem)
-            else:
-                prev_num = curr_num
-                curr_num = int(elem)
-                spoken_numbers[prev_num] = turn
-            turn += 1
+    for num in input_lst:
+        if curr_num is None:
+            curr_num = num
+        else:
+            prev_num, curr_num = curr_num, num
+            spoken_numbers[prev_num] = turn
+        turn += 1
 
-    file.close()
     return curr_num, spoken_numbers
 
 def get_nth_number(curr_num, spoken_numbers_dict, n):
@@ -45,9 +47,18 @@ def get_nth_number(curr_num, spoken_numbers_dict, n):
 
     return curr_num
 
+def solve(input_lst):
+    curr_num, spoken_numbers = set_up(input_lst)
+    return get_nth_number(curr_num, spoken_numbers, LAST_TURN)
+
 def main():
-    curr_num, spoken_numbers = read_file(FILE_NM)
-    last_num = get_nth_number(curr_num, spoken_numbers, LAST_TURN)
-    print(last_num)
+    assert(solve(TEST_INPUT_1) == 175594)
+    assert(solve(TEST_INPUT_2) == 2578)
+    assert(solve(TEST_INPUT_3) == 3544142)
+    assert(solve(TEST_INPUT_4) == 261214)
+    assert(solve(TEST_INPUT_5) == 6895259)
+    assert(solve(TEST_INPUT_6) == 18)
+    assert(solve(TEST_INPUT_7) == 362)
+    print(solve(INPUT))
 
 main()
