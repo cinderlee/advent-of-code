@@ -1,28 +1,57 @@
-file = open('day9input.txt')
+FILE_TEST_NM = 'day9testinput.txt'
+PREAMBLE_NUM_TEST = 5
+FILE_NM = 'day9input.txt'
+PREAMBLE_NUM = 25
 
-numbers = []
-preamble = 25
-for line in file:
-    line = line.strip('\n')
-    numbers.append(int(line))
+def read_file_nums(file_nm):
+    '''
+    Returns a list of numbers from a file.
+    '''
+    file = open(file_nm, 'r')
+    numbers = []
+    for line in file:
+        line = line.strip('\n')
+        numbers.append(int(line))
+    file.close()
+    return numbers
 
-file.close()
+def is_valid_num(nums_lst, position, preamble_num):
+    '''
+    Returns whether a number is valid in a list. A valid number is the sum of any 2 previous
+    x numbers, where x represents the length of the preamble
+    '''
+    curr_num = nums_lst[position]
+    seen_nums = set()
+    for index in range(position - preamble_num, position):
+        if curr_num - nums_lst[index] in seen_nums:
+            return True
+        seen_nums.add(nums_lst[index])
+    return False
 
-pointer = 25
+def find_invalid_num(nums_lst, preamble_num):
+    '''
+    A preamble of x numbers are first transmitted. Each number afterwards will
+    be the sum of any two of the immediately previous x numbers.
 
-while pointer < len(numbers):
-    sub_lst = numbers[pointer - preamble:pointer]
-    total = numbers[pointer]
-    outlier = True
-    for elem in sub_lst:
-        if total - elem in sub_lst:
-            outlier = False
-            break
-        else:
-            continue
-
-    if outlier:
-        print(total)
-        break
+    Parameters:
+        nums_lst: A list of numbers
+        preamble_num: The length of the preamble, x
     
-    pointer += 1
+    Returns the invalid number in the list that does not satisfy the rule.
+    '''
+
+    pointer = preamble_num
+    while pointer < len(nums_lst):
+        if not is_valid_num(nums_lst, pointer, preamble_num):
+            return nums_lst[pointer]
+        pointer += 1
+
+def solve(file_nm, preamble_num):
+    nums_lst = read_file_nums(file_nm)
+    return find_invalid_num(nums_lst, preamble_num)
+
+def main():
+    assert(solve(FILE_TEST_NM, PREAMBLE_NUM_TEST) == 127)
+    print(solve(FILE_NM, PREAMBLE_NUM))
+
+main()
