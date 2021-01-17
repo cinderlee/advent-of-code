@@ -3,6 +3,9 @@ FILE_TEST_NM_2 = 'day7testinput2.txt'
 FILE_NM = 'day7input.txt'
 
 def parse_line(line):
+    '''
+    Returns a dictionary representing the rule for one color (line).
+    '''
     color_key, rules = line.split(' contain ' )
     color_key = color_key.replace(" bags", '')
     rules = rules.strip('.').split(', ')
@@ -15,6 +18,11 @@ def parse_line(line):
     return {color_key: rules_dict}
 
 def read_file_rules(file_nm):
+    '''
+    Returns dictionary of luggage rules read from a file.
+    Keys are outer bag colors, values are dictionaries of inner bag colors
+    mapped to their specific quantities.
+    '''
     file = open(file_nm, 'r')
     rules = {}
 
@@ -28,6 +36,10 @@ def read_file_rules(file_nm):
     return rules
 
 def get_outer_bag_colors(inner_bag_color, rules):
+    '''
+    Given a inner bag color, returns set of bag colors that are valid
+    for the outermost bag. 
+    '''
     queue = []
 
     for key in rules:
@@ -52,6 +64,10 @@ def get_outer_bag_colors(inner_bag_color, rules):
     return bags
 
 def get_number_of_nested_bags(outer_bag_color, rules):
+    '''
+    Given an outer bag color, returns number of individual bags
+    required inside the outer bag.
+    '''
     queue = [(outer_bag_color, 1)]
     total_bags = 0
 

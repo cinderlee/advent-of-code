@@ -2,12 +2,26 @@ FILE_TEST_NM = 'day2testinput.txt'
 FILE_NM = 'day2input.txt'
 
 def parse_line(line):
+    '''
+    Each line in a file represents a password policy, where it states
+    the first and second positions a given letter must appear in a
+    valid password.
+
+    Returns:
+        first position a letter must appear at,
+        second position a letter must appear at,
+        the letter for the specified policy,
+        the password
+    '''
     position_info, letter, password = line.strip('\n').replace(':', '').split(' ')
     pos_one, pos_two = position_info.split('-') 
-    # Offset positions to start at index 0
+    # offset positions to start at index 0
     return int(pos_one) - 1, int(pos_two) - 1, letter, password
 
 def check_valid_password(password_rule_info):
+    ''' 
+    Checks if a password is valid
+    '''
     pos_one, pos_two, letter, password = password_rule_info
     
     if pos_two >= len(password):
@@ -20,6 +34,9 @@ def check_valid_password(password_rule_info):
     return check_pos_one ^ check_pos_two
 
 def get_valid_password_count(file_nm):
+    '''
+    Returns number of valid passwords in a file
+    '''
     valid_pw_count = 0
     file = open(file_nm, 'r')
 

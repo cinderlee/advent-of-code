@@ -2,14 +2,22 @@ FILE_TEST_NM = 'day6testinput.txt'
 FILE_NM = 'day6input.txt'
 
 def create_answers_log():
+    '''
+    Returns a dictionary where the key represents the question
+    and value represents number of people who answered yes.
+
+    There are 26 yes-or-o questions marked a through z.
+    '''
     answers_log = {}
     for i in range(26):
         answers_log[chr(ord('a') + i)] = 0
     return answers_log
 
 def count_unanimous_answers(answers_log, num_group_members):
-    # returns number of answers where everyone in group answered yes
-    # also resets the log for next group 
+    '''
+    Returns number of answers where everyone in a group answered yes
+    Resets the answers_log for the next group count.
+    '''
     total = 0
     for answer in answers_log:
         if answers_log[answer] == num_group_members:
@@ -18,6 +26,10 @@ def count_unanimous_answers(answers_log, num_group_members):
     return total
 
 def count_total_answers(file_nm):
+    '''
+    Returns the sum of the sum of questions to which everyone 
+    answered yes for each group. 
+    '''
     file = open(file_nm, 'r')
     answers_log = create_answers_log()
     total_answers = 0

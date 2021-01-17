@@ -2,7 +2,9 @@ FILE_TEST_NM = 'day1testinput.txt'
 FILE_NM = 'day1input.txt'
 
 def solve(file_nm):
-    # Print product of two numbers in the file that add up to 2020
+    '''
+    Returns product of two numbers in the file that add up to 2020
+    '''
     numbers = set()
 
     file = open(file_nm, 'r')

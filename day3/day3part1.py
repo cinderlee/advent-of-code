@@ -2,6 +2,10 @@ FILE_TEST_NM = 'day3testinput.txt'
 FILE_NM = 'day3input.txt'
 
 def read_map_file(file_nm):
+    '''
+    Returns a two-dimensional array representing a map,
+    where # represents a tree and . represents open squares.
+    '''
     grid_map = []
     file = open(file_nm, 'r')
 
@@ -15,6 +19,9 @@ def read_map_file(file_nm):
     return grid_map
 
 def travel(grid_map, slope_x, slope_y):
+    '''
+    Returns the number of trees encountered following a slope.
+    '''
     trees_encountered = 0
     curr_x = 0      # current col
     curr_y = 0      # current row

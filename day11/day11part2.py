@@ -1,12 +1,19 @@
-# FILE_NM = 'day11testinput.txt'
+FILE_TEST_NM = 'day11testinput.txt'
 FILE_NM = 'day11input.txt'
 DIRECTIONS = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
 
 
 def is_valid(row, col, lst):
+    '''
+    Returns whether row and col are valid indices.
+    '''
     return row >= 0 and row < len(lst) and col >= 0 and col < len(lst[0])
 
 def count_occupied_one_dir(row, col, dir_r, dir_c, grid):
+    '''
+    Returns whether a seat is occupied in a direction from
+    current seat.
+    '''
     while is_valid(row, col, grid):
         if grid[row][col] == '.':
             row += dir_r
@@ -19,6 +26,9 @@ def count_occupied_one_dir(row, col, dir_r, dir_c, grid):
     return False
 
 def count_occupied_eight_dirs(row, col, grid):
+    '''
+    Returns number of seats occupied in all 8 directions.
+    '''
     count = 0
     for dir_r, dir_c in DIRECTIONS:
         start_row = row + dir_r
@@ -28,6 +38,10 @@ def count_occupied_eight_dirs(row, col, grid):
     return count
 
 def read_file(file_nm):
+    '''
+    Returns a two-dimensional array of the seating layout
+    of the plane, read from a file.
+    '''
     file = open(file_nm, 'r')
     plane_grid = []
 
@@ -43,6 +57,19 @@ def read_file(file_nm):
     return plane_grid
 
 def model_seating(plane_grid):
+    '''
+    Model the seating arrangement, based on the number of 
+    occupies seats adjacent to a seat. 
+
+    Rules:
+        If a seat is empty (L) and there are no occupied adjacent to it,
+        the seat becomes occupied.
+        If a seat is occupied (#) and there are 5 or more seats adjacent
+        to it, the seat becomes empty.
+        Else, seat's state does not change.
+
+    The modeling stops when there are no more changes to the seating.
+    '''
     changes = True
     num_rows = len(plane_grid)
     num_cols = len(plane_grid[0])
@@ -64,6 +91,9 @@ def model_seating(plane_grid):
         changes = len(flips) > 0
 
 def count_occupied_seats(plane_grid):
+    '''
+    Returns number of occupied seats
+    '''
     total = 0
     for r in range(len(plane_grid)):
         for c in range(len(plane_grid[0])):
@@ -71,9 +101,13 @@ def count_occupied_seats(plane_grid):
                 total += 1
     return total
 
-def main():
-    plane_grid = read_file(FILE_NM)
+def solve(file_nm):
+    plane_grid = read_file(file_nm)
     model_seating(plane_grid)
-    print(count_occupied_seats(plane_grid))
+    return count_occupied_seats(plane_grid)
+
+def main():
+    assert(solve(FILE_TEST_NM) == 26)
+    print(solve(FILE_NM))
 
 main()

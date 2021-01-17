@@ -2,6 +2,10 @@ FILE_TEST_NM = 'day6testinput.txt'
 FILE_NM = 'day6input.txt'
 
 def count_total_answers(file_nm):
+    '''
+    Returns the sum of the sum of questions to which anyone 
+    answered yes for each group. 
+    '''
     file = open(file_nm, 'r')
     total_answers = 0
     answers = set()

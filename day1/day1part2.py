@@ -2,7 +2,9 @@ FILE_TEST_NM = 'day1testinput.txt'
 FILE_NM = 'day1input.txt'
 
 def read_file(file_nm):
-    # Return a list of ints read from a file
+    '''
+    Return a list of ints read from a file
+    '''
 
     file = open(file_nm, 'r')
     lst = file.read().split('\n')
@@ -14,7 +16,9 @@ def read_file(file_nm):
     return lst
 
 def get_three_nums(lst):
-    # Find three numbers that add up to 2020
+    '''
+    Returns three numbers that add up to 2020
+    '''
 
     for index in range(len(lst)):
         first_num = lst[index]
@@ -25,6 +29,9 @@ def get_three_nums(lst):
                 return first_num, lst[index2], sub_sum - lst[index2]
 
 def solve(file_nm):
+    '''
+    Returns product of the three numbers that add up to 2020
+    '''
     nums_lst = read_file(file_nm)
     num_one, num_two, num_three = get_three_nums(nums_lst)
     return num_one * num_two * num_three

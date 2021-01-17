@@ -3,6 +3,10 @@ FILE_NM = 'day3input.txt'
 SLOPES = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
 
 def read_map_file(file_nm):
+    '''
+    Returns a two-dimensional array representing a map,
+    where # represents a tree and . represents open squares.
+    '''
     grid_map = []
     file = open(file_nm, 'r')
 
@@ -16,6 +20,9 @@ def read_map_file(file_nm):
     return grid_map
 
 def travel(grid_map, slope_x, slope_y):
+    '''
+    Returns the number of trees encountered following a slope.
+    '''
     trees_encountered = 0
     curr_x = 0      # current col
     curr_y = 0      # current row
@@ -28,6 +35,10 @@ def travel(grid_map, slope_x, slope_y):
     return trees_encountered
 
 def solve(file_nm):
+    '''
+    Returns the product of the number of trees encountered
+    for each slope defined in SLOPES
+    '''
     tree_product = 1
     grid_map = read_map_file(file_nm)
     for slope_x, slope_y in SLOPES:

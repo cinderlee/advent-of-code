@@ -2,6 +2,9 @@ FILE_TEST_NM = 'day7testinput.txt'
 FILE_NM = 'day7input.txt'
 
 def parse_line(line):
+    '''
+    Returns a dictionary representing the rule for one color (line).
+    '''
     color_key, rules = line.split(' contain ' )
     color_key = color_key.replace(" bags", '')
     rules = rules.strip('.').split(', ')
@@ -14,6 +17,11 @@ def parse_line(line):
     return {color_key: rules_dict}
 
 def read_file_rules(file_nm):
+    '''
+    Returns dictionary of luggage rules read from a file.
+    Keys are outer bag colors, values are dictionaries of inner bag colors
+    mapped to their specific quantities.
+    '''
     file = open(file_nm, 'r')
     rules = {}
 
@@ -27,6 +35,10 @@ def read_file_rules(file_nm):
     return rules
 
 def get_outer_bag_colors(inner_bag_color, rules):
+    '''
+    Given a inner bag color, returns set of bag colors that are valid
+    for the outermost bag. 
+    '''
     queue = []
 
     for key in rules:

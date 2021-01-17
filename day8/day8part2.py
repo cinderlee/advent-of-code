@@ -2,6 +2,14 @@ FILE_TEST_NM = 'day8testinput.txt'
 FILE_NM = 'day8input.txt'
 
 def read_file(file_nm):
+    '''
+    Returns a list of instructions from reading a file.
+
+    An instruction is dnoted by an operation and a number argument:
+        acc increases/decreases the accumulator by the argument
+        jmp jumps to an instructionm offset by the argument
+        nop does nothing (No Operation)
+    '''
     instructions = []
     file = open(file_nm, 'r')
 
@@ -12,9 +20,14 @@ def read_file(file_nm):
     file.close()
     return instructions
 
-def run(instructions, first_run=False):
-    # Trace instructions up until the second loop 
-    # if no second loop, then we hit the end of the program
+def run(instructions, first_run=False):'
+    '''
+    Returns the accumulator value and instruction pointer
+    before the instructions run a second time.
+
+    If there is no infinite loop, the instruction pointer will 
+    be at the end of the program.
+    '''
     acc = 0
     pointer = 0
     locs = set()
@@ -36,6 +49,13 @@ def run(instructions, first_run=False):
     return acc, pointer
 
 def fix_instructions(instructions, pointer_lst):
+    '''
+    Only one instruction is corrupted where either a jmp is
+    supposed to be a nop or a nop is supposed to be a jmp.
+    
+    Repairs the program and returns the accumulator value 
+    for the repaired program.
+    '''
     for elem in pointer_lst:
         if instructions[elem][0] == 'acc':
             continue

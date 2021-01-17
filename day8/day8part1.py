@@ -2,7 +2,11 @@ FILE_TEST_NM = 'day8testinput.txt'
 FILE_NM = 'day8input.txt'
 
 def run_first_loop(instructions):
-    # Trace instructions up until the second loop
+    '''
+    The game console boot code has an infinite loop. 
+    Returns the accumulator value before the instructions run 
+    a second time.
+    '''
     acc = 0
     pointer = 0
     locs = set()
@@ -22,6 +26,14 @@ def run_first_loop(instructions):
     return acc
 
 def read_file(file_nm):
+    '''
+    Returns a list of instructions from reading a file.
+
+    An instruction is dnoted by an operation and a number argument:
+        acc increases/decreases the accumulator by the argument
+        jmp jumps to an instructionm offset by the argument
+        nop does nothing (No Operation)
+    '''
     instructions = []
     file = open(file_nm, 'r')
 
