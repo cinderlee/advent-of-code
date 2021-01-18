@@ -1,38 +1,62 @@
-# file = open('day13testinput.txt')
-file = open('day13input.txt')
+FILE_TEST_NM = 'day13testinput.txt'
+FILE_NM = 'day13input.txt'
 
-earliest = None
+def read_file(file_nm):
+    '''
+    Returns the earliest timestamp you could depart and
+    list of bus ids read from a file.
+    '''
+    earliest_depart_time = None
+    bus_ids = None
+    file = open(file_nm, 'r')
+    for line in file:
+        line = line.strip('\n')
+        if earliest_depart_time is None:
+            earliest_depart_time = int(line)
+        else:
+            bus_ids = line.split(',')
+    file.close()
+    return earliest_depart_time, bus_ids
 
-def min_time_bus(lst, earliest):
-    sol_time = None
-    sol_bus = None
+def find_earliest_bus(depart_time, bus_ids):
+    '''
+    Returns the earliest time and bus id of the earliest bus that 
+    can be taken given departure time.
+    '''
+    earliest_bus_time = None
+    earliest_bus_id = None
 
-    for elem in lst:
-        if elem == 'x':
+    for bus_id in bus_ids:
+        if bus_id == 'x':
             continue
-        bus_num = int(elem)
-        bus_early_val = 0
-        if earliest % bus_num > 0:
-            bus_early_val = bus_num * (earliest // bus_num + 1)
+        bus_id = int(bus_id)
+        bus_time = depart_time
+
+        # find next bus time
+        if depart_time % bus_id > 0:
+            bus_time += bus_id - (depart_time % bus_id)
+ 
+        if earliest_bus_time is None:
+            earliest_bus_time = bus_time
+            earliest_bus_id = bus_id
         else:
-            bus_early_val = earliest // bus_num
-        if sol_time is None:
-            sol_time = bus_early_val
-            sol_bus = bus_num
-        else:
-            sol_time = min(sol_time, bus_early_val)
-            if sol_time == bus_early_val:
-                sol_bus = bus_num
+            earliest_bus_time = min(earliest_bus_time, bus_time)
+            if earliest_bus_time == bus_time:
+                earliest_bus_id = bus_id
 
-    return sol_time, sol_bus
+    return earliest_bus_time, earliest_bus_id
 
-for line in file:
-    line = line.strip('\n')
-    if earliest is None:
-        earliest = int(line)
-    else:
-        lst = line.split(',')
-        sol_time, sol_bus = min_time_bus(lst, earliest)
-        print((sol_time - earliest) * sol_bus)
+def solve(file_nm):
+    '''
+    Returns product of id of earliest bus and number of minutes
+    you need to wait before it departs.
+    '''
+    earliest_depart_time, bus_ids = read_file(file_nm)
+    bus_time, bus_id = find_earliest_bus(earliest_depart_time, bus_ids)
+    return bus_id * (bus_time - earliest_depart_time)
 
-file.close()
+def main():
+    assert(solve(FILE_TEST_NM) == 295)
+    print(solve(FILE_NM))
+
+main()

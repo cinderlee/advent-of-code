@@ -12,9 +12,10 @@ LAST_TURN = 30000000
 
 def set_up(input_lst):
     '''
-    Returns:
+    Returns a dictionary containing number information for memory game.
+    Dictionary details:
         curr_num: number to be spoken for the next turn
-        spoke_numbers: a dictionary of numbers mapped to the last turn they were said
+        spoken_numbers: a dictionary of numbers mapped to the last turn they were said
     '''
     prev_num = None
     curr_num = None
@@ -32,6 +33,11 @@ def set_up(input_lst):
     return curr_num, spoken_numbers
 
 def get_nth_number(curr_num, spoken_numbers_dict, n):
+    '''
+    Players take turn saying numbers. For each turn, if it is the first time 
+    the most recent number was spoken, the current player says 0. Else,
+    current player says how many turns apart ago the number was said previously. 
+    '''
     turn = len(spoken_numbers_dict) + 1
 
     while turn < n:
