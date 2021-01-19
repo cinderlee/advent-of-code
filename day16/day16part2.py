@@ -1,135 +1,171 @@
-# file = open('day16testinput.txt')
-file = open('day16input.txt')
+FILE_TEST_NM = 'day16testinput2.txt'
+FILE_NM = 'day16input.txt'
 
-rules = {}
-valid_nums = set()
-lst = []
+def get_valid_numbers(interval_string):
+    '''
+    Returns a list of valid numbers given an interval in string
+    notations.
+    '''
+    start, end = tuple(int(num) for num in interval_string.split('-'))
+    return [val for val in range(start, end + 1)]
 
-your_ticket = False
-ticket = None
+def parse_rule(line):
+    '''
+    Returns a dictionary of the field mapped to its valid values.
+    '''
+    field, intervals = line.split(': ')
+    interval_one, interval_two = intervals.split(' or ')
 
-nearby_tickets = False
-valid_nearby_parts = []
+    valid_numbers = get_valid_numbers(interval_one)
+    valid_numbers.extend(get_valid_numbers(interval_two))
+    return {field: valid_numbers}, set(valid_numbers)
 
-def add_valid_vals(interval_one, interval_two, vals_set, rule_dict, key):
-    lst = interval_one.split('-')
-    start = int(lst[0])
-    end = int(lst[1])
-    valid_num_lst = []
+def read_file(file_nm):
+    '''
+    Returns dictionary of rules where the field is mapped to its 
+    valid values, list of all valid vlaues, your ticket information,
+    and nearby tickets information.
+    '''
+    rules_section = True
+    your_ticket_section = False
+    nearby_tickets_section = False
+    rules = {}
+    valid_numbers = set()
+    your_ticket = []
+    nearby_tickets = []
 
-    for i in range(start, end + 1):
-        vals_set.add(i)
-        valid_num_lst.append(i)
+    file = open(file_nm, 'r')
+    for line in file:
+        line = line.strip('\n')
+        if not line:
+            continue
+        elif 'your ticket' in line:
+            your_ticket_section = True
+            rules_section = False
+        elif 'nearby tickets' in line:
+            nearby_tickets_section = True
+            your_ticket_section = False
+        elif rules_section:
+            rule, valid_numbers_subset = parse_rule(line)
+            rules.update(rule)
+            valid_numbers.update(valid_numbers_subset)
+        else:
+            # turn line into tuple of numbers
+            ticket = tuple(int(num) for num in line.split(','))
+            if your_ticket_section:
+                your_ticket = ticket
+            else:
+                nearby_tickets.append(ticket)
+    file.close()
 
-    lst = interval_two.split('-')
-    start = int(lst[0])
-    end = int(lst[1])
+    return rules, valid_numbers, your_ticket, nearby_tickets
 
-    for i in range(start, end + 1):
-        vals_set.add(i)
-        valid_num_lst.append(i)
-    
-    rule_dict[key] = valid_num_lst
+def is_valid_ticket(nearby_ticket, valid_set):
+    '''
+    Checks if nearby ticket is a valid ticket
+    '''
+    for value in nearby_ticket:
+        if value not in valid_set:
+            return False
+    return True
 
-def parse_rule_line(string, valid_nums_set, rule_dict):
-    string = string.split(': ')
-    key = string[0]
-    val_string = string[1].split(' or ')
-    add_valid_vals(val_string[0], val_string[1], valid_nums_set, rule_dict, key)
+def filter_nearby_tickets(nearby_tickets, valid_set):
+    '''
+    Filters and returns an updated list of nearby tickets.
+    '''
+    updated_nearby_tickets = []
+    for ticket in nearby_tickets:
+        if is_valid_ticket(ticket, valid_set):
+            updated_nearby_tickets.append(ticket)
+    return updated_nearby_tickets
 
-def check_ticket(string, valid_nums_set):
-    lst_nums = string.split(',')
-    for elem in lst_nums:
-        if int(elem) not in valid_nums_set:
-            return False, lst_nums
-    return True, lst_nums
+def get_valid_values_per_field(nearby_tickets):
+    '''
+    Given a list of valid nearby tickets, returns a list of lists 
+    where each list contains all valid values for one field collectively. Fields
+    are in the same order for all tickets.
+    '''
+    valid_fields_values = [[] for field in range(len(nearby_tickets[0]))]
+    for ticket in nearby_tickets:
+        for i in range(len(ticket)):
+            valid_fields_values[i].append(ticket[i])
 
-def retrieve_index_set(valid_dict, sub_key_phrase):
-    index_set = set()
-    for ticket_key in valid_dict:
-        if sub_key_phrase in ticket_key:
-            for elem in valid_dict[ticket_key]:
-                index_set.add(elem)
-    return index_set
+    return valid_fields_values
 
-def count_keys_match_subphrase(valid_dict, sub_key_phrase):
-    key_count = 0
-    for key in valid_dict:
-        if sub_key_phrase in key:
-            key_count += 1
-    return key_count
+def match_fields(rules, valid_fields_values):
+    '''
+    Returns a dictionary of fields mapped to their positions (index) on a ticket.
+    '''
+    fields_key = {}
+    for field in rules:
+        fields_key[field] = []
 
-def check_done(valid_dict):
-    sub_key_phrase = 'departure'
-    sub_set = retrieve_index_set(valid_dict, sub_key_phrase)
-    sub_key_count = count_keys_match_subphrase(valid_dict, sub_key_phrase)
-    return len(sub_set) == sub_key_count
+    for index in range(len(valid_fields_values)):
+        valid_sub_lst = valid_fields_values[index]
+        for field in rules:
+            could_be_field = True
+            for number in valid_sub_lst:
+                if number not in rules[field]:
+                    could_be_field = False
+                    break
+            if could_be_field:
+                fields_key[field].append(index)
 
-
-for line in file:
-    line = line.strip('\n')
-    if not line:
-        continue
-    if 'or' in line:
-        parse_rule_line(line, valid_nums, rules)
-    elif 'your ticket' in line:
-        your_ticket = True
-    elif 'nearby tickets' in line:
-        nearby_tickets = True
-        your_ticket = False
-        for i in range(len(rules)):
-            valid_nearby_parts.append([])
-    elif your_ticket:
-        ticket = line.split(',')
-        for index in range(len(ticket)):
-            ticket[index] = int(ticket[index])
-    elif nearby_tickets:
-        is_valid, lst = check_ticket(line, valid_nums)
-        if is_valid:
-            for i in range(len(lst)):
-                valid_nearby_parts[i].append(int(lst[i]))
-
-file.close()
-
-keys_index = {}
-for key in rules:
-    keys_index[key] = []
-
-counter = 0 
-while counter < len(valid_nearby_parts):
-    valid_lst = []
-    elem = valid_nearby_parts[counter]
-    for key in rules:
-        valid_key = True
-        for e in elem:
-            if e in rules[key]:
+    index_confirmed = set()
+    while len(index_confirmed) != len(fields_key):
+        index = None
+        for field in fields_key:
+            if len(fields_key[field]) == 1 and fields_key[field][0] not in index_confirmed:
+                index = fields_key[field][0]
+                break
+        
+        for field in fields_key:
+            if len(fields_key[field]) == 1:
                 continue
-            valid_key = False
-            break
-        if valid_key:
-            keys_index[key].append(counter)
-    counter += 1
+            if index in fields_key[field]:
+                fields_key[field].remove(index)
 
-index_confirmed = set()
-while True:
-    if len(index_confirmed) == len(rules) - count_keys_match_subphrase(keys_index, 'departure'):
-        break
+        index_confirmed.add(index)
 
-    for key in keys_index:
-        if len(keys_index[key]) == 1:
-            index_confirmed.add(keys_index[key][0])
+    return fields_key
 
-    for elem in index_confirmed:
-        for key in keys_index:
-            if len(keys_index[key]) == 1:
-                continue
-            if elem in keys_index[key]:
-                keys_index[key].remove(elem)
+def retrieve_index_list(fields_dict, sub_key_phrase):
+    '''
+    Returns list of positions of fields containing a subphrase.
+    '''
+    index_lst = []
+    for field in fields_dict:
+        if sub_key_phrase in field:
+            index_lst.extend(fields_dict[field])
+    return index_lst
 
+def solve(file_nm):
+    '''
+    Returns sum of all invalid values, excluding your ticket.
+    '''
+    rules, valid_numbers, your_ticket, nearby_tickets = read_file(file_nm)
+    nearby_tickets = filter_nearby_tickets(nearby_tickets, valid_numbers)
+    valid_fields_values = get_valid_values_per_field(nearby_tickets)
+    fields_info = match_fields(rules, valid_fields_values)
+    departure_list = retrieve_index_list(fields_info, 'departure')
 
-index_depart_set = retrieve_index_set(keys_index, 'departure')
+    acc = 1
+    for elem in departure_list:
+        acc *= your_ticket[elem]
+    return acc
 
-total = 1
-for elem in index_depart_set:
-    total *= ticket[elem]
-print(total)
+def run_test_file(file_nm):
+    '''
+    Returns field positions given a test file
+    '''
+    rules, valid_numbers, your_ticket, nearby_tickets = read_file(file_nm)
+    nearby_tickets = filter_nearby_tickets(nearby_tickets, valid_numbers)
+    valid_fields_values = get_valid_values_per_field(nearby_tickets)
+    fields_info = match_fields(rules, valid_fields_values)
+    return fields_info
+
+def main():
+    assert(run_test_file(FILE_TEST_NM) == {'row': [0], 'class': [1], 'seat': [2]})
+    print(solve(FILE_NM))
+
+main()
