@@ -1,6 +1,9 @@
-FILE_TEST_NM = 'day9testinput.txt'
-PREAMBLE_NUM_TEST = 5
-FILE_NM = 'day9input.txt'
+# Day 9: Encoding Error
+
+INPUT_FILE_NAME = "./inputs/day9input.txt"
+TEST_FILE_NAME = "./inputs/day9testinput.txt"
+
+TEST_PREAMBLE_NUM = 5
 PREAMBLE_NUM = 25
 
 def read_file_nums(file_nm):
@@ -77,13 +80,20 @@ def find_encryption_weakness(nums_lst, target_num):
 
     return minimum + maximum
 
-def solve(file_nm, preamble_num):
-    nums_lst = read_file_nums(file_nm)
-    invalid_num = find_invalid_num(nums_lst, preamble_num)
-    return find_encryption_weakness(nums_lst, invalid_num)
+def solve_part_one(numbers_lst, preamble_num):
+    return find_invalid_num(numbers_lst, preamble_num)
+
+def solve_part_two(numbers_lst, preamble_num):
+    invalid_num = find_invalid_num(numbers_lst, preamble_num)
+    return find_encryption_weakness(numbers_lst, invalid_num)
 
 def main():
-    assert(solve(FILE_TEST_NM, PREAMBLE_NUM_TEST) == 62)
-    print(solve(FILE_NM, PREAMBLE_NUM))
+    test_numbers_lst = read_file_nums(TEST_FILE_NAME)
+    assert(solve_part_one(test_numbers_lst, TEST_PREAMBLE_NUM) == 127)
+    assert(solve_part_two(test_numbers_lst, TEST_PREAMBLE_NUM) == 62)
+
+    numbers_lst = read_file_nums(INPUT_FILE_NAME)
+    print('Part One:', solve_part_one(numbers_lst, PREAMBLE_NUM))
+    print('Part Two:', solve_part_two(numbers_lst, PREAMBLE_NUM))
 
 main()

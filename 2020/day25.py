@@ -1,3 +1,5 @@
+# Day 25: Combo Breaker
+
 CARD_PUB_TEST_KEY = 5764801
 DOOR_PUB_TEST_KEY = 17807724
 CARD_PUB_KEY = 8252394
@@ -35,7 +37,7 @@ def get_encryption_key(loop_size, pub_key):
         encr_key = (encr_key * pub_key) % 20201227
     return encr_key
 
-def solve(card_pub_key, door_pub_key):
+def solve_part_one(card_pub_key, door_pub_key):
     '''
     Reverse engineer cryptographic handshake and return encryption key.
     '''
@@ -49,7 +51,7 @@ def solve(card_pub_key, door_pub_key):
     return encryption_key
 
 def main():
-    assert(solve(CARD_PUB_TEST_KEY, DOOR_PUB_TEST_KEY) == 14897079)
-    print(solve(CARD_PUB_KEY, DOOR_PUB_KEY))
+    assert(solve_part_one(CARD_PUB_TEST_KEY, DOOR_PUB_TEST_KEY) == 14897079)
+    print('Part One:', solve_part_one(CARD_PUB_KEY, DOOR_PUB_KEY))
 
 main()

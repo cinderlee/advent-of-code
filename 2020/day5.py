@@ -1,4 +1,7 @@
-FILE_NM = 'day5input.txt'
+# Day 5: Binary Boarding
+
+INPUT_FILE_NAME = "./inputs/day5input.txt"
+
 ROW_CHARS_NUM = 7
 NUM_ROWS = 128
 NUM_COLS = 8
@@ -47,12 +50,12 @@ def get_seat_id(boarding_pass):
     col = get_col(boarding_pass)
     return row * 8 + col
 
-def get_seat_ids(file_nm):
+def read_seat_ids(file_nm):
     '''
     Returns a list of seat ids from reading a file of
     boarding passes
     '''
-    file = open(file_nm)
+    file = open(file_nm, 'r')
     seat_ids = []
 
     for line in file:
@@ -62,20 +65,29 @@ def get_seat_ids(file_nm):
     file.close()
     return seat_ids
 
-def get_missing_id(seat_ids_lst):
+def get_max_seating_id(seat_ids):
+    '''
+    Returns the max seat id in file containing a list 
+    of boarding passes
+    '''
+    return max(seat_ids)
+
+def get_missing_id(seat_ids):
     '''
     Returns the seat id of the missing boarding pass.
     The seat IDs +1 and -1 from the missing id exist in 
     the list of seat ids.
     '''
-    min_id = min(seat_ids_lst)
-    max_id = max(seat_ids_lst)
+    min_id = min(seat_ids)
+    max_id = max(seat_ids)
     for id in range(min_id, max_id):
-        if id not in seat_ids_lst:
+        if id not in seat_ids:
             return id
 
-def solve(file_nm):
-    seat_ids = get_seat_ids(file_nm)
+def solve_part_one(seat_ids):
+    return get_max_seating_id(seat_ids)
+
+def solve_part_two(seat_ids):
     return get_missing_id(seat_ids)
 
 def main():
@@ -83,6 +95,9 @@ def main():
     assert(get_seat_id('FFFBBBFRRR') == 119)
     assert(get_seat_id('BBFFBBFRLL') == 820)
     assert(get_seat_id('FBFBBFFRLR') == 357)
-    print(solve(FILE_NM))
+
+    seat_ids = read_seat_ids(INPUT_FILE_NAME)
+    print('Part One:', solve_part_one(seat_ids))
+    print('Part Two:', solve_part_two(seat_ids))
 
 main()

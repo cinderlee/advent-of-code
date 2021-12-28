@@ -1,11 +1,13 @@
-FILE_TEST_NM = 'day8testinput.txt'
-FILE_NM = 'day8input.txt'
+# Day 8: Handheld Halting
+
+INPUT_FILE_NAME = "./inputs/day8input.txt"
+TEST_FILE_NAME = "./inputs/day8testinput.txt"
 
 def read_file(file_nm):
     '''
     Returns a list of instructions from reading a file.
 
-    An instruction is dnoted by an operation and a number argument:
+    An instruction is denoted by an operation and a number argument:
         acc increases/decreases the accumulator by the argument
         jmp jumps to an instructionm offset by the argument
         nop does nothing (No Operation)
@@ -20,7 +22,31 @@ def read_file(file_nm):
     file.close()
     return instructions
 
-def run(instructions, first_run=False):'
+def run_first_loop(instructions):
+    '''
+    The game console boot code has an infinite loop. 
+    Returns the accumulator value before the instructions run 
+    a second time.
+    '''
+    acc = 0
+    pointer = 0
+    locs = set()
+
+    while pointer not in locs and pointer >= 0 and pointer < len(instructions):
+        locs.add(pointer)
+        instr, num = instructions[pointer]
+
+        if instr == 'nop':
+            pointer += 1
+        elif instr == 'acc':
+            acc += num
+            pointer += 1
+        else:
+            pointer += num
+
+    return acc
+
+def run(instructions, first_run=False):
     '''
     Returns the accumulator value and instruction pointer
     before the instructions run a second time.
@@ -71,13 +97,20 @@ def fix_instructions(instructions, pointer_lst):
             return(acc)
         instructions[elem][0] = original_instr
 
-def solve(file_nm):
-    instr_lst = read_file(file_nm)
+def solve_part_one(instr_lst):
+    return run_first_loop(instr_lst)
+
+def solve_part_two(instr_lst):
     pointer_lst = run(instr_lst, True)
     return fix_instructions(instr_lst, pointer_lst)
 
 def main():
-    assert(solve(FILE_TEST_NM) == 8)
-    print(solve(FILE_NM))
+    test_instr_lst = read_file(TEST_FILE_NAME)
+    assert(solve_part_one(test_instr_lst) == 5)
+    assert(solve_part_two(test_instr_lst) == 8)
+
+    instr_lst = read_file(INPUT_FILE_NAME)
+    print('Part One:', solve_part_one(instr_lst))
+    print('Part Two:', solve_part_two(instr_lst))
 
 main()
