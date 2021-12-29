@@ -1,6 +1,8 @@
-FILE_TEST_NM_1 = 'day7testinput.txt'
-FILE_TEST_NM_2 = 'day7testinput2.txt'
-FILE_NM = 'day7input.txt'
+# Day 7: Handy Haversacks
+
+INPUT_FILE_NAME = "./inputs/day7input.txt"
+TEST_FILE_NAME = "./inputs/day7testinput.txt"
+TEST_FILE_NAME_2 = "./inputs/day7testinput2.txt"
 
 def parse_line(line):
     '''
@@ -82,14 +84,22 @@ def get_number_of_nested_bags(outer_bag_color, rules):
     
     return total_bags
 
+def solve_part_one(rules):
+    return len(get_outer_bag_colors('shiny gold', rules))
 
-def solve(file_nm):
-    rules = read_file_rules(file_nm)
+def solve_part_two(rules):
     return get_number_of_nested_bags('shiny gold', rules)
 
 def main():
-    assert(solve(FILE_TEST_NM_1) == 32)
-    assert(solve(FILE_TEST_NM_2) == 126)
-    print(solve(FILE_NM))
+    test_rules = read_file_rules(TEST_FILE_NAME)
+    assert(solve_part_one(test_rules) == 4)
+    assert(solve_part_two(test_rules) == 32)
+
+    test_rules_2 = read_file_rules(TEST_FILE_NAME_2)
+    assert(solve_part_two(test_rules_2) == 126)
+
+    rules = read_file_rules(INPUT_FILE_NAME)
+    print('Part One:', solve_part_one(rules))
+    print('Part Two:', solve_part_two(rules))
 
 main()
