@@ -1,6 +1,16 @@
-TEST_INPUT = [0, 3, 6]
-INPUT = [14, 1, 17, 0, 3, 20]
-LAST_TURN = 2020
+# Day 15: Rambunctious Recitation
+
+TEST_INPUT_NUMBERS_1 = [0, 3, 6]
+TEST_INPUT_NUMBERS_2 = [1, 3, 2]
+TEST_INPUT_NUMBERS_3 = [2, 1, 3]
+TEST_INPUT_NUMBERS_4 = [1, 2, 3]
+TEST_INPUT_NUMBERS_5 = [2, 3, 1]
+TEST_INPUT_NUMBERS_6 = [3, 2, 1]
+TEST_INPUT_NUMBERS_7 = [3, 1, 2]
+
+INPUT_NUMBERS = [14, 1, 17, 0, 3, 20]
+LAST_TURN_PART_ONE = 2020
+LAST_TURN_PART_TWO = 30000000
 
 
 def set_up(input_lst):
@@ -46,15 +56,31 @@ def get_nth_number(curr_num, spoken_numbers_dict, n):
 
     return curr_num
 
-def solve(input_lst):
+def solve_part_one(input_lst):
     '''
-    Play the memory game!
+    Play the memory game! Return the the 2020th number spoken.
     '''
     curr_num, spoken_numbers = set_up(input_lst)
-    return get_nth_number(curr_num, spoken_numbers, LAST_TURN)
+    return get_nth_number(curr_num, spoken_numbers, LAST_TURN_PART_ONE)
+
+def solve_part_two(input_lst):
+    '''
+    Play the memory game! Return the the 30000000th number spoken.
+    '''
+    curr_num, spoken_numbers = set_up(input_lst)
+    return get_nth_number(curr_num, spoken_numbers, LAST_TURN_PART_TWO)
 
 def main():
-    assert(solve(TEST_INPUT) == 436)
-    print(solve(INPUT))
+    assert(solve_part_one(TEST_INPUT_NUMBERS_1) == 436)
+    assert(solve_part_two(TEST_INPUT_NUMBERS_1) == 175594)
+    assert(solve_part_two(TEST_INPUT_NUMBERS_2) == 2578)
+    assert(solve_part_two(TEST_INPUT_NUMBERS_3) == 3544142)
+    assert(solve_part_two(TEST_INPUT_NUMBERS_4) == 261214)
+    assert(solve_part_two(TEST_INPUT_NUMBERS_5) == 6895259)
+    assert(solve_part_two(TEST_INPUT_NUMBERS_6) == 18)
+    assert(solve_part_two(TEST_INPUT_NUMBERS_7) == 362)
+
+    print('Part One:', solve_part_one(INPUT_NUMBERS))
+    print('Part Two:', solve_part_two(INPUT_NUMBERS))
 
 main()

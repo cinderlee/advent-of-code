@@ -1,5 +1,9 @@
-FILE_TEST_NM = 'day21testinput.txt'
-FILE_NM = 'day21input.txt'
+# Day 21: Allergen Assessment
+
+from copy import deepcopy
+
+INPUT_FILE_NAME = "./inputs/day21input.txt"
+TEST_FILE_NAME = "./inputs/day21testinput.txt"
 
 def determine_ingredient(allergen_details):
     '''
@@ -92,12 +96,11 @@ def read_foods(file_nm):
 
     return allergen_map, ingredients_counts
 
-def solve(file_nm):
+def solve_part_one(allergen_map, ingredients_counts):
     '''
     Returns the amount of times the ingredients that cannot contain
-    an allergen appears in a file
+    an allergen appear
     '''
-    allergen_map, ingredients_counts = read_foods(file_nm)
     allergen_ingredient_map = map_allergens_to_ingredients(allergen_map)
 
     total_counts_ingredients_not_allergens = 0
@@ -107,9 +110,25 @@ def solve(file_nm):
             total_counts_ingredients_not_allergens += ingredients_counts[ingredient]
     return total_counts_ingredients_not_allergens
 
-def main():
-    assert(solve(FILE_TEST_NM) == 5)
-    print(solve(FILE_NM))
+def solve_part_two(allergen_map):
+    '''
+    Returns a string representation of the list of ingredients that contain an 
+    allergen in the order of alphabetized allergens.
+    '''
+    allergen_ingredient_map = map_allergens_to_ingredients(allergen_map)
 
+    alphabetized_allergens = sorted(list(allergen_ingredient_map.keys()))
+    return ','.join([allergen_ingredient_map[allergen] for allergen in alphabetized_allergens])
+
+def main():
+    test_allergen_map, test_ingredients_counts = read_foods(TEST_FILE_NAME)
+    test_allergen_map_copy = deepcopy(test_allergen_map)
+    assert(solve_part_one(test_allergen_map, test_ingredients_counts) == 5)
+    assert(solve_part_two(test_allergen_map_copy) == 'mxmxvkd,sqjhc,fvjkl')
+    
+    allergen_map, ingredients_counts = read_foods(INPUT_FILE_NAME)
+    allergen_map_copy = deepcopy(allergen_map)
+    print('Part One:', solve_part_one(allergen_map, ingredients_counts))
+    print('Part Two:', solve_part_two(allergen_map_copy))
 
 main()

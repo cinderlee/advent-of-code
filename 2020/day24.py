@@ -1,6 +1,9 @@
+# Day 24: Lobby Layout
+
+INPUT_FILE_NAME = "./inputs/day24input.txt"
+TEST_FILE_NAME = "./inputs/day24testinput.txt"
+
 NUM_DAYS = 100
-FILE_TEST_NM = 'day24testinput.txt'
-FILE_NM = 'day24input.txt'
 
 DIRS = {
     'e': (2, 0),
@@ -10,6 +13,15 @@ DIRS = {
     'sw': (-1, -1),
     'se': (1, -1)
 }
+
+def read_file(file_nm):
+    '''
+    Returns a list of tiles read from a file.
+    '''
+    file = open(file_nm, 'r')
+    tiles = file.read().split('\n')
+    file.close()
+    return tiles
 
 def get_loc(input_line):
     '''
@@ -36,25 +48,23 @@ def get_loc(input_line):
 
     return x, y
 
-def set_up_tiles(file_nm):
+def set_up_tiles(tiles_lst):
     '''
-    Sets up the floor of hexagonal tiles from a file that contains a list of tiles 
-    that need to be flipped over. All tiles are initially facing white side up.
+    Sets up the floor of hexagonal tiles from a list of tiles that need 
+    to be flipped over. All tiles are initially facing white side up.
 
     Returns a dictionary of tiles where the key is the tile location
     and the value determines whether the tile is black side up.
     '''
     tiles = {}
-    tiles_file = open(file_nm, 'r')
-    for line in tiles_file:
-        loc = get_loc(line.strip('\n'))
+    for tile_directions in tiles_lst:
+        loc = get_loc(tile_directions)
 
         if loc in tiles:
             tiles[loc] = not tiles[loc]
         else:
             tiles[loc] = True
 
-    tiles_file.close()
     return tiles
 
 def add_neighbors(tiles_dict):
@@ -127,12 +137,18 @@ def flip(tiles_dict):
     for tile in changes:
         tiles_dict[tile] = not tiles_dict[tile]
 
-def solve(file_nm, num_days):
+def solve_part_one(tiles_lst):
+    '''
+    Returns the number of black tiles after flipping the tiles in the list.
+    '''
+    return count_black_tiles(set_up_tiles(tiles_lst))
+
+def solve_part_two(tiles_lst, num_days):
     '''
     Returns the number of black tiles after flipping a floor of tiles for 
     a number of days.
     '''
-    tiles = set_up_tiles(file_nm)
+    tiles = set_up_tiles(tiles_lst)
 
     day = 0 
     while day < num_days:
@@ -142,8 +158,12 @@ def solve(file_nm, num_days):
     return count_black_tiles(tiles)
 
 def main():
-    assert(solve(FILE_TEST_NM, NUM_DAYS) == 2208)
-    print(solve(FILE_NM, NUM_DAYS))
+    test_tiles_lst = read_file(TEST_FILE_NAME)
+    assert(solve_part_one(test_tiles_lst) == 10)
+    assert(solve_part_two(test_tiles_lst, NUM_DAYS) == 2208)
 
+    tiles_lst = read_file(INPUT_FILE_NAME)
+    print('Part One:', solve_part_one(tiles_lst))
+    print('Part Two:', solve_part_two(tiles_lst, NUM_DAYS))
 
 main()

@@ -1,5 +1,8 @@
-FILE_TEST_NM = 'day16testinput2.txt'
-FILE_NM = 'day16input.txt'
+# Day 16: Ticket Translation
+
+INPUT_FILE_NAME = "./inputs/day16input.txt"
+TEST_FILE_NAME = "./inputs/day16testinput.txt"
+TEST_FILE_NAME_2 = "./inputs/day16testinput2.txt"
 
 def get_valid_numbers(interval_string):
     '''
@@ -68,6 +71,17 @@ def is_valid_ticket(nearby_ticket, valid_set):
         if value not in valid_set:
             return False
     return True
+
+def get_invalid_nums(nearby_tickets, valid_set):
+    '''
+    Returns list of invalid numbers of all the nearby tickets.
+    '''
+    invalid_numbers = []
+    for ticket in nearby_tickets:
+        for value in ticket:
+            if value not in valid_set:
+                invalid_numbers.append(value)
+    return invalid_numbers
 
 def filter_nearby_tickets(nearby_tickets, valid_set):
     '''
@@ -139,11 +153,16 @@ def retrieve_index_list(fields_dict, sub_key_phrase):
             index_lst.extend(fields_dict[field])
     return index_lst
 
-def solve(file_nm):
+def solve_part_one(nearby_tickets, valid_numbers):
     '''
     Returns sum of all invalid values, excluding your ticket.
     '''
-    rules, valid_numbers, your_ticket, nearby_tickets = read_file(file_nm)
+    return sum(get_invalid_nums(nearby_tickets, valid_numbers))
+
+def solve_part_two(rules, valid_numbers, your_ticket, nearby_tickets):
+    '''
+    Returns sum of all invalid values, excluding your ticket.
+    '''
     nearby_tickets = filter_nearby_tickets(nearby_tickets, valid_numbers)
     valid_fields_values = get_valid_values_per_field(nearby_tickets)
     fields_info = match_fields(rules, valid_fields_values)
@@ -165,7 +184,12 @@ def run_test_file(file_nm):
     return fields_info
 
 def main():
-    assert(run_test_file(FILE_TEST_NM) == {'row': [0], 'class': [1], 'seat': [2]})
-    print(solve(FILE_NM))
+    test_rules, test_valid_numbers, test_your_ticket, test_nearby_tickets = read_file(TEST_FILE_NAME)
+    assert(solve_part_one(test_nearby_tickets, test_valid_numbers) == 71)
+    assert(run_test_file(TEST_FILE_NAME_2) == {'row': [0], 'class': [1], 'seat': [2]})
+
+    rules, valid_numbers, your_ticket, nearby_tickets = read_file(INPUT_FILE_NAME)
+    print('Part One:', solve_part_one(nearby_tickets, valid_numbers))
+    print('Part Two:', solve_part_two(rules, valid_numbers, your_ticket, nearby_tickets))
 
 main()
