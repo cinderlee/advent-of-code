@@ -1,7 +1,11 @@
+# Day 22: Crab Combat
+
+from copy import deepcopy
 from collections import deque
 
-FILE_TEST_NM = 'day22testinput.txt'
-FILE_NM = 'day22input.txt'
+INPUT_FILE_NAME = "./inputs/day22input.txt"
+TEST_FILE_NAME = "./inputs/day22testinput.txt"
+
 PLAYER_ONE = "Player 1"
 PLAYER_TWO = "Player 2"
 
@@ -20,6 +24,33 @@ def determine_winner(player_one_deck):
     if len(player_one_deck):
         return PLAYER_ONE
     return PLAYER_TWO
+
+def play_combat(player_one_deck, player_two_deck):
+    '''
+    Player 1 and Player 2 play a game of Combat, where the first number in the deck
+    represents the top of the deck.
+
+    How the game of Combat works:
+        Both players draw their top card and the player with the higher card wins,
+        keeping both cards and adding to the bottom of the deck. The winner's card 
+        is above the other card.
+
+        The game ends when a player has all of the cards.
+
+    Returns the winner.
+    '''
+    while len(player_one_deck) and len(player_two_deck):
+        player_one_card = player_one_deck.popleft()
+        player_two_card = player_two_deck.popleft()
+
+        if player_one_card > player_two_card:
+            player_one_deck.append(player_one_card)
+            player_one_deck.append(player_two_card)
+        else:
+            player_two_deck.append(player_two_card)
+            player_two_deck.append(player_one_card)
+
+    return determine_winner(player_one_deck)
 
 def play_recursive_combat(player_one_deck, player_two_deck):
     '''
@@ -105,19 +136,35 @@ def calculate_score(winning_deck):
         count -= 1
     return total
 
-def solve(file_nm):
+def solve_part_one(player_one_cards, player_two_cards):
     '''
     Returns the winning score after two players play Combat.
     '''
-    player_one_cards, player_two_cards = parse_cards_from_file(file_nm)
+    winner = play_combat(player_one_cards, player_two_cards)
+    if winner == PLAYER_ONE:
+        return calculate_score(player_one_cards)
+    return calculate_score(player_two_cards)
+
+def solve_part_two(player_one_cards, player_two_cards):
+    '''
+    Returns the winning score after two players play recursive Combat.
+    '''
     winner = play_recursive_combat(player_one_cards, player_two_cards)
     if winner == PLAYER_ONE:
         return calculate_score(player_one_cards)
     return calculate_score(player_two_cards)
 
 def main():
-    assert(solve(FILE_TEST_NM) == 291)
-    print(solve(FILE_NM))
+    test_player_one_cards, test_player_two_cards = parse_cards_from_file(TEST_FILE_NAME)
+    test_player_one_cards_copy = deepcopy(test_player_one_cards)
+    test_player_two_cards_copy = deepcopy(test_player_two_cards)
+    assert(solve_part_one(test_player_one_cards, test_player_two_cards) == 306)
+    assert(solve_part_two(test_player_one_cards_copy, test_player_two_cards_copy) == 291)
 
+    player_one_cards, player_two_cards = parse_cards_from_file(INPUT_FILE_NAME)
+    player_one_cards_copy = deepcopy(player_one_cards)
+    player_two_cards_copy = deepcopy(player_two_cards)
+    print('Part One:', solve_part_one(player_one_cards, player_two_cards))
+    print('Part Two:', solve_part_two(player_one_cards_copy, player_two_cards_copy))
 
 main()

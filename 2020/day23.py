@@ -1,9 +1,11 @@
+# Day 23: Crab Cups
+
 MAX_NUM = 1000000
-NUM_MOVES = 10000000
+NUM_MOVES_PART_ONE = 100
+NUM_MOVES_PART_TWO = 10000000
 
-TEST_INPUT = '389125467'
-INPUT = '315679824'
-
+TEST_INPUT_CRAB_CUPS = '389125467'
+INPUT_CRAB_CUPS = '315679824'
 
 class Node:
     def __init__(self, data):
@@ -34,7 +36,6 @@ class LinkedList:
             self.max_cup_number = max(self.max_cup_number, cup_number)
 
         self.cups[prev].next = self.cups[int(input_string[0])]
-
 
     def get_cup(self, num):
         '''
@@ -128,7 +129,20 @@ def play_crab_game(linked_lst, start_cup, num_moves):
         count += 1
         curr_cup = curr_cup.next
 
-def solve(input_txt, num_moves):
+def solve_part_one(input_txt, num_moves):
+    '''
+    A crab wants to play a game with cups ordered clockwise in the input text.
+    The first number in the input is the current cup and the crab is going to 
+    perform a number of moves,
+
+    Returns the order of cups after the cup labeled 1.
+    '''
+    linked_lst = LinkedList(input_txt)
+    start_cup = int(input_txt[0])
+    play_crab_game(linked_lst, start_cup, num_moves)
+    return linked_lst.get_post_order(1)
+
+def solve_part_two(input_txt, num_moves):
     '''
     A crab wants to play a game with 1 million cups ordered clockwise in the input text.
     The first number in the input is the current cup and the crab is going to 
@@ -146,7 +160,10 @@ def solve(input_txt, num_moves):
     return first_star * second_star
 
 def main():
-    assert(solve(TEST_INPUT, NUM_MOVES) == 149245887792)
-    print(solve(INPUT, NUM_MOVES))
+    assert(solve_part_one(TEST_INPUT_CRAB_CUPS, NUM_MOVES_PART_ONE) == '67384529')
+    assert(solve_part_two(TEST_INPUT_CRAB_CUPS, NUM_MOVES_PART_TWO) == 149245887792)
+
+    print('Part One:', solve_part_one(INPUT_CRAB_CUPS, NUM_MOVES_PART_ONE))
+    print('Part Two:', solve_part_two(INPUT_CRAB_CUPS, NUM_MOVES_PART_TWO))
 
 main()
