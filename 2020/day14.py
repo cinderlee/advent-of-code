@@ -1,7 +1,25 @@
-FILE_TEST_NM = 'day14testinput2.txt'
-FILE_NM = 'day14input.txt'
+# Day 14: Docking Data
 
-def parse_bitmask(line):
+INPUT_FILE_NAME = "./inputs/day14input.txt"
+TEST_FILE_NAME = "./inputs/day14testinput.txt"
+TEST_FILE_NAME_2 = "./inputs/day14testinput2.txt"
+
+def filter_bitmask_no_x(bitmask):
+    '''
+    The bitmask is a string of 36 bits where most significant
+    bit is on the left and least significant is on the right. 
+
+    Returns a list of tuples in the form of (position, mask bit).
+    The X's in the bitmask are excluded from the list.
+    '''
+    filtered_bitmask = []
+    for i, bit in enumerate(bitmask):
+        if bit == 'X':
+            continue
+        filtered_bitmask.append((i, bit))
+    return filtered_bitmask
+
+def filter_bitmask_no_leading_zeroes(bitmask):
     '''
     The bitmask is a string of 36 bits where most significant
     bit is on the left and least significant is on the right. 
@@ -9,9 +27,7 @@ def parse_bitmask(line):
 
     Returns the bitmask stripped of 0's on the left side.
     '''
-    line = line.replace('mask = ', '')
-    # 0's in the bitmask do not make changes
-    return line.lstrip('0')
+    return bitmask.lstrip('0')
 
 def parse_memory_info(line):
     '''
@@ -36,7 +52,7 @@ def read_file(file_nm):
     for line in file:
         line = line.strip('\n')
         if 'mask' in line:
-            bitmask = parse_bitmask(line)
+            bitmask = line.replace('mask = ', '')
         else:
             mem_loc, mem_val = parse_memory_info(line)
             memory_info.append((mem_loc, bitmask, mem_val))
@@ -116,7 +132,32 @@ def find_all_locs(mem_loc, bitmask):
 
     return locs
 
-def set_memory(memory_info):
+def apply_bitmask(bitmask, value):
+    '''
+    Returns new value in decimal form after applying
+    bitmask
+    '''
+    bin_value = bin(value).replace('0b', '')
+
+    # binary value needs to be padded to be 36 bits
+    final_bin_val = ['0' for i in range (36 - len(bin_value))]
+    final_bin_val.extend(list(bin_value))
+    for index, bit in bitmask:
+        final_bin_val[index] = bit
+    return int(''.join(final_bin_val), 2)
+
+def set_memory_part_one(memory_info):
+    '''
+    Returns dictionary of memory locations mapped to
+    value after applying bitmask to original memory location.
+    '''
+    memory = {}
+    for mem_loc, bitmask, mem_val in memory_info:
+        filtered_bitmask = filter_bitmask_no_x(bitmask)
+        memory[mem_loc] = apply_bitmask(filtered_bitmask, mem_val)
+    return memory
+
+def set_memory_part_two(memory_info):
     '''
     Returns dictionary of memory locations mapped to
     value after applying bitmask to original memory location.
@@ -135,13 +176,23 @@ def get_total_memory_values(memory_dict):
     '''
     return sum(memory_dict.values())
 
-def solve(file_nm):
-    memory_data = read_file(file_nm)
-    memory_dict = set_memory(memory_data)
+def solve_part_one(memory_data):
+    memory_dict = set_memory_part_one(memory_data)
+    return get_total_memory_values(memory_dict)
+
+def solve_part_two(memory_data):
+    memory_dict = set_memory_part_two(memory_data)
     return get_total_memory_values(memory_dict)
 
 def main():
-    assert(solve(FILE_TEST_NM) == 208)
-    print(solve(FILE_NM))
+    test_memory_data = read_file(TEST_FILE_NAME)
+    assert(solve_part_one(test_memory_data) == 165)
+
+    test_memory_data_2 = read_file(TEST_FILE_NAME_2)
+    assert(solve_part_two(test_memory_data_2) == 208)
+
+    memory_data = read_file(INPUT_FILE_NAME)
+    print('Part One:', solve_part_one(memory_data))
+    print('Part Two:', solve_part_two(memory_data))
 
 main()
