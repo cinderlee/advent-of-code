@@ -1,5 +1,7 @@
-FILE_TEST_NM = 'day18testinput.txt'
-FILE_NM = 'day18input.txt'
+# Day 18: Operation Order
+
+INPUT_FILE_NAME = "./inputs/day18input.txt"
+TEST_FILE_NAME = "./inputs/day18testinput.txt"
 
 def tokenize(expression):
     '''
@@ -47,10 +49,57 @@ def eval_stack(stack):
 
     return stack[0]
 
-def eval_expression(index, token_lst):
+def eval_expression_part_one(index, token_lst):
     '''
     Evaluates the expression or sub-expression given a list 
-    of tokens and a start index.
+    of tokens and a start index. Operators have the same precedence.
+
+    Returns the total of the evaluated expression, and the next
+    index to start from.
+    '''
+    total = None
+    mult = False
+    add = False
+
+    while index < len(token_lst):
+        token = token_lst[index]
+        if token == '(':
+            num, index = eval_expression_part_one(index + 1, token_lst)
+
+            if mult:
+                total *= num
+            elif add:
+                total += num
+            else:
+                total = num
+            mult = False
+            add = False
+
+        elif token == ')':
+            return total, index + 1
+
+        else:
+            if token == '*':
+                mult = True
+            elif token == '+':
+                add = True
+            elif mult:
+                total *= int(token)
+                mult = False
+            elif add:
+                total += int(token)
+                add = False
+            else:
+                total = int(token)
+            index += 1
+
+    return total, index
+
+def eval_expression_part_two(index, token_lst):
+    '''
+    Evaluates the expression or sub-expression given a list 
+    of tokens and a start index. Addition has a higher
+    precedence than multiplication.
 
     Returns the total of the evaluated expression, and the next
     index to start from.
@@ -60,7 +109,7 @@ def eval_expression(index, token_lst):
     while index < len(token_lst):
         token = token_lst[index]
         if token == '(':
-            num, index = eval_expression(index + 1, token_lst)
+            num, index = eval_expression_part_two(index + 1, token_lst)
 
             if not len(stack) or stack[-1] == '*':
                 stack.append(num)
@@ -98,22 +147,29 @@ def read_file(file_nm):
     file.close()
     return token_exprs
 
-def get_total(token_exprs_lst):
+def get_total(token_exprs_lst, eval_expression_method):
     '''
     Returns the accumulative total of all expressions given 
     a list of list of tokens. 
     '''
     total = 0
     for token_expr in token_exprs_lst:
-        total += eval_expression(0, token_expr)[0]
+        total += eval_expression_method(0, token_expr)[0]
     return total
 
-def solve(file_nm):
-    token_exprs = read_file(file_nm)
-    return get_total(token_exprs)
+def solve_part_one(token_exprs):
+    return get_total(token_exprs, eval_expression_part_one)
+
+def solve_part_two(token_exprs):
+    return get_total(token_exprs, eval_expression_part_two)
 
 def main():
-    assert(solve(FILE_TEST_NM) == 692677)
-    print(solve(FILE_NM))
+    test_token_exprs = read_file(TEST_FILE_NAME)
+    assert(solve_part_one(test_token_exprs) == 25969)
+    assert(solve_part_two(test_token_exprs) == 692677)
+
+    token_exprs = read_file(INPUT_FILE_NAME)
+    print('Part One:', solve_part_one(token_exprs))
+    print('Part Two:', solve_part_two(token_exprs))
 
 main()
