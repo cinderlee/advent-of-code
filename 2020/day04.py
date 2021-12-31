@@ -1,7 +1,7 @@
 # Day 4: Passport Processing
 
-INPUT_FILE_NAME = "./inputs/day4input.txt"
-TEST_FILE_NAME = "./inputs/day4testinput.txt"
+INPUT_FILE_NAME = "./inputs/day04input.txt"
+TEST_FILE_NAME = "./inputs/day04testinput.txt"
 
 PASSPORT_NUM_FIELDS = 8
 BYR_MIN = 1920

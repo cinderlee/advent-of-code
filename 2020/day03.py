@@ -1,7 +1,7 @@
 # Day 3: Toboggan Trajectory
 
-INPUT_FILE_NAME = "./inputs/day3input.txt"
-TEST_FILE_NAME = "./inputs/day3testinput.txt"
+INPUT_FILE_NAME = "./inputs/day03input.txt"
+TEST_FILE_NAME = "./inputs/day03testinput.txt"
 
 SLOPES = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
 

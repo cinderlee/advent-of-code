@@ -1,6 +1,6 @@
 # Day 5: Binary Boarding
 
-INPUT_FILE_NAME = "./inputs/day5input.txt"
+INPUT_FILE_NAME = "./inputs/day05input.txt"
 
 ROW_CHARS_NUM = 7
 NUM_ROWS = 128

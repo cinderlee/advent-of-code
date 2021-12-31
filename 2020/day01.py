@@ -1,7 +1,7 @@
 # Day 1: Expense Report
 
-INPUT_FILE_NAME = "./inputs/day1input.txt"
-TEST_FILE_NAME = "./inputs/day1testinput.txt"
+INPUT_FILE_NAME = "./inputs/day01input.txt"
+TEST_FILE_NAME = "./inputs/day01testinput.txt"
 
 def read_expenses_file(file_nm):
     '''

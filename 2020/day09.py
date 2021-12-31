@@ -1,7 +1,7 @@
 # Day 9: Encoding Error
 
-INPUT_FILE_NAME = "./inputs/day9input.txt"
-TEST_FILE_NAME = "./inputs/day9testinput.txt"
+INPUT_FILE_NAME = "./inputs/day09input.txt"
+TEST_FILE_NAME = "./inputs/day09testinput.txt"
 
 TEST_PREAMBLE_NUM = 5
 PREAMBLE_NUM = 25

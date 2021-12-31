@@ -1,7 +1,7 @@
 # Day 8: Handheld Halting
 
-INPUT_FILE_NAME = "./inputs/day8input.txt"
-TEST_FILE_NAME = "./inputs/day8testinput.txt"
+INPUT_FILE_NAME = "./inputs/day08input.txt"
+TEST_FILE_NAME = "./inputs/day08testinput.txt"
 
 def read_file(file_nm):
     '''

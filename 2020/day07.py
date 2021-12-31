@@ -1,8 +1,8 @@
 # Day 7: Handy Haversacks
 
-INPUT_FILE_NAME = "./inputs/day7input.txt"
-TEST_FILE_NAME = "./inputs/day7testinput.txt"
-TEST_FILE_NAME_2 = "./inputs/day7testinput2.txt"
+INPUT_FILE_NAME = "./inputs/day07input.txt"
+TEST_FILE_NAME = "./inputs/day07testinput.txt"
+TEST_FILE_NAME_2 = "./inputs/day07testinput2.txt"
 
 def parse_line(line):
     '''
