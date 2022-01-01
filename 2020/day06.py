@@ -1,7 +1,7 @@
 # Day 6: Custom Customs
 
-INPUT_FILE_NAME = "./inputs/day6input.txt"
-TEST_FILE_NAME = "./inputs/day6testinput.txt"
+INPUT_FILE_NAME = "./inputs/day06input.txt"
+TEST_FILE_NAME = "./inputs/day06testinput.txt"
 
 def read_answers_file(file_nm):
     '''

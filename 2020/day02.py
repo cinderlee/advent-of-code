@@ -1,7 +1,7 @@
 # Day 2: Password Philosophy
 
-INPUT_FILE_NAME = "./inputs/day2input.txt"
-TEST_FILE_NAME = "./inputs/day2testinput.txt"
+INPUT_FILE_NAME = "./inputs/day02input.txt"
+TEST_FILE_NAME = "./inputs/day02testinput.txt"
 
 def parse_line(line):
     '''
