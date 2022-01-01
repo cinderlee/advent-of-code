@@ -4,12 +4,14 @@ const fs = require('fs');
 
 const INPUT_FILE_NAME = './inputs/day01input.txt';
 
+/**
+ * Pass in a file name and return an array of directions where each direction
+ * is also an array containing a rotation and the number of steps to move
+ * forward by.
+ * @param  {String} fileName the file name
+ * @return {Array}           the directions
+ */
 const readFile = (fileName) => {
-  /*
-    Returns a list of directions from a file, where each direction 
-    is also a list containing a rotation and the number of steps to move
-    forward by.
-  */
   const fileData = fs.readFileSync(fileName, 'utf-8');
   const directions = fileData.split(', ').map(dir => {
     const rotation = dir[0];
@@ -20,10 +22,14 @@ const readFile = (fileName) => {
   return directions;
 }
 
+/**
+ * Pass in the current direction and rotation and return the next direction. A 
+ * rotation can be left 90 degress or right 90 degrees.
+ * @param  {String} currentDirection the current direction
+ * @param  {String} rotation         the rotation
+ * @return {String}                  the next direction
+ */
 const getNextDirection = (currentDirection, rotation) => {
-  /*
-    Returns the next direction you should face given your current direction and rotation.
-  */
   const directions = ['N', 'E', 'S', 'W'];
   const directionIndex = directions.indexOf(currentDirection);
   let nextDirectionIndex = rotation === 'R' ? (directionIndex + 1) % directions.length : (directionIndex - 1) % directions.length;
@@ -33,11 +39,15 @@ const getNextDirection = (currentDirection, rotation) => {
   return directions[nextDirectionIndex];
 }
 
+/**
+ * Pass in the direction you will travel in, number of steps, and current location 
+ * and return an array of locations you will visit.
+ * @param  {String} direction      the direction
+ * @param  {Number} steps          the number of steps
+ * @param  {Array} currentLocation the current location
+ * @return {Array}                 the locations you will visit
+ */
 const trackLocations = (direction, steps, currentLocation) => {
-  /*
-    Returns a list of locations you will visit starting from your current location,
-    the direction you will travel in, and the number of steps you will take.
-  */
   const [x, y] = [...currentLocation];
   const locations = Array.from(Array(steps).keys()).map(i => {
     const step = i + 1;
@@ -57,11 +67,35 @@ const trackLocations = (direction, steps, currentLocation) => {
   return locations;
 }
 
+/**
+ * Pass in an array of locations and return the first location to be visited twice
+ * @param  {Array} locations the locations
+ * @return {Array}           the first location to be visited twice
+ */
+ const findFirstRevisitedLocation = (locations) => {
+  let revisitedLocation = null;
+  const locationRecords = new Set();
+
+  locations.some((loc) => {
+    const locRecord = `${loc[0]},${loc[1]}`;
+    if (locationRecords.has(locRecord)) {
+      revisitedLocation = loc;
+      return true;
+    }
+    locationRecords.add(locRecord);
+  });
+
+  return revisitedLocation;
+}
+
+/**
+ * Pass in an array of directions and start by facing north. Returns the number of
+ * blocks away from the Easter Bunny HQ after determining what is the shortest 
+ * path to the HQ.
+ * @param  {Array} directions the direction
+ * @return {Number}           the number of blocks away the HQ is
+ */
 const solvePartOne = (directions) => {
-  /*
-    Returns the number of blocks away the Easter Bunny HQ. You start by facing north 
-    and determine what is the shortest path to the HQ given a current list of directions.
-  */
   const displacements = {
     N: 0,
     S: 0,
@@ -80,30 +114,13 @@ const solvePartOne = (directions) => {
   return Math.abs(displacements.N - displacements.S) + Math.abs(displacements.E - displacements.W);
 }
 
-const findFirstRevisitedLocation = (locations) => {
-  /*
-    Returns the first location that is revisited given a list of locations.
-  */
-  let revisitedLocation = null;
-  const locationRecords = new Set();
-
-  locations.some((loc) => {
-    const locRecord = `${loc[0]},${loc[1]}`;
-    if (locationRecords.has(locRecord)) {
-      revisitedLocation = loc;
-      return true;
-    }
-    locationRecords.add(locRecord);
-  });
-
-  return revisitedLocation;
-}
-
+/**
+ * Pass in an array of directions and start by facing north. Follow along the set of
+ * directions and return the number of blocks away the first location to be visited twice is.
+ * @param  {Array} directions the direction
+ * @return {Number}           the number of blocks away the first location revisited is
+ */
 const solvePartTwo = (directions) => {
-  /*
-    Returns the number of blocks away the first location you visit twice. You start again 
-    by facing north and following along the set of directions.
-  */
   let currentLoc = [0, 0];
   let currentDirection = 'N';
   const locations = [];
