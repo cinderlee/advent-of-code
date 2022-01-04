@@ -8,7 +8,7 @@ const INPUT_FILE_NAME = './inputs/day01input.txt';
  * Pass in a file name and return an array of directions where each direction
  * is also an array containing a rotation and the number of steps to move
  * forward by.
- * @param  {String} fileName the file name
+ * @param  {string} fileName the file name
  * @return {Array}           the directions
  */
 const readFile = (fileName) => {
@@ -25,9 +25,9 @@ const readFile = (fileName) => {
 /**
  * Pass in the current direction and rotation and return the next direction. A 
  * rotation can be left 90 degress or right 90 degrees.
- * @param  {String} currentDirection the current direction
- * @param  {String} rotation         the rotation
- * @return {String}                  the next direction
+ * @param  {string} currentDirection the current direction
+ * @param  {string} rotation         the rotation
+ * @return {string}                  the next direction
  */
 const getNextDirection = (currentDirection, rotation) => {
   const directions = ['N', 'E', 'S', 'W'];
@@ -42,7 +42,7 @@ const getNextDirection = (currentDirection, rotation) => {
 /**
  * Pass in the direction you will travel in, number of steps, and current location 
  * and return an array of locations you will visit.
- * @param  {String} direction      the direction
+ * @param  {string} direction      the direction
  * @param  {Number} steps          the number of steps
  * @param  {Array} currentLocation the current location
  * @return {Array}                 the locations you will visit
@@ -93,7 +93,7 @@ const trackLocations = (direction, steps, currentLocation) => {
  * blocks away from the Easter Bunny HQ after determining what is the shortest 
  * path to the HQ.
  * @param  {Array} directions the direction
- * @return {Number}           the number of blocks away the HQ is
+ * @return {number}           the number of blocks away the HQ is
  */
 const solvePartOne = (directions) => {
   const displacements = {
@@ -118,7 +118,7 @@ const solvePartOne = (directions) => {
  * Pass in an array of directions and start by facing north. Follow along the set of
  * directions and return the number of blocks away the first location to be visited twice is.
  * @param  {Array} directions the direction
- * @return {Number}           the number of blocks away the first location revisited is
+ * @return {number}           the number of blocks away the first location revisited is
  */
 const solvePartTwo = (directions) => {
   let currentLoc = [0, 0];

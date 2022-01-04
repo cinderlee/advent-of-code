@@ -8,7 +8,7 @@ const TEST_FILE_NAME = './inputs/day02testinput.txt';
 /**
  * Pass in a file name and return an array of directions where each direction
  * is also an array containing up, down, left, right steps.
- * @param  {String} fileName the file name
+ * @param  {string} fileName the file name
  * @return {Array}           the code directions
  */
 const readFile = (fileName) => {
@@ -20,10 +20,10 @@ const readFile = (fileName) => {
  * Pass in a instruction, keyPad, current row and column. Return the next
  * row and column after following the instruction.
  * is also an array containing up, down, left, right steps.
- * @param  {String} instruction the instruction (U, D, L, R)
+ * @param  {string} instruction the instruction (U, D, L, R)
  * @param  {Array} keyPad     the keypad
- * @param  {Number} row       the current row
- * @param  {Number} col       the current column
+ * @param  {number} row       the current row
+ * @param  {number} col       the current column
  * @return {Array}            the next location [row, column]
  */
 const followInstruction = (instruction, keyPad, row, col) => {
@@ -57,7 +57,7 @@ const followInstruction = (instruction, keyPad, row, col) => {
 /**
  * Pass in a keyPad and button and return the location of the button.
  * @param  {Array} keyPad  the keypad
- * @param  {String} button the button
+ * @param  {string} button the button
  * @return {Array}         the location [row, column] of the button in the keypad
  */
 const findKeyButton = (keyPad, button) => {
@@ -76,7 +76,7 @@ const findKeyButton = (keyPad, button) => {
  * first button is 5.
  * @param  {Array} codeDirections the code directions
  * @param  {Array} keyPad         the keypad
- * @return {String}               the bathroom code
+ * @return {string}               the bathroom code
  */
 const getBathroomCode = (codeDirections, keyPad) => {
   const codeNumbers = [];
