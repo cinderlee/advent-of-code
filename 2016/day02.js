@@ -8,8 +8,8 @@ const TEST_FILE_NAME = './inputs/day02testinput.txt';
 /**
  * Pass in a file name and return an array of directions where each direction
  * is also an array containing up, down, left, right steps.
- * @param  {string} fileName the file name
- * @return {Array}           the code directions
+ * @param   {string} fileName the file name
+ * @returns {Array}           the code directions
  */
 const readFile = (fileName) => {
   const fileData = fs.readFileSync(fileName, 'utf-8');
@@ -20,11 +20,11 @@ const readFile = (fileName) => {
  * Pass in a instruction, keyPad, current row and column. Return the next
  * row and column after following the instruction.
  * is also an array containing up, down, left, right steps.
- * @param  {string} instruction the instruction (U, D, L, R)
- * @param  {Array} keyPad     the keypad
- * @param  {number} row       the current row
- * @param  {number} col       the current column
- * @return {Array}            the next location [row, column]
+ * @param   {string} instruction the instruction (U, D, L, R)
+ * @param   {Array} keyPad     the keypad
+ * @param   {number} row       the current row
+ * @param   {number} col       the current column
+ * @returns {Array}            the next location [row, column]
  */
 const followInstruction = (instruction, keyPad, row, col) => {
   switch(instruction) {
@@ -56,9 +56,9 @@ const followInstruction = (instruction, keyPad, row, col) => {
 
 /**
  * Pass in a keyPad and button and return the location of the button.
- * @param  {Array} keyPad  the keypad
- * @param  {string} button the button
- * @return {Array}         the location [row, column] of the button in the keypad
+ * @param   {Array} keyPad  the keypad
+ * @param   {string} button the button
+ * @returns {Array}         the location [row, column] of the button in the keypad
  */
 const findKeyButton = (keyPad, button) => {
   for(let i = 0; i < keyPad.length; i++) {
@@ -74,9 +74,9 @@ const findKeyButton = (keyPad, button) => {
  * Pass in a list of code directions and a keypad and return the bathroom code. 
  * Each set of directions start from the location of the previous button. The
  * first button is 5.
- * @param  {Array} codeDirections the code directions
- * @param  {Array} keyPad         the keypad
- * @return {string}               the bathroom code
+ * @param   {Array} codeDirections the code directions
+ * @param   {Array} keyPad         the keypad
+ * @returns {string}               the bathroom code
  */
 const getBathroomCode = (codeDirections, keyPad) => {
   const codeNumbers = [];

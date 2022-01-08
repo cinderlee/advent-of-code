@@ -7,8 +7,8 @@ const INPUT_FILE_NAME = './inputs/day03input.txt';
 /**
  * Pass in a file name and return an array of side lengths, each represented as an
  * array of 3 numbers.
- * @param  {string} fileName the file name
- * @return {Array}           array of arrays of side lengths   
+ * @param   {string} fileName the file name
+ * @returns {Array}           array of arrays of side lengths   
  */
 const readFile = (fileName) => {
   const fileData = fs.readFileSync(fileName, 'utf-8');
@@ -22,10 +22,10 @@ const readFile = (fileName) => {
 
 /**
  * Pass in three sides and returns whether the sides make up a triangle.
- * @param  {number} sideOne   the first side
- * @param  {number} sideTwo   the second side
- * @param  {number} sideThree the third side
- * @return {boolean}          whether the three sides form a triangle    
+ * @param   {number} sideOne   the first side
+ * @param   {number} sideTwo   the second side
+ * @param   {number} sideThree the third side
+ * @returns {boolean}          whether the three sides form a triangle    
  */
 const isTriangle = (sideOne, sideTwo, sideThree) => {
   const longestSide = Math.max(sideOne, sideTwo, sideThree);
@@ -46,8 +46,8 @@ const isTriangle = (sideOne, sideTwo, sideThree) => {
 /**
  * Pass in an array of arrays of side lengths and returns the number of
  * valid triangles.
- * @param  {Array} trianglesData the array of arrays of side lengths
- * @return {number}              the number of valid triangles
+ * @param   {Array} trianglesData the array of arrays of side lengths
+ * @returns {number}              the number of valid triangles
  */
 const solvePartOne = (trianglesData) => {
   let triangleCount = 0;
@@ -63,8 +63,8 @@ const solvePartOne = (trianglesData) => {
  * Pass in an array of arrays of side lengths and returns the number of
  * valid triangles. The triangles are specified in groups of three sides
  * vertically instead of horizontally.
- * @param  {Array} trianglesData the array of arrays of side lengths
- * @return {number}              the number of valid triangles
+ * @param   {Array} trianglesData the array of arrays of side lengths
+ * @returns {number}              the number of valid triangles
  */
 const solvePartTwo = (trianglesData) => {
   let triangleCount = 0;
