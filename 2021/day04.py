@@ -1,7 +1,7 @@
 # Day 4: Giant Squid
 
-INPUT_FILE_NAME = "./inputs/day4input.txt"
-TEST_FILE_NAME = "./inputs/day4testinput.txt"
+INPUT_FILE_NAME = "./inputs/day04input.txt"
+TEST_FILE_NAME = "./inputs/day04testinput.txt"
 
 class BingoBoard:
     def __init__(self, board):

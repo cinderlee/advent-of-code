@@ -1,7 +1,7 @@
-# Day 4: Giant Squid
+# Day 5: Hydrothermal Venture
 
-INPUT_FILE_NAME = "./inputs/day5input.txt"
-TEST_FILE_NAME = "./inputs/day5testinput.txt"
+INPUT_FILE_NAME = "./inputs/day05input.txt"
+TEST_FILE_NAME = "./inputs/day05testinput.txt"
 
 def parse_file(file_nm):
     line_coordinates = []

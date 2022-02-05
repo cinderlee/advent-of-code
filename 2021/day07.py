@@ -1,9 +1,9 @@
-# Day 4: The Treachery of Whales
+# Day 7: The Treachery of Whales
 
 import math 
 
-INPUT_FILE_NAME = "./inputs/day7input.txt"
-TEST_FILE_NAME = "./inputs/day7testinput.txt"
+INPUT_FILE_NAME = "./inputs/day07input.txt"
+TEST_FILE_NAME = "./inputs/day07testinput.txt"
 
 def parse_file(file_nm):
     file = open(file_nm, 'r')

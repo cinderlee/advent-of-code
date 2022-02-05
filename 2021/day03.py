@@ -1,7 +1,7 @@
 # Day 3: Binary Diagnostic
 
-INPUT_FILE_NAME = "./inputs/day3input.txt"
-TEST_FILE_NAME = "./inputs/day3testinput.txt"
+INPUT_FILE_NAME = "./inputs/day03input.txt"
+TEST_FILE_NAME = "./inputs/day03testinput.txt"
 
 def parse_file(file_nm):
     '''
