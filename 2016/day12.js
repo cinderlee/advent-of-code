@@ -91,10 +91,10 @@ const solvePartTwo = (instructions) => {
 }
 
 const main = () => {
-  testAssembunnyInstructions = readFile(TEST_FILE_NAME);
+  const testAssembunnyInstructions = readFile(TEST_FILE_NAME);
   console.assert(solvePartOne(testAssembunnyInstructions) === 42);
   
-  assembunnyInstructions = readFile(INPUT_FILE_NAME);
+  const assembunnyInstructions = readFile(INPUT_FILE_NAME);
   console.log('Part One:', solvePartOne(assembunnyInstructions));
   console.log('Part Two:', solvePartTwo(assembunnyInstructions));
 }
