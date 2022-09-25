@@ -23,9 +23,9 @@ def solve_captcha(digits_sequence)
 
   sum = 0
   num_digits = digits_sequence.length
-  for i in 0...num_digits
-    if digits_sequence[i] == digits_sequence[(i + 1) % num_digits]
-      sum += digits_sequence[i].to_i
+  (0...num_digits).each do |index|
+    if digits_sequence[index] == digits_sequence[(index + 1) % num_digits]
+      sum += digits_sequence[index].to_i
     end
   end 
   return sum
@@ -37,9 +37,9 @@ def solve_captcha_half(digits_sequence)
 
   sum = 0
   num_digits = digits_sequence.length
-  for i in 0...num_digits
-    if digits_sequence[i] == digits_sequence[(i + num_digits / 2) % num_digits]
-      sum += digits_sequence[i].to_i
+  (0...num_digits).each do |index|
+    if digits_sequence[index] == digits_sequence[(index + num_digits / 2) % num_digits]
+      sum += digits_sequence[index].to_i
     end
   end 
   return sum
