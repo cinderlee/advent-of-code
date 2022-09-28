@@ -7,7 +7,7 @@ include Test::Unit::Assertions
 INPUT_FILE_NAME = "./inputs/day01input.txt"
 
 def get_digits_sequence(file_nm)
-  # Reads a file and returns the sequence of digits (on the first line
+  # Reads a file and returns the sequence of digits (on the first line)
 
   sequence = nil
   File.open(INPUT_FILE_NAME) do |file|
