@@ -35,11 +35,9 @@ def find_group_with_program_id(programs, program_id)
   # indirectly or directly to the starting program id.
 
   group = [program_id]
-  index = 0 
-  while (index < group.length)
-    connected_to_list = programs[group[index]]
-    connected_to_list.each { |program_id| group.push(program_id) if !group.include?(program_id) }
-    index += 1
+  group.each do |program_id|
+    connected_to_list = programs[program_id]
+    connected_to_list.each { |connected_id| group << connected_id unless group.include?(connected_id) }
   end
   return group
 end
@@ -57,7 +55,7 @@ def solve_part_two(programs)
 
   program_ids = programs.keys
   groups = 0
-  while (!program_ids.empty?)
+  until program_ids.empty?
     group = find_group_with_program_id(programs, program_ids[0])
     groups += 1
     program_ids = program_ids - group
