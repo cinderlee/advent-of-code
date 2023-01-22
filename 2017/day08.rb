@@ -1,4 +1,4 @@
-# Day 12: Digital Plumber
+# Day 8: I Heard You Like Registers
 
 require 'test/unit/assertions'
 
