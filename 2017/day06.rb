@@ -13,7 +13,7 @@ def get_memory_banks(file_nm)
   # the 16 memory banks
 
   memory_banks = nil
-  File.open(INPUT_FILE_NAME).each do |line|
+  File.open(file_nm).each do |line|
     memory_banks = line.chomp.split("\t").map { |num_blocks| num_blocks.to_i }
   end
   return memory_banks

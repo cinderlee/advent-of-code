@@ -10,7 +10,7 @@ def get_digits_sequence(file_nm)
   # Reads a file and returns the sequence of digits (on the first line)
 
   sequence = nil
-  File.open(INPUT_FILE_NAME) do |file|
+  File.open(file_nm) do |file|
     sequence = file.first
   end
   return sequence

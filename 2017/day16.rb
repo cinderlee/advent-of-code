@@ -22,7 +22,7 @@ def get_dance_moves(file_nm)
   # and the elements after are the move arguments
 
   dance_moves = []
-  File.open(INPUT_FILE_NAME) do |file|
+  File.open(file_nm) do |file|
     moves = file.first.chomp.split(",")
     moves.each do |move|
       step = move[0]

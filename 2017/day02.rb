@@ -20,7 +20,7 @@ def get_spreadsheet_numbers(file_nm)
   # Reads a file and returns the rows of random numbers
 
   arr = []
-  File.open(INPUT_FILE_NAME).each do |line|
+  File.open(file_nm).each do |line|
     arr << line.chomp.split("\t").map { |num| num.to_i }
   end
   return arr

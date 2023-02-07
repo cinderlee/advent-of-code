@@ -12,7 +12,7 @@ def get_jump_instructions(file_nm)
   # Reads a file and returns a list of offsets for each jump
 
   offsets = []
-  File.open(INPUT_FILE_NAME).each do |line|
+  File.open(file_nm).each do |line|
     offsets << line.chomp.to_i
   end
   return offsets

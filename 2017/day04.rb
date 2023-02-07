@@ -19,7 +19,7 @@ def get_passphrases(file_nm)
   # Reads a file and returns the list of passphrases
 
   passphrases = []
-  File.open(INPUT_FILE_NAME).each do |line|
+  File.open(file_nm).each do |line|
     passphrases << line.chomp.split(" ")
   end
   return passphrases
