@@ -36,8 +36,7 @@ end
 def is_valid_passphrase_no_repeats(passphrase)
   # Returns whether a passphrase is valid. A valid passphrase has unique words
 
-  passphrase.each { |word| return false unless passphrase.count(word) == 1 }
-  return true
+  passphrase.length == passphrase.uniq.length
 end
 
 def is_valid_passphrase_no_anagrams(passphrase)
