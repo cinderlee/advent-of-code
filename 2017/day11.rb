@@ -24,7 +24,7 @@ def get_steps(file_nm)
   # Reads a file and returns the list of steps taken in the hex grid
 
   steps = nil
-  File.open(INPUT_FILE_NAME).each do |line|
+  File.open(file_nm).each do |line|
     steps = line.chomp.split(",")
   end
   return steps

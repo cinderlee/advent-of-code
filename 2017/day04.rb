@@ -19,7 +19,7 @@ def get_passphrases(file_nm)
   # Reads a file and returns the list of passphrases
 
   passphrases = []
-  File.open(INPUT_FILE_NAME).each do |line|
+  File.open(file_nm).each do |line|
     passphrases << line.chomp.split(" ")
   end
   return passphrases
@@ -36,8 +36,7 @@ end
 def is_valid_passphrase_no_repeats(passphrase)
   # Returns whether a passphrase is valid. A valid passphrase has unique words
 
-  passphrase.each { |word| return false unless passphrase.count(word) == 1 }
-  return true
+  passphrase.length == passphrase.uniq.length
 end
 
 def is_valid_passphrase_no_anagrams(passphrase)

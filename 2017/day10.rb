@@ -19,7 +19,7 @@ def get_lengths_input(file_nm)
   # Reads a file and returns the contents representing the lengths.
 
   lengths_input = nil
-  File.open(INPUT_FILE_NAME) do |file|
+  File.open(file_nm) do |file|
     lengths_input = file.first.chomp
   end
   return lengths_input

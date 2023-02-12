@@ -21,7 +21,7 @@ def get_program_links(file_nm)
   # is bidirectional.
 
   programs = {}
-  File.open(INPUT_FILE_NAME).each do |line|
+  File.open(file_nm).each do |line|
     communication = line.chomp.split(" ")
     program_id = communication[0].to_i
     connected_to_list = communication.slice(2..).map { |program_id| program_id.to_i }
