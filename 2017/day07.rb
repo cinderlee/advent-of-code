@@ -42,9 +42,7 @@ def get_bottom_program(programs)
   complete_sub_tower_list = []
   programs.each do |program, program_info|
     sub_tower = program_info[:sub_tower]
-    if (sub_tower != [])
-      sub_tower.each { |sub_program| complete_sub_tower_list << sub_program }
-    end
+    sub_tower.each { |sub_program| complete_sub_tower_list << sub_program } unless sub_tower == []
   end
 
   # There should be one program not in the sub tower list, and that
@@ -59,9 +57,7 @@ def populate_sub_tower_weights(curr_program, programs, sub_tower_weights)
   total = programs[curr_program][:weight]
   sub_tower = programs[curr_program][:sub_tower]
   sub_tower.each do |program_name|
-    if (sub_tower_weights[program_name].nil?) 
-      populate_sub_tower_weights(program_name, programs, sub_tower_weights)
-    end
+    populate_sub_tower_weights(program_name, programs, sub_tower_weights) if sub_tower_weights[program_name].nil?
     total += sub_tower_weights[program_name]
   end
   sub_tower_weights[curr_program] = total
@@ -85,14 +81,10 @@ def get_correct_weight(bottom_program, programs, sub_tower_weights)
 
     # if all the weights in the sub tower are the same 
     # then the current program has the incorrect weight
-    if (incorect_weight_index.nil?)
-      return correct_sub_tower_weight - weights.sum
-      break
+    return correct_sub_tower_weight - weights.sum if (incorect_weight_index.nil?)
     # otherwise look at the next sub tower child that has incorrect cumulative weight
-    else
-      curr_program = sub_tower[incorect_weight_index]
-      correct_sub_tower_weight = weights.select { |w| weights.count(w) == weights.length - 1}[0]
-    end
+    curr_program = sub_tower[incorect_weight_index]
+    correct_sub_tower_weight = weights.select { |w| weights.count(w) == weights.length - 1}[0]
   end
 end
 
