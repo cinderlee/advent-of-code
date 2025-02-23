@@ -1,9 +1,5 @@
 # Day 7: Recursive Circus
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_FILE_NAME = "./inputs/day07input.txt"
 
 # Reads a file and returns information about the tower of programs
@@ -93,7 +89,7 @@ def solve_part_two(programs, sub_tower_weights)
 end
 
 def main
-  if File.exists?(INPUT_FILE_NAME)
+  if File.exist?(INPUT_FILE_NAME)
     programs, sub_tower_weights = get_tower_of_programs(INPUT_FILE_NAME)
     puts "Part One: #{solve_part_one(programs)}"
     puts "Part Two: #{solve_part_two(programs, sub_tower_weights)}"

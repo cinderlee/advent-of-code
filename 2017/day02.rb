@@ -1,9 +1,5 @@
 # Day 2: Corruption Checksum
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_FILE_NAME = "./inputs/day02input.txt"
 
 # Reads a file and returns the rows of random numbers

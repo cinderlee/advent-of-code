@@ -1,9 +1,5 @@
 # Day 9: Stream Processing
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_FILE_NAME = "./inputs/day09input.txt"
 
 # Reads a file and returns a stream of characters. 
@@ -86,7 +82,7 @@ def solve_part_two(characters)
 end
 
 def main
-  if File.exists?(INPUT_FILE_NAME)
+  if File.exist?(INPUT_FILE_NAME)
     characters = get_character_stream(INPUT_FILE_NAME)
     puts "Part One: #{solve_part_one(characters)}"
     puts "Part Two: #{solve_part_two(characters)}"

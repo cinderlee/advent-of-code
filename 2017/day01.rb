@@ -1,7 +1,5 @@
 # Day 1: Inverse Captcha
 
-require "minitest/autorun"
-
 INPUT_FILE_NAME = "./inputs/day01input.txt"
 
 # Reads a file and returns the sequence of digits (on the first line)

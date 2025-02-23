@@ -1,9 +1,5 @@
 # Day 4: High-Entropy Passphrases
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_FILE_NAME = "./inputs/day04input.txt"
 
 # Reads a file and returns the list of passphrases
@@ -59,7 +55,7 @@ def solve_part_two(passphrases)
 end
 
 def main
-  if File.exists?(INPUT_FILE_NAME)
+  if File.exist?(INPUT_FILE_NAME)
     passphrases = get_passphrases(INPUT_FILE_NAME)
     puts "Part One: #{solve_part_one(passphrases)}"
     puts "Part Two: #{solve_part_two(passphrases)}"

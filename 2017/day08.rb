@@ -1,9 +1,5 @@
 # Day 8: I Heard You Like Registers
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_FILE_NAME = "./inputs/day08input.txt"
 
 # Reads a file and returns a list of program instructions and 
@@ -95,7 +91,7 @@ def solve_part_two(instructions, registers)
 end
 
 def main
-  if File.exists?(INPUT_FILE_NAME)
+  if File.exist?(INPUT_FILE_NAME)
     instructions, registers = get_program_instructions(INPUT_FILE_NAME)
     puts "Part One: #{solve_part_one(instructions, registers)}"
 

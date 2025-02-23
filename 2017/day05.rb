@@ -1,9 +1,5 @@
 # Day 5: A Maze of Twisty Trampolines, All Alike
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_FILE_NAME = "./inputs/day05input.txt"
 
 # Reads a file and returns a list of offsets for each jump
@@ -61,7 +57,7 @@ def solve_part_two(arr)
 end
 
 def main
-  if File.exists?(INPUT_FILE_NAME)
+  if File.exist?(INPUT_FILE_NAME)
     jump_instructions = get_jump_instructions(INPUT_FILE_NAME)
     puts "Part One: #{solve_part_one(jump_instructions)}"
     puts "Part Two: #{solve_part_two(jump_instructions)}"

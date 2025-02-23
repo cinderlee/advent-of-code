@@ -1,9 +1,5 @@
 # Day 6: Memory Reallocation
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_FILE_NAME = "./inputs/day06input.txt"
 
 # Reads a file and returns a list of the number of blocks in 
@@ -57,7 +53,7 @@ def solve(memory_banks)
 end
 
 def main
-  if File.exists?(INPUT_FILE_NAME)
+  if File.exist?(INPUT_FILE_NAME)
     memory_banks = get_memory_banks(INPUT_FILE_NAME)
     cycle_count, cycles_seen_again = solve(memory_banks)
     puts "Part One: #{cycle_count}"

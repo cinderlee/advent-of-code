@@ -1,9 +1,5 @@
 # Day 3: Spiral Memory
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_NUM = 325489
 
 # Returns the circle number the data square is located in. 

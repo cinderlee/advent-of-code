@@ -69,6 +69,10 @@ def remove_overlaps(paths)
     (path_num + 1...num_paths) do |path_num_2|
       path1 = paths[path_num]
       path2 = paths[path_num_2]
+
+      x1 + vx1 - x - vx = n/2 * n-1 (ax - ax1)  
+      first_calc = (path2[:x] + path2[:vx] - path1[:x] - path1[:vx]) / (path1[:ax] - path2[:ax])
+      (first_calc * 2) 
     end
   end
 end
