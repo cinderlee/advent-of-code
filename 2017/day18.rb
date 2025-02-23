@@ -189,4 +189,6 @@ def main
   puts "Part Two: #{solve_part_two(registers_program_zero, registers_program_one, instructions)}"
 end
 
-main
+if __FILE__==$0
+  main
+end

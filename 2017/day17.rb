@@ -94,4 +94,6 @@ def main
   puts "Part Two: #{solve_part_two(PART_TWO_NUM_TIMES)}"
 end
 
-main
+if __FILE__==$0
+  main
+end
