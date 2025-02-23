@@ -1,9 +1,5 @@
 # Day 17: Spinlock
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 SPINLOCK_STEP = 303
 PART_ONE_NUM_TIMES = 2017
 PART_TWO_NUM_TIMES = 50_000_000
@@ -29,12 +25,11 @@ class CircularBuffer
     second_node.next = @start
   end
 
+  # The spinlock algorithm starts with a circular buffer which has 0, 1, with current position at 1.
+  # Each turn of the spinlock (supposedly starts with [0]) steps forward # of steps and inserts 
+  # the next value. 
+  # The position of the next value is the current position for the next turn. 
   def spinlock(num_times)
-    # The spinlock algorithm starts with a circular buffer which has 0, 1, with current position at 1.
-    # Each turn of the spinlock (supposedly starts with [0]) steps forward # of steps and inserts 
-    # the next value. 
-    # The position of the next value is the current position for the next turn. 
-
     # start at 1
     current_node = @start.next
 
@@ -49,9 +44,8 @@ class CircularBuffer
     end
   end
 
+  # Returns the value that is after the specified number in the buffer
   def get_value_after(number)
-    # Returns the value that is after the specified number in the buffer
-
     current_node = @start 
     @length.times do
       return current_node.next.value if current_node.value == number
@@ -60,22 +54,20 @@ class CircularBuffer
   end
 end
 
+# Returns the value after the final spinlock number
 def solve_part_one(spinlock_times, step)
-  # Returns the value after the final spinlock number
-
   buffer = CircularBuffer.new(step)
   buffer.spinlock(spinlock_times)
   buffer.get_value_after(spinlock_times)
 end
 
+# The spinlock algorithm starts with a circular buffer which has 0, 1, with current position at 1.
+# Each turn of the spinlock (supposedly starts with [0]) steps forward # of steps and inserts 
+# the next value. 
+# The position of the next value is the current position for the next turn. 
+
+# Returns the value after 0
 def solve_part_two(spinlock_times)
-  # The spinlock algorithm starts with a circular buffer which has 0, 1, with current position at 1.
-  # Each turn of the spinlock (supposedly starts with [0]) steps forward # of steps and inserts 
-  # the next value. 
-  # The position of the next value is the current position for the next turn. 
-
-  # Returns the value after 0
-
   # start at 1
   zero_location = 0
   next_number_after_zero = 1
@@ -98,7 +90,6 @@ def solve_part_two(spinlock_times)
 end
 
 def main
-  assert solve_part_one(PART_ONE_NUM_TIMES, 3) == 638
   puts "Part One: #{solve_part_one(PART_ONE_NUM_TIMES, SPINLOCK_STEP)}"
   puts "Part Two: #{solve_part_two(PART_TWO_NUM_TIMES)}"
 end

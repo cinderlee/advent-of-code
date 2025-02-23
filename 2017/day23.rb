@@ -1,21 +1,16 @@
 # Day 23: Coprocessor Conflagration
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_FILE_NAME = "./inputs/day23input.txt"
 
 VALID_REGISTER_NAMES = ("a".."h")
 
+# Determines whether the specified value is a valid register name (a to h)
 def is_register?(value)
-  # Determines whether the specified value is a valid register name (a to h)
   VALID_REGISTER_NAMES.include?(value)
 end
 
+# Reads a file and returns a mapping of register -> values and list of instructions
 def get_registers_and_instructions(file_nm)
-  # Reads a file and returns a mapping of register -> values and list of instructions
-
   registers = {}
   instructions = []
   File.open(file_nm).each do |line|
@@ -33,22 +28,20 @@ def get_registers_and_instructions(file_nm)
   return registers, instructions
 end
 
+# Returns value depending on whether the argument is register name or purely a number
 def get_argument_value(argument, registers)
-  # Returns value depending on whether the argument is register name or purely a number
-
   is_register?(argument) ? registers[argument] : argument
 end
 
-def solve_part_one(registers, instructions)
-  # Run a set of instructions with existing register mapping. Returns the number
-  # of times the mul instruction has been executed 
+# Run a set of instructions with existing register mapping. Returns the number
+# of times the mul instruction has been executed 
 
-  # Instructions
-  # - set x y: sets register X to value of Y
-  # - sub x y: decrements value of register X by Y
-  # - mul x y: sets register x to the product of x and y
-  # - jnz x y: jumps to next step y away only if x is not 0
-  
+# Instructions
+# - set x y: sets register X to value of Y
+# - sub x y: decrements value of register X by Y
+# - mul x y: sets register x to the product of x and y
+# - jnz x y: jumps to next step y away only if x is not 0
+def solve_part_one(registers, instructions)  
   pos = 0
   mul_times = 0
   while pos >= 0 && pos < instructions.length
@@ -74,13 +67,12 @@ def solve_part_one(registers, instructions)
   mul_times
 end
 
-def solve_part_two()
-  # Run a set of instructions with existing register mapping. The logic below is 
-  # the translated logic of the assembly language instructions where register 'a' begins
-  # with a value of 1
+# Run a set of instructions with existing register mapping. The logic below is 
+# the translated logic of the assembly language instructions where register 'a' begins
+# with a value of 1
 
-  # Returns the value stored in register 'h'
-
+# Returns the value stored in register 'h'
+def solve_part_two
   registers = {
     b: 93,
     c: 93,

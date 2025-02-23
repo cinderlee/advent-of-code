@@ -1,8 +1,6 @@
 require "minitest/autorun"
 require_relative "../day10.rb"
 
-NUM_ROUNDS_PART_TWO = 64
-
 TEST_VALUES = [0, 1, 2, 3, 4]
 TEST_LENGTHS = [3, 4, 1, 5]
 

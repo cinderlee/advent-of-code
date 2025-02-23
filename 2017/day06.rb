@@ -53,12 +53,12 @@ def solve(memory_banks)
 end
 
 def main
-  if File.exist?(INPUT_FILE_NAME)
-    memory_banks = get_memory_banks(INPUT_FILE_NAME)
-    cycle_count, cycles_seen_again = solve(memory_banks)
-    puts "Part One: #{cycle_count}"
-    puts "Part Two: #{cycles_seen_again}"
-  end
+  memory_banks = get_memory_banks(INPUT_FILE_NAME)
+  cycle_count, cycles_seen_again = solve(memory_banks)
+  puts "Part One: #{cycle_count}"
+  puts "Part Two: #{cycles_seen_again}"
 end
 
-main
+if __FILE__==$0
+  main
+end

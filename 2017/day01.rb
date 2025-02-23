@@ -47,11 +47,11 @@ def solve_part_two(digits_sequence)
 end
 
 def main
-  if File.exist?(INPUT_FILE_NAME)
-    digits_sequence = get_digits_sequence(INPUT_FILE_NAME)
-    puts "Part One: #{solve_part_one(digits_sequence)}"
-    puts "Part Two: #{solve_part_two(digits_sequence)}"
-  end 
+  digits_sequence = get_digits_sequence(INPUT_FILE_NAME)
+  puts "Part One: #{solve_part_one(digits_sequence)}"
+  puts "Part Two: #{solve_part_two(digits_sequence)}"
 end
 
-main
+if __FILE__==$0
+  main
+end

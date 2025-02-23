@@ -46,11 +46,11 @@ def solve_part_two(spreadsheet_numbers)
 end
 
 def main
-  if File.exist?(INPUT_FILE_NAME)
-    spreadsheet_numbers = get_spreadsheet_numbers(INPUT_FILE_NAME)
-    puts "Part One: #{solve_part_one(spreadsheet_numbers)}"
-    puts "Part Two: #{solve_part_two(spreadsheet_numbers)}"
-  end
+  spreadsheet_numbers = get_spreadsheet_numbers(INPUT_FILE_NAME)
+  puts "Part One: #{solve_part_one(spreadsheet_numbers)}"
+  puts "Part Two: #{solve_part_two(spreadsheet_numbers)}"
 end
 
-main
+if __FILE__==$0
+  main
+end

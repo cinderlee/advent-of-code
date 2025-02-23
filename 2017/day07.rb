@@ -89,11 +89,11 @@ def solve_part_two(programs, sub_tower_weights)
 end
 
 def main
-  if File.exist?(INPUT_FILE_NAME)
-    programs, sub_tower_weights = get_tower_of_programs(INPUT_FILE_NAME)
-    puts "Part One: #{solve_part_one(programs)}"
-    puts "Part Two: #{solve_part_two(programs, sub_tower_weights)}"
-  end
+  programs, sub_tower_weights = get_tower_of_programs(INPUT_FILE_NAME)
+  puts "Part One: #{solve_part_one(programs)}"
+  puts "Part Two: #{solve_part_two(programs, sub_tower_weights)}"
 end
 
-main
+if __FILE__==$0
+  main
+end

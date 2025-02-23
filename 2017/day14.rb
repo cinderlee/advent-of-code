@@ -1,22 +1,16 @@
 # Day 14: Disk Defragmentation
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_KEY = "vbqugkhl"
-TEST_INPUT_KEY = "flqrgnkx"
 DISPLACEMENTS = [[1, 0], [-1, 0], [0, -1], [0, 1]]
 
+# Performs the knot hash procedure given a circular list of values and a list
+# of lengths. The number of rounds can be customized and is defaulted to 1.
+
+# For each length and given a position and skip size
+#   Reverses the order of the length of elements starting at the specified position
+#   Position moves forward by the length and skip size
+#   Skip size is incremented by 1
 def perform_knot_hash(values, length_nums, num_rounds = 1)
-  # Performs the knot hash procedure given a circular list of values and a list
-  # of lengths. The number of rounds can be customized and is defaulted to 1.
-
-  # For each length and given a position and skip size
-  #   Reverses the order of the length of elements starting at the specified position
-  #   Position moves forward by the length and skip size
-  #   Skip size is incremented by 1
-
   position = 0
   skip_size = 0
 
@@ -38,13 +32,12 @@ def perform_knot_hash(values, length_nums, num_rounds = 1)
   end
 end
 
+# Reduces a list of numbers called a sparse hash into a dense hash in 
+# binary form.
+
+# To reduce the sparse hash, each block of 16 numbers is reduced into
+# one number by XOR-ing the values in the block.
 def get_dense_hash(sparse_hash)
-  # Reduces a list of numbers called a sparse hash into a dense hash in 
-  # binary form.
-
-  # To reduce the sparse hash, each block of 16 numbers is reduced into
-  # one number by XOR-ing the values in the block.
-
   dense_hash = ""
   pos = 0
   while (pos < sparse_hash.length)
@@ -57,11 +50,10 @@ def get_dense_hash(sparse_hash)
   dense_hash
 end
 
+# Returns an array of the locations of the used squares in the disk 128x128 grid
+# To get each row's state, the knot hash is calculated using the hash
+# input in the form of: key-rowNum
 def get_used_squares(key)
-  # Returns an array of the locations of the used squares in the disk 128x128 grid
-  # To get each row's state, the knot hash is calculated using the hash
-  # input in the form of: key-rowNum
-
   used_squares = []
 
   rows = (0...128).to_a
@@ -79,10 +71,9 @@ def get_used_squares(key)
   used_squares
 end
 
+# Returns the number of regions, which is a group of used squares 
+# that are adjacent to each other either vertically or horizontally 
 def get_num_regions(used_squares)
-  # Returns the number of regions, which is a group of used squares 
-  # that are adjacent to each other either vertically or horizontally 
-
   num_regions = 0
 
   seen = []
@@ -109,22 +100,20 @@ def get_num_regions(used_squares)
   num_regions
 end
 
+# Returns an array of the number of used squares and number of regions 
+# in the disk 128x128 grid.
 def solve(key)
-  # Returns an array of the number of used squares and number of regions 
-  # in the disk 128x128 grid.
   used_squares = get_used_squares(key)
   num_regions = get_num_regions(used_squares)
   [used_squares.length, num_regions]
 end
 
 def main
-  test_num_used_squares, test_num_regions = solve(TEST_INPUT_KEY)
-  assert test_num_used_squares == 8108
-  assert test_num_regions == 1242
-
   num_used_squares, num_regions = solve(INPUT_KEY)
   puts "Part One: #{num_used_squares}"
   puts "Part Two: #{num_regions}"
 end
 
-main
+if __FILE__==$0
+  main
+end

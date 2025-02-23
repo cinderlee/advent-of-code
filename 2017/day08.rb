@@ -91,13 +91,13 @@ def solve_part_two(instructions, registers)
 end
 
 def main
-  if File.exist?(INPUT_FILE_NAME)
-    instructions, registers = get_program_instructions(INPUT_FILE_NAME)
-    puts "Part One: #{solve_part_one(instructions, registers)}"
+  instructions, registers = get_program_instructions(INPUT_FILE_NAME)
+  puts "Part One: #{solve_part_one(instructions, registers)}"
 
-    registers.keys.each { |k| registers[k] = 0 }
-    puts "Part Two: #{solve_part_two(instructions, registers)}"
-  end
+  registers.keys.each { |k| registers[k] = 0 }
+  puts "Part Two: #{solve_part_two(instructions, registers)}"
 end
 
-main
+if __FILE__==$0
+  main
+end

@@ -82,11 +82,11 @@ def solve_part_two(characters)
 end
 
 def main
-  if File.exist?(INPUT_FILE_NAME)
-    characters = get_character_stream(INPUT_FILE_NAME)
-    puts "Part One: #{solve_part_one(characters)}"
-    puts "Part Two: #{solve_part_two(characters)}"
-  end
+  characters = get_character_stream(INPUT_FILE_NAME)
+  puts "Part One: #{solve_part_one(characters)}"
+  puts "Part Two: #{solve_part_two(characters)}"
 end
 
-main
+if __FILE__==$0
+  main
+end

@@ -57,11 +57,11 @@ def solve_part_two(arr)
 end
 
 def main
-  if File.exist?(INPUT_FILE_NAME)
-    jump_instructions = get_jump_instructions(INPUT_FILE_NAME)
-    puts "Part One: #{solve_part_one(jump_instructions)}"
-    puts "Part Two: #{solve_part_two(jump_instructions)}"
-  end
+  jump_instructions = get_jump_instructions(INPUT_FILE_NAME)
+  puts "Part One: #{solve_part_one(jump_instructions)}"
+  puts "Part Two: #{solve_part_two(jump_instructions)}"
 end
 
-main
+if __FILE__==$0
+  main
+end

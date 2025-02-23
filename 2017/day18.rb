@@ -1,22 +1,16 @@
 # Day 18: Duet
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
-
 INPUT_FILE_NAME = "./inputs/day18input.txt"
-TEST_FILE_NAME = "./inputs/day18testinput.txt"
 
 VALID_REGISTER_NAMES = ("a".."z")
 
+# Determines whether the specified value is a valid register name (a to z)
 def is_register?(value)
-  # Determines whether the specified value is a valid register name (a to z)
   VALID_REGISTER_NAMES.include?(value)
 end
 
+# Reads a file and returns a mapping of register -> values and list of instructions
 def get_registers_and_instructions(file_nm)
-  # Reads a file and returns a mapping of register -> values and list of instructions
-
   registers = {}
   instructions = []
   File.open(file_nm).each do |line|
@@ -34,25 +28,23 @@ def get_registers_and_instructions(file_nm)
   return registers, instructions
 end
 
+# Returns value depending on whether the argument is register name or purely a number
 def get_argument_value(argument, registers)
-  # Returns value depending on whether the argument is register name or purely a number
-
   is_register?(argument) ? registers[argument] : argument
 end
 
-def solve_part_one(registers, instructions)
-  # Run a set of instructions with existing register mapping. Returns the value 
-  # of the recovered frequency the first time rcv is called with non-zero value 
+# Run a set of instructions with existing register mapping. Returns the value 
+# of the recovered frequency the first time rcv is called with non-zero value 
 
-  # Instructions
-  # - snd x: plays a sound equal to value x
-  # - set x y: sets register X to value of Y
-  # - add x y: increments value of register X by Y
-  # - mul x y: sets register x to the product of x and y
-  # - mod x y: set register x to the mod of x and y
-  # - rcv x: recovers the last sound played when x is not 0
-  # - jgz x y: jumps to next step y away only if x is greater than 0
-  
+# Instructions
+# - snd x: plays a sound equal to value x
+# - set x y: sets register X to value of Y
+# - add x y: increments value of register X by Y
+# - mul x y: sets register x to the product of x and y
+# - mod x y: set register x to the mod of x and y
+# - rcv x: recovers the last sound played when x is not 0
+# - jgz x y: jumps to next step y away only if x is greater than 0
+def solve_part_one(registers, instructions)  
   pos = 0
   last_frequency = nil
   while pos < instructions.length
@@ -96,25 +88,23 @@ class Program
     @is_done = false
   end
 
+  # Returns number of messages received from another program 
   def get_queue_length
-    # Returns number of messages received from another program 
-
     @message_queue.length
   end
 
+  # Runs the next instruction with existing register mapping. 
+
+  # Instructions
+  # - snd x: sends X to the other program (adds to their queue)
+  # - set x y: sets register X to value of Y
+  # - add x y: increments value of register X by Y
+  # - mul x y: sets register x to the product of x and y
+  # - mod x y: set register x to the mod of x and y
+  # - rcv x: receives next value from the message queue and store in register x
+  #        : if next value not found, program is paused and waits for value to be sent
+  # - jgz x y: jumps to next step y away only if x is greater than 0
   def run_next_instruction(other_program)
-    # Runs the next instruction with existing register mapping. 
-
-    # Instructions
-    # - snd x: sends X to the other program (adds to their queue)
-    # - set x y: sets register X to value of Y
-    # - add x y: increments value of register X by Y
-    # - mul x y: sets register x to the product of x and y
-    # - mod x y: set register x to the mod of x and y
-    # - rcv x: receives next value from the message queue and store in register x
-    #        : if next value not found, program is paused and waits for value to be sent
-    # - jgz x y: jumps to next step y away only if x is greater than 0
-
     if @program_position >= @instructions.length
       @is_done = true
       return
@@ -155,27 +145,24 @@ class Program
 
   protected
 
+  # Receives the value sent from a different program and adds to message queue
   def receive(value)
-    # Receives the value sent from a different program and adds to message queu 
-
     @message_queue << value
   end
 
   private
 
+  # Returns value depending on whether the argument is register name or purely a number
   def get_argument_value(argument)
-    # Returns value depending on whether the argument is register name or purely a number
-
     is_register?(argument) ? @registers[argument] : argument
   end
 end
 
+# Run two programs in parallel and returns the number of messages program one sent 
+# when both have been terminated (due to deadlock -- both waiting to receive next messages)
+
+# Note: Each program's register p starts with value of program id (0, 1)
 def solve_part_two(registers_program_zero, registers_program_one, instructions)
-  # Run two programs in parallel and returns the number of messages program one sent 
-  # when both have been terminated (due to deadlock -- both waiting to receive next messages)
-
-  # Note: Each program's register p starts with value of program id (0, 1)
-
   program_zero = Program.new(registers_program_zero, instructions)
   program_one = Program.new(registers_program_one, instructions)
   while true
@@ -188,9 +175,6 @@ def solve_part_two(registers_program_zero, registers_program_one, instructions)
 end
 
 def main
-  test_registers, test_instructions = get_registers_and_instructions(TEST_FILE_NAME)
-  assert solve_part_one(test_registers, test_instructions) == 4
-
   registers, instructions = get_registers_and_instructions(INPUT_FILE_NAME)
   puts "Part One: #{solve_part_one(registers, instructions)}"
 

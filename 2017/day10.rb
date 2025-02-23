@@ -87,11 +87,11 @@ def solve_part_two(lengths_input, num_rounds)
 end
 
 def main
-  if File.exist?(INPUT_FILE_NAME)
-    lengths = get_lengths_input(INPUT_FILE_NAME)
-    puts "Part One: #{solve_part_one(lengths)}"
-    puts "Part Two: #{solve_part_two(lengths, NUM_ROUNDS_PART_TWO)}"
-  end
+  lengths = get_lengths_input(INPUT_FILE_NAME)
+  puts "Part One: #{solve_part_one(lengths)}"
+  puts "Part Two: #{solve_part_two(lengths, NUM_ROUNDS_PART_TWO)}"
 end
 
-main
+if __FILE__==$0
+  main
+end

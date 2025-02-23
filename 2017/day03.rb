@@ -121,4 +121,6 @@ def main
   puts "Part Two: #{solve_part_two(INPUT_NUM)}"
 end
 
-main
+if __FILE__==$0
+  main
+end
