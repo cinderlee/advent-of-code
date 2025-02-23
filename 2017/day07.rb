@@ -5,12 +5,10 @@ require 'test/unit/assertions'
 include Test::Unit::Assertions
 
 INPUT_FILE_NAME = "./inputs/day07input.txt"
-TEST_FILE_NAME = "./inputs/day07testinput.txt"
 
+# Reads a file and returns information about the tower of programs
+# including their weights, sub towers, and sub towers cumulative weights
 def get_tower_of_programs(file_nm)
-  # Reads a file and returns information about the tower of programs
-  # including their weights, sub towers, and sub towers cumulative weights
-
   programs = {}
   sub_tower_weights = {}
   File.open(file_nm).each do |line|
@@ -35,10 +33,9 @@ def get_tower_of_programs(file_nm)
   [ programs, sub_tower_weights ]
 end
 
+# Returns the program name at the bottom of the tower. In this tower structure,
+# there is one program holding up subtowers. 
 def get_bottom_program(programs)
-  # Returns the program name at the bottom of the tower. In this tower structure,
-  # there is one program holding up subtowers. 
-
   complete_sub_tower_list = []
   programs.each do |program, program_info|
     sub_tower = program_info[:sub_tower]
@@ -50,10 +47,9 @@ def get_bottom_program(programs)
   (programs.keys - complete_sub_tower_list)[0]
 end
 
+# Calculates and stores the cumulative weight of the sub tower
+# located at the the current program.
 def populate_sub_tower_weights(curr_program, programs, sub_tower_weights)
-  # Calculates and stores the cumulative weight of the sub tower
-  # located at the the current program.
-
   total = programs[curr_program][:weight]
   sub_tower = programs[curr_program][:sub_tower]
   sub_tower.each do |program_name|
@@ -63,13 +59,12 @@ def populate_sub_tower_weights(curr_program, programs, sub_tower_weights)
   sub_tower_weights[curr_program] = total
 end
 
+# Return the correct weight for the program that has the incorrect weight
+# leading to an imbalance for the whole towere
+
+# Each subtower should have the same cumulative weight and only one program
+# has the incorrect weight
 def get_correct_weight(bottom_program, programs, sub_tower_weights)
-  # Return the correct weight for the program that has the incorrect weight
-  # leading to an imbalance for the whole towere
-
-  # Each subtower should have the same cumulative weight and only one program
-  # has the incorrect weight
-
   curr_program = bottom_program
   correct_sub_tower_weight = 0
   populate_sub_tower_weights(curr_program, programs, sub_tower_weights)
@@ -98,13 +93,11 @@ def solve_part_two(programs, sub_tower_weights)
 end
 
 def main
-  test_programs, test_sub_tower_weights = get_tower_of_programs(TEST_FILE_NAME)
-  assert solve_part_one(test_programs) == "tknk"
-  assert solve_part_two(test_programs, test_sub_tower_weights) == 60
-
-  programs, sub_tower_weights = get_tower_of_programs(INPUT_FILE_NAME)
-  puts "Part One: #{solve_part_one(programs)}"
-  puts "Part Two: #{solve_part_two(programs, sub_tower_weights)}"
+  if File.exists?(INPUT_FILE_NAME)
+    programs, sub_tower_weights = get_tower_of_programs(INPUT_FILE_NAME)
+    puts "Part One: #{solve_part_one(programs)}"
+    puts "Part Two: #{solve_part_two(programs, sub_tower_weights)}"
+  end
 end
 
 main

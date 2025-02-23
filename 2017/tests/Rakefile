@@ -1,0 +1,5 @@
+require 'rake/testtask'
+
+task :test do
+  Dir.glob("*.rb") { |file| ruby file }
+end

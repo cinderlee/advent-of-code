@@ -5,12 +5,10 @@ require 'test/unit/assertions'
 include Test::Unit::Assertions
 
 INPUT_FILE_NAME = "./inputs/day08input.txt"
-TEST_FILE_NAME = "./inputs/day08testinput.txt"
 
+# Reads a file and returns a list of program instructions and 
+# a hash map of registers to their initial values (0)
 def get_program_instructions(file_nm)
-  # Reads a file and returns a list of program instructions and 
-  # a hash map of registers to their initial values (0)
-
   instructions = []
   registers = {}
   File.open(file_nm).each do |line|
@@ -31,9 +29,8 @@ def get_program_instructions(file_nm)
   return instructions, registers
 end
 
+# Returns whether the condition for the instruction is true 
 def is_condition_met(condition, registers)
-  # Returns whether the condition for the instruction is true 
-
   register = condition[0]
   condition_operator = condition[1]
   val = condition[2]
@@ -56,9 +53,8 @@ def is_condition_met(condition, registers)
   end
 end
 
-def run_instruction(instruction, registers)
-  # Performs the program instruction 
-
+# Performs the program instruction
+def run_instruction(instruction, registers) 
   register = instruction[0]
   operator = instruction[1]
   val = instruction[2]
@@ -71,10 +67,9 @@ def run_instruction(instruction, registers)
   end
 end
 
+# Returns the highest value held in any register while 
+# executing the program instructions
 def run_instructions(instructions, registers)
-  # Returns the highest value held in any register while 
-  # executing the program instructions
-
   max_value = 0
   instructions.each do |instr|
     valid = nil
@@ -86,32 +81,27 @@ def run_instructions(instructions, registers)
   max_value
 end
 
+# Returns the number of programs that are in the group that
+# contains program id 0
 def solve_part_one(instructions, registers)
-  # Returns the number of programs that are in the group that
-  # contains program id 0
-
   run_instructions(instructions, registers)
   registers.values.max
 end
 
+# Returns the highest value held in any register during the 
+# program execution
 def solve_part_two(instructions, registers)
-  # Returns the highest value held in any register during the 
-  # program execution
-
   run_instructions(instructions, registers)
 end
 
 def main
-  test_instructions, test_registers = get_program_instructions(TEST_FILE_NAME)
-  assert solve_part_one(test_instructions, test_registers) == 1
-  test_registers.keys.each { |k| test_registers[k] = 0 }
-  assert solve_part_two(test_instructions, test_registers) == 10
+  if File.exists?(INPUT_FILE_NAME)
+    instructions, registers = get_program_instructions(INPUT_FILE_NAME)
+    puts "Part One: #{solve_part_one(instructions, registers)}"
 
-  instructions, registers = get_program_instructions(INPUT_FILE_NAME)
-  puts "Part One: #{solve_part_one(instructions, registers)}"
-
-  registers.keys.each { |k| registers[k] = 0 }
-  puts "Part Two: #{solve_part_two(instructions, registers)}"
+    registers.keys.each { |k| registers[k] = 0 }
+    puts "Part Two: #{solve_part_two(instructions, registers)}"
+  end
 end
 
 main

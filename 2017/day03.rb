@@ -6,9 +6,8 @@ include Test::Unit::Assertions
 
 INPUT_NUM = 325489
 
+# Returns the circle number the data square is located in. 
 def get_circle_num(square_num)
-  # Returns the circle number the data square is located in. 
-
   circle_root = (square_num ** 0.5).ceil
   circle_root = circle_root % 2 == 1 ? circle_root : circle_root + 1
   circle_num = (circle_root + 1) / 2 
@@ -16,9 +15,8 @@ def get_circle_num(square_num)
   circle_num
 end
 
+# Returns the data square numbers at each corner for the specified circle
 def get_circle_corners(circle_num)
-  # Returns the data square numbers at each corner for the specified circle
-
   max_num_in_circle = (2 * circle_num - 1) ** 2
   first_corner = max_num_in_circle - ((2 * circle_num - 2) * 3)
   second_corner = max_num_in_circle - ((2 * circle_num - 2) * 2)
@@ -28,10 +26,9 @@ def get_circle_corners(circle_num)
   [first_corner, second_corner, third_corner, fourth_corner]
 end
 
+# Return the index position of a number found in a side of the 
+# circle in the grid. 
 def get_side_index(target_num, circle_corners, circle_num)
-  # Return the index position of a number found in a side of the 
-  # circle in the grid. 
-
   first_corner, second_corner,third_corner, fourth_corner = circle_corners
   min_num_in_circle = ((circle_num - 1) * 2 - 2) ** 2 + 1
 
@@ -48,10 +45,9 @@ def get_side_index(target_num, circle_corners, circle_num)
   end 
 end
 
+# Returns the manhattan distance from the specified square to square 1. 
+# The squares are placed in a grid spiraling outward. 
 def get_manhattan_distance(square_num)
-  # Returns the manhattan distance from the specified square to square 1. 
-  # The squares are placed in a grid spiraling outward. 
-
   circle_num = get_circle_num(square_num)
   circle_corners = get_circle_corners(circle_num)
   side_index = get_side_index(square_num, circle_corners, circle_num)
@@ -60,9 +56,8 @@ def get_manhattan_distance(square_num)
   (circle_num - 1) + (side_index - middle_index).abs()
 end
 
+# Return the sum of the adjacent square values for the specified location
 def get_adjacent_sum(position, square_values)
-  # Return the sum of the adjacent square values for the specified location
-
   row, col = position
   sum = 0
 
@@ -75,10 +70,9 @@ def get_adjacent_sum(position, square_values)
   sum
 end
 
+# Returns the next direction to go in given the position 
+# The value allocation in the grid happens in a spiral.
 def get_next_direction(position, curr_direction)
-  # Returns the next direction to go in given the position 
-  # The value allocation in the grid happens in a spiral.
-
   row, col = position
 
   # Go up from the start of the spiral
@@ -107,11 +101,10 @@ def solve_part_one(square_num)
   get_manhattan_distance(square_num)
 end
 
+# Return the first value allocated that us greater than the specified number.
+# Value allocation occurs in a spiral with the value of 1 stored initial in 
+# square 1 (location 0, 0).
 def solve_part_two(target_num)
-  # Return the first value allocated that us greater than the specified number.
-  # Value allocation occurs in a spiral with the value of 1 stored initial in 
-  # square 1 (location 0, 0). 
-
   square_values = { [0, 0] => 1 }
   direction = [0, 1]
   position = [0, 1]
@@ -128,11 +121,6 @@ def solve_part_two(target_num)
 end
 
 def main
-  assert solve_part_one(1) == 0
-  assert solve_part_one(12) == 3
-  assert solve_part_one(23) == 2
-  assert solve_part_one(1024) == 31
-
   puts "Part One: #{solve_part_one(INPUT_NUM)}"
   puts "Part Two: #{solve_part_two(INPUT_NUM)}"
 end
