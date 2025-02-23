@@ -1,87 +1,135 @@
-# Day 23: Coprocessor Conflagration
+# Day 20: Particle Swarm
 
-require 'test/unit/assertions'
-
-include Test::Unit::Assertions
+require "set"
 
 INPUT_FILE_NAME = "./inputs/day20input.txt"
 
-def get_paths(file_nm)
-  # Reads a file and returns the paths after 100 turns
+class Particle
+  attr_reader :x, :y, :z
+  
+  def initialize(x:, y:, z:, vx:, vy:, vz:, ax:, ay:, az:)
+    @x = x
+    @y = y
+    @z = z
 
-  line_num = 0
+    @vx = vx
+    @vy = vy
+    @vz = vz
 
-  paths = {}
+    @ax = ax
+    @ay = ay
+    @az = az
+  end
+
+  def move
+    @vx += @ax
+    @vy += @ay
+    @vz += @az
+
+    @x += @vx
+    @y += @vy
+    @z += @vz
+  end
+
+  def manhattan_distance
+    @x.abs() + @y.abs() + @z.abs()
+  end
+
+  def ==(other)
+    @x == other.x && @y == other.y && @z == other.z
+  end
+end
+
+# Reads a file and returns list of particle data 
+def get_particles_data(file_nm)
+  particles = []
   File.open(file_nm).each do |line|
-    path_info = line.chomp.split(", ")
-    path_pos = path_info[0][3, path_info[0].length - 4]
-    path_velocity = path_info[1][3, path_info[1].length - 4]
-    path_acc = path_info[2][3, path_info[2].length - 4]
+    particle_info = line.chomp.split(", ")
+    particle_pos = particle_info[0][3, particle_info[0].length - 4]
+    particle_velocity = particle_info[1][3, particle_info[1].length - 4]
+    particle_acc = particle_info[2][3, particle_info[2].length - 4]
 
-    x, y, z = path_pos.split(',').map { |val| val.to_i }
-    vx, vy, vz = path_velocity.split(',').map { |val| val.to_i }
-    ax, ay, az = path_acc.split(',').map { |val| val.to_i }
-    
-  # x + vx + n/2 * (n-1) * ax = x1 + vx1 + (n/2 * (n-1) * ax1) 
+    x, y, z = particle_pos.split(',').map { |val| val.to_i }
+    vx, vy, vz = particle_velocity.split(',').map { |val| val.to_i }
+    ax, ay, az = particle_acc.split(',').map { |val| val.to_i }
 
-  #  x1 + vx1 - x - vx = n/2 * n-1 (ax - ax1)  
-    #  next_x = x + vx + (500 / 2 * (500-1) * ax)
-    #  next_y = y + vy + (500 / 2 * (500-1) * ay)
-    #  next_z = z + vz + (500 / 2 * (500-1) * az)
-     paths[line_num] = {
+    particles << {
       x: x, y: y, z: z,
       vx: vx, vy: vy, vz: vz,
       ax: ax, ay: ay, az: az
     }
-      # p paths
-      line_num += 1
   end
 
-  paths
+  particles
 end
 
-def get_closest(paths)
-  distance = nil
-  path = nil
-  paths.each do |path_num, location|
-    future_x = location[:x] + location[:vx] + (500 / 2 * (500-1) * location[:ax])
-    future_y = location[:y] + location[:vy] + (500 / 2 * (500-1) * location[:ay])
-    future_z = location[:z] + location[:vz] + (500 / 2 * (500-1) * location[:az])
-    dist = future_x.abs() + future_y.abs() + future_z.abs()
-    if distance.nil?
-      distance = dist
-      path = path_num
-    elsif dist < distance 
-      distance = dist
-      path = path_num
-    end
+# Converts a list of particles data (hashes) into list of Particle objects
+def convert_to_particles(particles_data)
+  particles_data.map do |particle_data| 
+    Particle.new(
+      x: particle_data[:x],
+      y: particle_data[:y],
+      z: particle_data[:z],
+      vx: particle_data[:vx],
+      vy: particle_data[:vy],
+      vz: particle_data[:vz],
+      ax: particle_data[:ax],
+      ay: particle_data[:ay],
+      az: particle_data[:az],
+    )
   end
-  p path
-  p distance
-  path 
 end
 
-def remove_overlaps(paths)
-  remove = []
-  num_paths = paths.length
-
-  (0...num_paths).each do |path_num|
-    (path_num + 1...num_paths) do |path_num_2|
-      path1 = paths[path_num]
-      path2 = paths[path_num_2]
-
-      x1 + vx1 - x - vx = n/2 * n-1 (ax - ax1)  
-      first_calc = (path2[:x] + path2[:vx] - path1[:x] - path1[:vx]) / (path1[:ax] - path2[:ax])
-      (first_calc * 2) 
-    end
+# Returns the particle that will stay closest to position <0,0,0> in the long term 
+# determined by the Manhattan distance
+def get_closest(particles)
+  500.times do
+    particles.each { |particle| particle.move }
   end
+
+  distances = particles.map { |particle| particle.manhattan_distance }
+  distances.find_index(distances.min)
+end
+
+# Simulate particles movement. If particles collide, they will be removed.
+# Returns the number of particles remaining after all colliding particles have
+# been removed
+def simulate_particles(particles)
+  1000.times do
+    particles.each { |particle| particle.move }
+
+    clashes = Set.new
+    (0...particles.length - 1).each do |pos_one|
+      (pos_one + 1...particles.length).each do |pos_two|
+        if particles[pos_one] == particles[pos_two]
+          clashes.add(pos_one)
+          clashes.add(pos_two)
+        end
+      end
+    end
+
+    new_list = []
+    particles.each_with_index { |item, index| new_list << item unless clashes.include?(index)}
+    particles = new_list
+  end
+
+  particles.length
+end
+
+def solve_part_one(particles_data)
+  particles = convert_to_particles(particles_data)
+  get_closest(particles)
+end
+
+def solve_part_two(particles_data)
+  particles = convert_to_particles(particles_data)
+  simulate_particles(particles)
 end
 
 def main
-  paths = get_paths(INPUT_FILE_NAME)
-  p get_closest(paths)
-  # puts "Part One: #{solve_part_one(registers, instructions)}"
-  # puts "Part Two: #{solve_part_two}"
+  particles_data = get_particles_data(INPUT_FILE_NAME)
+  puts "Part One: #{solve_part_one(particles_data)}"
+  puts "Part Two: #{solve_part_two(particles_data)}"
 end
 
 main
