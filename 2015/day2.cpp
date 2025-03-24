@@ -1,13 +1,16 @@
+// Day 2: I Was Told There Would Be No Math
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <cassert>
 using namespace std;
 
 const string TEST_INPUT_1 = "2x3x4";
 const string TEST_INPUT_2 = "1x1x10";
 
-const string INPUT_FILE_NM = "day2input1.txt";
+const string INPUT_FILE_NM = "./inputs/day2input.txt";
 
 int calculatePresentWrappingPaper(const string& dimensions);
 int calculatePresentWrappingPaper(int length, int width, int height);
@@ -35,7 +38,7 @@ void solvePartOne(ifstream& inputFile) {
         totalWrappingPaper += calculatePresentWrappingPaper(dimensions);
     }
     
-    cout << totalWrappingPaper << endl;
+    cout << "Part One: " << totalWrappingPaper << endl;
 }
 
 void solvePartTwo(ifstream& inputFile) {
@@ -48,9 +51,11 @@ void solvePartTwo(ifstream& inputFile) {
         totalRibbon += calculatePresentRibbon(dimensions);
     }
     
-    cout << totalRibbon << endl;
+    cout << "Part Two: " << totalRibbon << endl;
 }
 
+// Returns the amount of ribbon needed to wrap a present and make a ribbow bow
+// given the dimensions (ex: 2x3x4)
 int calculatePresentRibbon(const string& dimensions) {
     stringstream dimensionsStream;
     dimensionsStream << dimensions;
@@ -62,7 +67,9 @@ int calculatePresentRibbon(const string& dimensions) {
     return calculatePresentRibbon(length, width, height);
 }
 
-
+// Returns the amount of ribbon needed to wrap a present -- the shortest distance
+// around the sides or smallest perimeter. 
+// A bow is also needed, to which the measurement is equal to the cubic volume of the present 
 int calculatePresentRibbon(int length, int width, int height) {
     int perimeterOne = 2 * length + 2 * width;
     int perimeterTwo = 2 * width + 2 * height;
@@ -73,7 +80,8 @@ int calculatePresentRibbon(int length, int width, int height) {
     return ribbonLength + bowRibbonLength;
 }
 
-
+// Returns the amount of wrapping paper needed to wrap a rectangular prism present
+// Example of dimensions input: 2x3x4
 int calculatePresentWrappingPaper(const string& dimensions) {
     stringstream dimensionsStream;
     dimensionsStream << dimensions;
@@ -85,6 +93,9 @@ int calculatePresentWrappingPaper(const string& dimensions) {
     return calculatePresentWrappingPaper(length, width, height);
 }
 
+// Returns the amount of wrapping paper needed to wrap a rectangular prism present
+// given the length, width, and height. A little extra paper is also needed, which
+// the area of the smallest side
 int calculatePresentWrappingPaper(int length, int width, int height) {
     int sideOneArea = length * width;
     int sideTwoArea = width * height;

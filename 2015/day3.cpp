@@ -1,16 +1,19 @@
+// Day 3: Perfectly Spherical Houses in a Vacuum
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <map>
 #include <set>
 #include <tuple>
+#include <cassert>
 using namespace std;
 
 const string TEST_INPUT_1 = ">";
 const string TEST_INPUT_2 = "^>v<";
 const string TEST_INPUT_3 = "^v^v^v^v^v";
 const string TEST_INPUT_4 = "^v";
-const string INPUT_FILE_NM = "day3input.txt";
+const string INPUT_FILE_NM = "./inputs/day3input.txt";
 
 const map<char, tuple<int, int>> moves = {
     {'>', make_tuple(1, 0)},
@@ -38,7 +41,7 @@ void solvePartOne(const string& directions) {
     assert(countVisitedHouses(TEST_INPUT_2) == 4);
     assert(countVisitedHouses(TEST_INPUT_3) == 2);
 
-    cout << countVisitedHouses(directions) << endl;
+    cout << "Part One: " << countVisitedHouses(directions) << endl;
 }
 
 void solvePartTwo(const string& directions) {
@@ -46,9 +49,11 @@ void solvePartTwo(const string& directions) {
     assert(countVisitedHousesWithRoboSanta(TEST_INPUT_2) == 3);
     assert(countVisitedHousesWithRoboSanta(TEST_INPUT_3) == 11);
 
-    cout << countVisitedHousesWithRoboSanta(directions) << endl;
+    cout << "Part Two: " << countVisitedHousesWithRoboSanta(directions) << endl;
 }
 
+// Returns number of houses Santa visits given a list of directions 
+// Each move is exactly a house visit to the north, south, east, or west.
 int countVisitedHouses(const string& directions) {
     set<tuple<int, int>> visitedHouses;
     int x = 0;
@@ -63,6 +68,9 @@ int countVisitedHouses(const string& directions) {
     return visitedHouses.size();
 }
 
+// Returns number of houses Santa and Robo-Santa visits given a list of directions 
+// Each move is exactly a house visit to the north, south, east, or west.
+// Santa and Robo-Santa take turns moving based on instructions
 int countVisitedHousesWithRoboSanta(const string& directions) {
     set<tuple<int, int>> visitedHouses;
     int santaX = 0;

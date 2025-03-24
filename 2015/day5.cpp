@@ -1,9 +1,12 @@
+// Day 5: Doesn't He Have Intern-Elves For This?
+
 #include <iostream>
 #include <string>
 #include <set>
 #include <fstream>
 #include <sstream>
 #include <map>
+#include <cassert>
 using namespace std;
 
 const string TEST_INPUT_1 = "ugknbfddgicrmopn";
@@ -15,7 +18,7 @@ const string TEST_INPUT_6 = "qjhvhtzxzqqjkmpb";
 const string TEST_INPUT_7 = "xxyxx";
 const string TEST_INPUT_8 = "uurcxstgmygtbstg";
 const string TEST_INPUT_9 = "ieodomkazucvgmuy";
-const string INPUT_FILE_NM = "day5input.txt";
+const string INPUT_FILE_NM = "./inputs/day5input.txt";
 const set<string> INVALID_STRINGS = { "ab", "cd", "pq", "xy" };
 
 bool isNiceStringPartOne(const string& str);
@@ -48,7 +51,7 @@ void solvePartOne(ifstream& inputFile) {
             countNiceStrings++;
         }
     }
-    cout << countNiceStrings << endl;
+    cout << "Part One: " << countNiceStrings << endl;
 }
 
 void solvePartTwo(ifstream& inputFile) {
@@ -64,13 +67,17 @@ void solvePartTwo(ifstream& inputFile) {
             countNiceStrings++;
         }
     }
-    cout << countNiceStrings << endl;
+    cout << "Part Two: " << countNiceStrings << endl;
 }
 
+// Returns whether a string is a nice string for part one
+// A nice string has
+// - at least 3 vowels
+// - contains at least one letter that appears twice in a row
+// - does not contain the strings ab, cd, pq, or xy
 bool isNiceStringPartOne(const string& str) {
     int vowelCount = 0;
     bool hasDoubleLeters = false;
-
 
     for (int i = 0; i < str.length(); i++) {
         char letter = str[i];
@@ -95,11 +102,14 @@ bool isNiceStringPartOne(const string& str) {
     return vowelCount >= 3 && hasDoubleLeters;
 }
 
+// Returns whether a string is a nice string for part two
+// A nice string is a string that
+// - contains a pair of two letter that appears twice in the string without overlapping
+// - and contains at least one letter that repeats with one letter in between them (aba)
 bool isNiceStringPartTwo(const string& str) {
     map<string, int> locations;
     bool repeatsTwoLetterSubstring = false;
     bool repeatsLetterAfterAnother = false;
-
 
     for (int i = 0; i < str.length(); i++) {
         char letter = str[i];
@@ -127,7 +137,7 @@ bool isNiceStringPartTwo(const string& str) {
     return repeatsTwoLetterSubstring && repeatsLetterAfterAnother;
 }
 
-
+// Returns whether the subtext (two characters) is one of the invalid strings
 bool isInvalidString(char firstChar, char secondChar) {
     for (const string& str : INVALID_STRINGS) {
         if (firstChar == str[0] && secondChar == str[1]) {

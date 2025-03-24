@@ -1,6 +1,9 @@
+// Day 1: Not Quite Lisp
+
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <cassert>
 using namespace std;
 
 // test inputs for part 1
@@ -18,7 +21,7 @@ const string TEST_INPUT_5B = ")())())";
 const string TEST_INPUT_6 = ")";
 const string TEST_INPUT_7 = "()())";
 
-const string INPUT_FILE_NM = "day1input1.txt";
+const string INPUT_FILE_NM = "./inputs/day1input.txt";
 
 int calculateFloor(const string& directions);
 int determineFirstBasementPosition(const string& directions);
@@ -45,15 +48,17 @@ void solvePartOne(const string& directions) {
     assert(calculateFloor(TEST_INPUT_4B) == -1);
     assert(calculateFloor(TEST_INPUT_5A) == -3);
     assert(calculateFloor(TEST_INPUT_5B) == -3);
-    cout << calculateFloor(directions) << endl;
+    cout << "Part One: " << calculateFloor(directions) << endl;
 }
 
 void solvePartTwo(const string& directions) {
     assert(determineFirstBasementPosition(TEST_INPUT_6) == 1);
     assert(determineFirstBasementPosition(TEST_INPUT_7) == 5);
-    cout << determineFirstBasementPosition(directions) << endl;
+    cout << "Part Two: " << determineFirstBasementPosition(directions) << endl;
 }
 
+// Calculate what floor Santa will be taken to.
+// ( means to go up a floor, ) means to go down a floor
 int calculateFloor(const string& directions) {
     int floor = 0;
     for (const char& c: directions) {
@@ -66,6 +71,8 @@ int calculateFloor(const string& directions) {
     return floor;
 }
 
+// Returns the position of the first character that will cause Santa
+// to enter the basement floor
 int determineFirstBasementPosition(const string& directions) {
     int floor = 0;
     for (int i = 0; i < directions.length(); i++) {
