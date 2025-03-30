@@ -1,4 +1,4 @@
-// Day 5: Doesn't He Have Intern-Elves For This?
+// Day 8: Matchsticks
 
 #include <iostream>
 #include <string>
@@ -80,14 +80,13 @@ int getEncodedNumberOfCharacters(const string& str) {
     // Start of with 6 
     // An empty string "" will be encoded into "\"\"" ("" still used to wrap the text, each " becomes an escape character)
     int numEncodedCharacters = 6;
-    int i = 1;
-    while (i < str.length() - 1) {
+    for (int i = 1; i < str.length() - 1; i++) {
         if (str[i] == '\\' || str[i] == '"') {
             numEncodedCharacters += 2;
         } else {
             numEncodedCharacters++;
         }
-        i++;
     }
+  
     return numEncodedCharacters;
 }
