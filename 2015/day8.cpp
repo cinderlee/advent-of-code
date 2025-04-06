@@ -62,7 +62,7 @@ void solvePartTwo(ifstream& inputFile) {
 // for a lone character or for hexidecimal characters
 int getNumberOfCharacters(const string& str) {
     int numCharacters = 0;
-    int i = 1;
+    size_t i = 1;
     while (i < str.length() - 1) {
         numCharacters++;
         if (str[i] == '\\') {
@@ -80,7 +80,7 @@ int getEncodedNumberOfCharacters(const string& str) {
     // Start of with 6 
     // An empty string "" will be encoded into "\"\"" ("" still used to wrap the text, each " becomes an escape character)
     int numEncodedCharacters = 6;
-    for (int i = 1; i < str.length() - 1; i++) {
+    for (size_t i = 1; i < str.length() - 1; i++) {
         if (str[i] == '\\' || str[i] == '"') {
             numEncodedCharacters += 2;
         } else {

@@ -75,7 +75,7 @@ int calculateFloor(const string& directions) {
 // to enter the basement floor
 int determineFirstBasementPosition(const string& directions) {
     int floor = 0;
-    for (int i = 0; i < directions.length(); i++) {
+    for (size_t i = 0; i < directions.length(); i++) {
         if (directions[i] == '(') {
             floor++;
         } else {

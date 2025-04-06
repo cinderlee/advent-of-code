@@ -13,12 +13,12 @@ const int GRID_SIZE = 100;
 const int SIMULATION_NUMBER = 100;
 
 map<tuple<int, int>, char> parseFile(const string& fileName);
-map<tuple<int, int>, char> simulateAnimation(map<tuple<int, int>, char>& grid, bool stuckOnCorners);
-void solvePartOne(map<tuple<int, int>, char>& grid);
-void solvePartTwo(map<tuple<int, int>, char>& grid);
-int getNumNeighborsOn(tuple<int, int> gridPosition, map<tuple<int, int>, char>& grid);
+map<tuple<int, int>, char> simulateAnimation(const map<tuple<int, int>, char>& grid, bool stuckOnCorners);
+void solvePartOne(const map<tuple<int, int>, char>& grid);
+void solvePartTwo(const map<tuple<int, int>, char>& grid);
+int getNumNeighborsOn(const tuple<int, int> gridPosition, const map<tuple<int, int>, char>& grid);
 void forceOnCorners(map<tuple<int, int>, char>& grid);
-int getNumberOfLightsOn(map<tuple<int, int>, char>& grid);
+int getNumberOfLightsOn(const map<tuple<int, int>, char>& grid);
 
 int main() {
     map<tuple<int, int>, char> grid = parseFile(INPUT_FILE_NM);
@@ -26,14 +26,14 @@ int main() {
     solvePartTwo(grid);
 }
 
-void solvePartOne(map<tuple<int, int>, char>& grid) {
+void solvePartOne(const map<tuple<int, int>, char>& grid) {
     map<tuple<int, int>, char> animationResult = simulateAnimation(grid, false);
     int onLights = getNumberOfLightsOn(animationResult);
 
     cout << "Part One: " << onLights << endl;
 }
 
-void solvePartTwo(map<tuple<int, int>, char>& grid) {
+void solvePartTwo(const map<tuple<int, int>, char>& grid) {
     map<tuple<int, int>, char> animationResult = simulateAnimation(grid, true);
     int onLights = getNumberOfLightsOn(animationResult);
 
@@ -41,7 +41,7 @@ void solvePartTwo(map<tuple<int, int>, char>& grid) {
 }
 
 // Returns number of lights that are on (#) in grid
-int getNumberOfLightsOn(map<tuple<int, int>, char>& grid) {
+int getNumberOfLightsOn(const map<tuple<int, int>, char>& grid) {
     int onLights = 0;
     for (const auto& pair : grid) {
         if (pair.second == '#') {
@@ -73,7 +73,7 @@ map<tuple<int, int>, char> parseFile(const string& fileName) {
 // An on light stays on if it has 2 or 3 neighbors that are on. Otherwise it will turn off.
 // An off light will turn on if it has 3 neighbors that are on. Otherwise it will stay off.
 // If stuckOnCorners is true, then the corner lights are permanently on.
-map<tuple<int, int>, char> simulateAnimation(map<tuple<int, int>, char>& grid, bool stuckOnCorners) {
+map<tuple<int, int>, char> simulateAnimation(const map<tuple<int, int>, char>& grid, bool stuckOnCorners) {
     map<tuple<int, int>, char> currentGrid(grid);
 
     for (int i = 0; i < SIMULATION_NUMBER; i++) {
@@ -109,7 +109,7 @@ map<tuple<int, int>, char> simulateAnimation(map<tuple<int, int>, char>& grid, b
 }
 
 // Returns number of neighbors that are on given a grid position.
-int getNumNeighborsOn(tuple<int, int> gridPosition, map<tuple<int, int>, char>& grid) {
+int getNumNeighborsOn(const tuple<int, int> gridPosition, const map<tuple<int, int>, char>& grid) {
     int onNeighbors = 0;
     auto& [row, col] = gridPosition;
 
@@ -123,7 +123,7 @@ int getNumNeighborsOn(tuple<int, int> gridPosition, map<tuple<int, int>, char>& 
                 continue;
             }
 
-            if (grid[{r, c}] == '#') {
+            if (grid.at({r, c}) == '#') {
                 onNeighbors++;
             }
         }

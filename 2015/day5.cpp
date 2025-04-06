@@ -79,7 +79,7 @@ bool isNiceStringPartOne(const string& str) {
     int vowelCount = 0;
     bool hasDoubleLeters = false;
 
-    for (int i = 0; i < str.length(); i++) {
+    for (size_t i = 0; i < str.length(); i++) {
         char letter = str[i];
         char secondLetter = '\0';
 
@@ -111,7 +111,7 @@ bool isNiceStringPartTwo(const string& str) {
     bool repeatsTwoLetterSubstring = false;
     bool repeatsLetterAfterAnother = false;
 
-    for (int i = 0; i < str.length(); i++) {
+    for (size_t i = 0; i < str.length(); i++) {
         char letter = str[i];
         char secondLetter = '\0';
         if (i != str.length() - 1) {
