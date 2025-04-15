@@ -52,14 +52,9 @@ int getAuntSueNumber(
     const map<int, map<string, int>>& auntSues,
     bool hasRangeComponents
 ) {
-    for (const auto& pair : auntSues) {
-        int auntNumber = pair.first;
-        map<string, int> components = pair.second;
-    
+    for (const auto& [auntNumber, components] : auntSues) {
         bool matches = true;
-        for (const auto& componentPair : components) {
-            string componentName = componentPair.first;
-            int count = componentPair.second;
+        for (const auto& [componentName, count] : components) {
             int tickerTapeComponentValue = tickerTape.at(componentName);
            
             if (hasRangeComponents && isRangeComponent(componentName)) {

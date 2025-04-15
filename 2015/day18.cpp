@@ -43,8 +43,8 @@ void solvePartTwo(const map<tuple<int, int>, char>& grid) {
 // Returns number of lights that are on (#) in grid
 int getNumberOfLightsOn(const map<tuple<int, int>, char>& grid) {
     int onLights = 0;
-    for (const auto& pair : grid) {
-        if (pair.second == '#') {
+    for (const auto& [position, state] : grid) {
+        if (state == '#') {
             onLights++;
         }
     }
@@ -83,9 +83,9 @@ map<tuple<int, int>, char> simulateAnimation(const map<tuple<int, int>, char>& g
 
         map<tuple<int, int>, char> newGrid = {};
 
-        for (const auto& pair : currentGrid) {
-            bool isOn = pair.second == '#';
-            int onNeighbors = getNumNeighborsOn(pair.first, currentGrid);
+        for (const auto& [position, state] : currentGrid) {
+            bool isOn = state == '#';
+            int onNeighbors = getNumNeighborsOn(position, currentGrid);
 
             char nextState = '.';
             if (!isOn && onNeighbors == 3) {
@@ -94,7 +94,7 @@ map<tuple<int, int>, char> simulateAnimation(const map<tuple<int, int>, char>& g
                 nextState = '#';
             }
 
-            newGrid[pair.first] = nextState;
+            newGrid[position] = nextState;
         
         }
 

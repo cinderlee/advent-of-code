@@ -84,12 +84,11 @@ int getWinningReindeerScore(const map<string, vector<int>>& reindeers, int total
     for (int i = 1; i <= totalNumSecondsElapsed; i++) {
         int winningDistance = getWinningReindeerDistance(reindeers, i);
         
-        for (const auto& pair : reindeers) {
-            vector<int> reindeerDetails = pair.second;
+        for (const auto& [reindeerName, reindeerDetails] : reindeers) {
             int distance = getDistanceTraveled(reindeerDetails, i);
     
             if (distance == winningDistance) {
-                scores[pair.first] += 1;
+                scores[reindeerName] += 1;
             }
         }
     }
