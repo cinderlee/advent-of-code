@@ -30,7 +30,7 @@ void solvePartOne(const vector<vector<int>>& indicesSubsets, const vector<int>& 
 
 void solvePartTwo(const vector<vector<int>>& indicesSubsets, const vector<int>& containers) {
     int numSubsets = getNumSubsetsWithVolumeAndLowestNumberContainers(indicesSubsets, containers);
-    cout << "Part One: " << numSubsets << endl;
+    cout << "Part Two: " << numSubsets << endl;
 }
 
 // Parses into a list of container sizes
